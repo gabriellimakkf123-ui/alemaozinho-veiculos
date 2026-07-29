@@ -301,7 +301,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-/* HERO SECTION WITH STRAIGHT CENTERED STOREFRONT & LOGO */
+/* HERO SECTION WITH ACTUAL REAL STOREFRONT PHOTO */
 .hero {
   position: relative;
   min-height: 80vh;
@@ -310,8 +310,8 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   padding: 5rem 0 8rem 0;
   background-image: radial-gradient(circle at 50% 35%, rgba(229, 9, 20, 0.25) 0%, transparent 70%),
-                    url('assets/facade_centered.jpg');
-  background-position: center 35%;
+                    url('assets/storefront.webp');
+  background-position: center 40%;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -864,7 +864,7 @@ input[type=range] {
 }
 
 /* ==========================================================================
-   DEALER / ADMIN LOGIN & DASHBOARD STYLES (WITH MATCHING STOREFRONT BG)
+   DEALER / ADMIN LOGIN & DASHBOARD STYLES (WITH ACTUAL STOREFRONT PHOTO BG)
    ========================================================================== */
 .login-screen {
   position: relative;
@@ -873,8 +873,8 @@ input[type=range] {
   align-items: center;
   justify-content: center;
   background-image: radial-gradient(circle at 50% 35%, rgba(245, 166, 35, 0.25) 0%, transparent 70%),
-                    url('assets/facade_centered.jpg');
-  background-position: center 35%;
+                    url('assets/storefront.webp');
+  background-position: center 40%;
   background-repeat: no-repeat;
   background-size: cover;
   padding: 2rem 1rem;
@@ -906,8 +906,8 @@ input[type=range] {
   position: relative;
   padding: 4rem 0;
   background-image: radial-gradient(circle at 50% 35%, rgba(245, 166, 35, 0.15) 0%, transparent 70%),
-                    url('assets/facade_centered.jpg');
-  background-position: center 35%;
+                    url('assets/storefront.webp');
+  background-position: center 40%;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
