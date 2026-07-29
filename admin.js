@@ -1,201 +1,78 @@
 /* ==========================================================================
-   ALEMÃOZINHO VEÍCULOS - ADMIN DEALER LOGIC (RESTRITO & COM SENHA)
+   ALEMÃOZINHO VEÍCULOS - JAVASCRIPT DEALER ADMIN LOGIC WITH CLOUD DB
    ========================================================================== */
 
-const STORAGE_KEY = 'alemaozinho_vehicles_v1';
-const DEALER_PASS = 'alemao2026'; // Default dealer PIN/Password
-
-const INITIAL_VEHICLES = [
-  {
-    id: 1,
-    make: 'Chevrolet',
-    model: 'Tracker 1.0 Turbo Flex LTZ Automático',
-    year: '2022/2022',
-    yearNum: 2022,
-    price: 98000,
-    km: '66.200 km',
-    kmNum: 66200,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'SUV',
-    color: 'Prata',
-    plateEnd: '5',
-    badge: 'Destaque',
-    badgeType: 'badge-red',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia 8"', 'Câmera de Ré', 'Sensor de Estacionamento', 'Piloto Automático', 'Bancos de Couro', 'Rodas Liga Leve 17"', 'Controle de Estabilidade', 'Airbags Frontais e Laterais']
-  },
-  {
-    id: 2,
-    make: 'Toyota',
-    model: 'Corolla 2.0 XEi 16V Flex Automático',
-    year: '2021/2021',
-    yearNum: 2021,
-    price: 115900,
-    km: '48.000 km',
-    kmNum: 48000,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'Sedan',
-    color: 'Branco Perolizado',
-    plateEnd: '9',
-    badge: 'Único Dono',
-    badgeType: 'badge-dark',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Toyota Safety Sense', 'Teto Solar', 'Bancos de Couro Premium', 'Faróis Full LED', 'Chave Presencial Keyless', 'Central Apple CarPlay / Android Auto', 'Controle de Tração', 'Paddle Shift']
-  },
-  {
-    id: 3,
-    make: 'Jeep',
-    model: 'Compass 1.3 T270 Turbo Flex Limited',
-    year: '2023/2023',
-    yearNum: 2023,
-    price: 149900,
-    km: '28.500 km',
-    kmNum: 28500,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'SUV',
-    color: 'Cinza Granite',
-    plateEnd: '2',
-    badge: 'Baixa KM',
-    badgeType: 'badge-red',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Painel 100% Digital 10.25"', 'Carregador por Indução', 'Park Assist', 'Som Premium Beats', 'Bancos Elétricos', 'Retrovisores Rebatíveis', 'Frenagem Autônoma de Emergência']
-  },
-  {
-    id: 4,
-    make: 'Fiat',
-    model: 'Toro 1.3 T270 Turbo Flex Volcano',
-    year: '2022/2023',
-    yearNum: 2022,
-    price: 128500,
-    km: '42.100 km',
-    kmNum: 42100,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'Pickup',
-    color: 'Vinho',
-    plateEnd: '7',
-    badge: 'Revisado',
-    badgeType: 'badge-dark',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Central Multimídia Vertical 10.1"', 'Capota Marítima', 'Santo Antônio Chrome', 'Roda ARO 18"', 'Faróis LED Design', 'Tração Inteligente TC+']
-  },
-  {
-    id: 5,
-    make: 'Volkswagen',
-    model: 'Polo 1.0 TSI Highline Flex Automático',
-    year: '2023/2023',
-    yearNum: 2023,
-    price: 94900,
-    km: '19.800 km',
-    kmNum: 19800,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'Hatch',
-    color: 'Preto Ninja',
-    plateEnd: '4',
-    badge: 'Garantia Fábrica',
-    badgeType: 'badge-red',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Active Info Display', 'Ar Climatronic Touch', 'Carregamento por Indução', 'Start/Stop Engine', 'Rodas Liga Leve 16"', 'Sensor de Chuva e Crepuscular']
-  },
-  {
-    id: 6,
-    make: 'Honda',
-    model: 'Civic 2.0 EXL 16V Flex Automático',
-    year: '2020/2021',
-    yearNum: 2020,
-    price: 118900,
-    km: '55.000 km',
-    kmNum: 55000,
-    transmission: 'Automático',
-    fuel: 'Flex',
-    bodyType: 'Sedan',
-    color: 'Prata Platinum',
-    plateEnd: '8',
-    badge: 'Seminovo Top',
-    badgeType: 'badge-dark',
-    status: 'available',
-    img: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=800&q=80',
-    optionals: ['Bancos de Couro', 'Faróis de Neblina LED', 'Freio de Mão Eletrônico com Brake Hold', 'Ar Dual Zone', 'Teto Solar Elétrico', 'Câmera de Ré Multivisão']
-  }
-];
+const CORRECT_PIN = 'alemao2026';
+const BACKUP_PIN = '1234';
 
 let vehicles = [];
 let editingVehicleId = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  checkSessionAuth();
-  loadVehiclesFromStorage();
+document.addEventListener('DOMContentLoaded', async () => {
+  checkAuth();
 });
 
-function checkSessionAuth() {
+function checkAuth() {
   const isAuth = sessionStorage.getItem('dealer_auth');
   if (isAuth === 'true') {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dealerDashboard').style.display = 'block';
-    renderAdminTable();
-    updateAdminStats();
+    showDashboard();
   } else {
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('dealerDashboard').style.display = 'none';
+    showLoginScreen();
   }
 }
 
-function handleDealerLogin(e) {
-  e.preventDefault();
-  const inputPass = document.getElementById('dealerPasswordInput').value;
+function handleLogin(event) {
+  event.preventDefault();
+  const inputPin = document.getElementById('dealerPinInput').value;
   const errorMsg = document.getElementById('loginErrorMsg');
 
-  if (inputPass === DEALER_PASS || inputPass === '1234') {
+  if (inputPin === CORRECT_PIN || inputPin === BACKUP_PIN) {
     sessionStorage.setItem('dealer_auth', 'true');
     errorMsg.style.display = 'none';
-    checkSessionAuth();
+    showDashboard();
   } else {
     errorMsg.style.display = 'block';
-    document.getElementById('dealerPasswordInput').value = '';
+    errorMsg.innerText = 'Senha incorreta! Tente novamente.';
   }
 }
 
-function handleDealerLogout() {
+function handleLogout() {
   sessionStorage.removeItem('dealer_auth');
-  checkSessionAuth();
+  showLoginScreen();
 }
 
-function loadVehiclesFromStorage() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      vehicles = JSON.parse(saved);
-    } catch (e) {
-      vehicles = [...INITIAL_VEHICLES];
-    }
+function showLoginScreen() {
+  document.getElementById('loginScreenSection').style.display = 'flex';
+  document.getElementById('dealerDashboardSection').style.display = 'none';
+}
+
+async function showDashboard() {
+  document.getElementById('loginScreenSection').style.display = 'none';
+  document.getElementById('dealerDashboardSection').style.display = 'block';
+  await syncVehiclesFromCloud();
+}
+
+async function syncVehiclesFromCloud() {
+  const cloudData = await getCloudVehicles();
+  if (cloudData && cloudData.length > 0) {
+    vehicles = cloudData;
   } else {
-    vehicles = [...INITIAL_VEHICLES];
-    saveVehiclesToStorage();
+    vehicles = [];
   }
+  renderAdminTable();
+  updateStats();
 }
 
-function saveVehiclesToStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
-}
-
-function updateAdminStats() {
-  const totalVal = vehicles.reduce((sum, v) => sum + (v.price || 0), 0);
+function updateStats() {
+  const totalCount = vehicles.length;
   const availableCount = vehicles.filter(v => v.status !== 'sold').length;
   const soldCount = vehicles.filter(v => v.status === 'sold').length;
+  const totalValue = vehicles.filter(v => v.status !== 'sold').reduce((sum, v) => sum + (v.price || 0), 0);
 
-  document.getElementById('statTotalCars').innerText = vehicles.length;
-  document.getElementById('statTotalValue').innerText = `R$ ${(totalVal / 1000).toFixed(0)}k`;
-  document.getElementById('statAvailable').innerText = availableCount;
-  document.getElementById('statSold').innerText = soldCount;
+  document.getElementById('statTotalCars').innerText = totalCount;
+  document.getElementById('statAvailableCars').innerText = availableCount;
+  document.getElementById('statSoldCars').innerText = soldCount;
+  document.getElementById('statStockValue').innerText = `R$ ${totalValue.toLocaleString('pt-BR')}`;
 }
 
 function renderAdminTable() {
@@ -203,160 +80,149 @@ function renderAdminTable() {
   if (!tbody) return;
 
   if (vehicles.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">Nenhum veículo cadastrado no estoque.</td></tr>`;
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align:center; padding: 2rem; color: var(--text-muted);">
+          Nenhum veículo cadastrado no banco de dados. Clique em "Adicionar Novo Veículo" para começar.
+        </td>
+      </tr>
+    `;
     return;
   }
 
-  tbody.innerHTML = vehicles.map(car => `
-    <tr>
-      <td><img src="${car.img}" class="thumb-small"></td>
-      <td>
-        <strong>${car.make} ${car.model}</strong>
-        <div style="font-size:0.75rem; color:var(--text-muted);">${car.color || 'N/I'} • Placa final ${car.plateEnd || '-'}</div>
-      </td>
-      <td>${car.year}</td>
-      <td>${car.km}</td>
-      <td style="font-weight:700; color:#FFF;">R$ ${car.price.toLocaleString('pt-BR')}</td>
-      <td>
-        <span class="badge ${car.status === 'sold' ? 'badge-sold' : 'badge-red'}">
-          ${car.status === 'sold' ? 'VENDIDO' : 'DISPONÍVEL'}
-        </span>
-      </td>
-      <td>
-        <div style="display:flex; gap:0.4rem;">
-          <button onclick="toggleSoldStatus(${car.id})" class="btn-icon" title="Alternar Status Vendido/Disponível">
-            <i class="fas ${car.status === 'sold' ? 'fa-undo' : 'fa-check'}"></i>
+  tbody.innerHTML = vehicles.map(car => {
+    const isSold = car.status === 'sold';
+    return `
+      <tr style="${isSold ? 'opacity: 0.6;' : ''}">
+        <td><img src="${car.img}" alt="${car.make} ${car.model}" class="thumb-small"></td>
+        <td>
+          <strong>${car.make} ${car.model}</strong>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${car.badge || 'Seminovo'}</div>
+        </td>
+        <td>${car.year}</td>
+        <td>${car.km}</td>
+        <td><strong style="color:var(--accent-green)">R$ ${car.price.toLocaleString('pt-BR')}</strong></td>
+        <td>
+          <button onclick="toggleSoldStatus(${car.id})" class="badge ${isSold ? 'badge-sold' : 'badge-dark'}" style="cursor:pointer; border:none;">
+            ${isSold ? '🔴 VENDIDO' : '🟢 DISPONÍVEL'}
           </button>
-          <button onclick="openEditVehicleModal(${car.id})" class="btn-icon edit" title="Editar Veículo">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button onclick="deleteVehicle(${car.id})" class="btn-icon delete" title="Excluir Veículo">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        </td>
+        <td>
+          <div style="display:flex; gap:0.4rem;">
+            <button onclick="openEditModal(${car.id})" class="btn-icon edit" title="Editar"><i class="fas fa-edit"></i></button>
+            <button onclick="deleteVehicle(${car.id})" class="btn-icon delete" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
-function openAddVehicleModal() {
+async function toggleSoldStatus(id) {
+  const car = vehicles.find(v => v.id === id);
+  if (car) {
+    car.status = car.status === 'sold' ? 'available' : 'sold';
+    renderAdminTable();
+    updateStats();
+    await saveCloudVehicles(vehicles);
+  }
+}
+
+async function deleteVehicle(id) {
+  if (confirm('Tem certeza que deseja excluir este veículo do estoque? Esta ação não pode ser desfeita.')) {
+    vehicles = vehicles.filter(v => v.id !== id);
+    renderAdminTable();
+    updateStats();
+    await saveCloudVehicles(vehicles);
+  }
+}
+
+function openAddModal() {
   editingVehicleId = null;
-  document.getElementById('adminFormTitle').innerText = 'Cadastrar Novo Veículo no Estoque';
-  document.getElementById('adminVehicleForm').reset();
+  document.getElementById('modalFormTitle').innerText = 'Adicionar Novo Veículo ao Estoque';
+  document.getElementById('vehicleForm').reset();
   
-  const modal = document.getElementById('adminFormModalOverlay');
+  const modal = document.getElementById('vehicleFormModal');
   modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 
-function openEditVehicleModal(id) {
+function openEditModal(id) {
   const car = vehicles.find(v => v.id === id);
   if (!car) return;
 
   editingVehicleId = id;
-  document.getElementById('adminFormTitle').innerText = 'Editar Veículo em Estoque';
-  
+  document.getElementById('modalFormTitle').innerText = 'Editar Dados do Veículo';
+
   document.getElementById('formMake').value = car.make;
   document.getElementById('formModel').value = car.model;
   document.getElementById('formYear').value = car.year;
   document.getElementById('formPrice').value = car.price;
   document.getElementById('formKm').value = car.km;
-  document.getElementById('formTransmission').value = car.transmission;
+  document.getElementById('formTrans').value = car.transmission;
   document.getElementById('formFuel').value = car.fuel;
-  document.getElementById('formBodyType').value = car.bodyType;
+  document.getElementById('formBody').value = car.bodyType;
   document.getElementById('formColor').value = car.color || '';
-  document.getElementById('formPlateEnd').value = car.plateEnd || '';
   document.getElementById('formBadge').value = car.badge || 'Destaque';
-  document.getElementById('formImgUrl').value = car.img;
+  document.getElementById('formImg').value = car.img;
+  document.getElementById('formOptionals').value = (car.optionals || []).join(', ');
 
-  const modal = document.getElementById('adminFormModalOverlay');
+  const modal = document.getElementById('vehicleFormModal');
   modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 
-function closeAdminFormModal() {
-  const modal = document.getElementById('adminFormModalOverlay');
+function closeVehicleModal() {
+  const modal = document.getElementById('vehicleFormModal');
   modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
 }
 
-function handleVehicleFormSubmit(e) {
-  e.preventDefault();
+async function handleVehicleSubmit(event) {
+  event.preventDefault();
 
   const make = document.getElementById('formMake').value;
   const model = document.getElementById('formModel').value;
   const year = document.getElementById('formYear').value;
   const price = parseFloat(document.getElementById('formPrice').value);
   const km = document.getElementById('formKm').value;
-  const transmission = document.getElementById('formTransmission').value;
+  const transmission = document.getElementById('formTrans').value;
   const fuel = document.getElementById('formFuel').value;
-  const bodyType = document.getElementById('formBodyType').value;
+  const bodyType = document.getElementById('formBody').value;
   const color = document.getElementById('formColor').value;
-  const plateEnd = document.getElementById('formPlateEnd').value;
   const badge = document.getElementById('formBadge').value;
-  let imgUrl = document.getElementById('formImgUrl').value;
-
-  if (!imgUrl) {
-    imgUrl = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
-  }
+  const img = document.getElementById('formImg').value || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
+  const optionalsRaw = document.getElementById('formOptionals').value;
+  const optionals = optionalsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
   const kmNum = parseInt(km.replace(/\D/g, '')) || 0;
-  const yearNum = parseInt(year.substring(0, 4)) || 2022;
+  const yearNum = parseInt(year.split('/')[0]) || 2022;
 
   if (editingVehicleId) {
-    const index = vehicles.findIndex(v => v.id === editingVehicleId);
-    if (index !== -1) {
-      vehicles[index] = {
-        ...vehicles[index],
+    const carIndex = vehicles.findIndex(v => v.id === editingVehicleId);
+    if (carIndex !== -1) {
+      vehicles[carIndex] = {
+        ...vehicles[carIndex],
         make, model, year, yearNum, price, km, kmNum,
-        transmission, fuel, bodyType, color, plateEnd, badge,
-        img: imgUrl
+        transmission, fuel, bodyType, color, badge, img, optionals
       };
     }
   } else {
     const newId = vehicles.length > 0 ? Math.max(...vehicles.map(v => v.id)) + 1 : 1;
-    const newCar = {
+    vehicles.unshift({
       id: newId,
       make, model, year, yearNum, price, km, kmNum,
-      transmission, fuel, bodyType, color, plateEnd, badge,
+      transmission, fuel, bodyType, color, badge,
       badgeType: badge === 'Destaque' ? 'badge-red' : 'badge-dark',
       status: 'available',
-      img: imgUrl,
-      optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Freios ABS', 'Airbags Frontais', 'Central Multimídia']
-    };
-    vehicles.unshift(newCar);
+      img, optionals
+    });
   }
 
-  saveVehiclesToStorage();
   renderAdminTable();
-  updateAdminStats();
-  closeAdminFormModal();
-
-  alert(editingVehicleId ? 'Veículo atualizado com sucesso!' : 'Novo veículo cadastrado no estoque!');
-}
-
-function toggleSoldStatus(id) {
-  const car = vehicles.find(v => v.id === id);
-  if (!car) return;
-
-  car.status = car.status === 'sold' ? 'available' : 'sold';
-  saveVehiclesToStorage();
-  renderAdminTable();
-  updateAdminStats();
-}
-
-function deleteVehicle(id) {
-  if (confirm('Tem certeza que deseja remover este veículo do estoque?')) {
-    vehicles = vehicles.filter(v => v.id !== id);
-    saveVehiclesToStorage();
-    renderAdminTable();
-    updateAdminStats();
-  }
-}
-
-function resetStockToDefault() {
-  if (confirm('Deseja restaurar o estoque inicial padrão da Alemãozinho Veículos?')) {
-    vehicles = [...INITIAL_VEHICLES];
-    saveVehiclesToStorage();
-    renderAdminTable();
-    updateAdminStats();
-    alert('Estoque restaurado!');
-  }
+  updateStats();
+  closeVehicleModal();
+  
+  await saveCloudVehicles(vehicles);
+  alert('Estoque atualizado no Banco de Dados Nuvem com sucesso!');
 }
