@@ -77,9 +77,14 @@ async function saveCloudVehicles(vehiclesArray) {
 }
 
 /**
- * Update UI indicator badge for Cloud DB Status
+ * Update UI indicator badge ONLY inside admin.html (Dealer Panel)
  */
 function updateCloudSyncBadge(isOnline, message) {
+  // STRICT RULE: Only render badge inside admin.html for the dealer!
+  if (!window.location.pathname.includes('admin')) {
+    return;
+  }
+
   const badges = document.querySelectorAll('.cloud-sync-badge');
   badges.forEach(badge => {
     badge.style.background = 'rgba(37, 211, 102, 0.18)';
@@ -109,7 +114,7 @@ function getInitialVehicles() {
       badgeType: 'badge-red',
       status: 'available',
       img: 'assets/tracker_original.webp',
-      optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia MyLink 8"', 'Câmera de Ré com Linhas Guia', 'Sensor de Estacionamento Traseiro', 'Piloto Automático', 'Bancos em Couro', 'Rodas de Liga Leve 17"', 'Controle de Tração e Estabilidade', '6 Airbags (Frontais, Laterais e Cortina)']
+      optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia MyLink 8"', 'Câmera de Ré com Linhas Guia', 'Sensor de Estacionamento Traseiro', 'Piloto Automático', 'Bancos em Couro', 'Rodas de Liga Leve 17"', 'Controle de Estabilidade', '6 Airbags (Frontais, Laterais e Cortina)']
     },
     {
       id: 2,
