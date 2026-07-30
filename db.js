@@ -77,11 +77,11 @@ async function saveCloudVehicles(vehiclesArray) {
 }
 
 /**
- * Update UI indicator badge ONLY inside admin.html (Dealer Panel)
+ * Update UI indicator badge ONLY inside dealer panel (painel.html / admin.html)
  */
 function updateCloudSyncBadge(isOnline, message) {
-  // STRICT RULE: Only render badge inside admin.html for the dealer!
-  if (!window.location.pathname.includes('admin')) {
+  const currentPath = window.location.pathname.toLowerCase();
+  if (!currentPath.includes('admin') && !currentPath.includes('painel') && !currentPath.includes('dealer')) {
     return;
   }
 
