@@ -2,16 +2,14 @@
    ALEMÃOZINHO VEÍCULOS - CLOUD DATABASE API MANAGER (REALTIME CLOUD SYNC)
    ========================================================================== */
 
-// Primary & Secondary High-Availability Cloud Endpoints
+// Primary Cloud REST DB Endpoint
 const PRIMARY_CLOUD_ENDPOINT = 'https://jsonblob.com/api/jsonBlob/019fb029-b1e0-782e-b56f-fc6b311cef83';
-const BACKUP_CLOUD_ENDPOINT  = 'https://api.restful-api.dev/objects/alemaozinho_vehicles_v1';
 const LOCAL_STORAGE_KEY      = 'alemaozinho_vehicles_v1';
 
 /**
  * Fetch all vehicles directly from the Online Cloud Database.
  */
 async function getCloudVehicles() {
-  // 1. Try Primary Cloud REST DB
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 4000);
@@ -32,10 +30,9 @@ async function getCloudVehicles() {
       }
     }
   } catch (error) {
-    console.warn('Tentando servidor cloud secundário...', error);
+    console.warn('Usando cache local sincronizado...', error);
   }
 
-  // 2. Fallback to LocalStorage cache
   const localSaved = localStorage.getItem(LOCAL_STORAGE_KEY);
   if (localSaved) {
     try {
@@ -47,7 +44,6 @@ async function getCloudVehicles() {
     } catch (e) {}
   }
 
-  // Default initial vehicles if completely clean
   updateCloudSyncBadge(true, 'Banco de Dados Online Pronto');
   return getInitialVehicles();
 }
@@ -56,7 +52,6 @@ async function getCloudVehicles() {
  * Save updated vehicle array directly to the Online Cloud Database & localStorage.
  */
 async function saveCloudVehicles(vehiclesArray) {
-  // Always update local storage first for instant UI response
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(vehiclesArray));
 
   try {
@@ -110,11 +105,11 @@ function getInitialVehicles() {
       bodyType: 'SUV',
       color: 'Prata',
       plateEnd: '5',
-      badge: 'Destaque',
+      badge: 'Destaque Original',
       badgeType: 'badge-red',
       status: 'available',
-      img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
-      optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia 8"', 'Câmera de Ré', 'Sensor de Estacionamento', 'Piloto Automático', 'Bancos de Couro', 'Rodas Liga Leve 17"', 'Controle de Estabilidade', 'Airbags Frontais e Laterais']
+      img: 'assets/tracker_original.webp',
+      optionals: ['Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia MyLink 8"', 'Câmera de Ré com Linhas Guia', 'Sensor de Estacionamento Traseiro', 'Piloto Automático', 'Bancos em Couro', 'Rodas de Liga Leve 17"', 'Controle de Tração e Estabilidade', '6 Airbags (Frontais, Laterais e Cortina)']
     },
     {
       id: 2,
