@@ -43,26 +43,16 @@ async function syncVehiclesFromCloud(isBackground = false) {
   }
 }
 
-// Switch Hero Background dynamically
-function changeHeroBg(type) {
-  const hero = document.getElementById('heroSection');
-  if (!hero) return;
-
-  if (type === 'render') {
-    hero.classList.add('facade-render-bg');
-  } else if (type === 'car') {
-    hero.classList.add('car-bg');
-  }
-}
-
 function renderInventory() {
   const container = document.getElementById('carsContainer');
   if (!container) return;
 
+  const isHomePage = document.body.id === 'homePage';
+
   let filtered = vehicles.filter(car => {
     if (car.status === 'sold') return false;
 
-    if (currentFilterCategory === 'destaque' && car.badge !== 'Destaque') return false;
+    if (currentFilterCategory === 'destaque' && car.badge !== 'Destaque' && !car.badge.includes('Destaque')) return false;
     if (currentFilterCategory !== 'all' && currentFilterCategory !== 'destaque') {
       if (car.bodyType.toLowerCase() !== currentFilterCategory.toLowerCase()) return false;
     }
@@ -94,6 +84,11 @@ function renderInventory() {
     filtered.sort((a, b) => a.kmNum - b.kmNum);
   } else if (currentSort === 'year-desc') {
     filtered.sort((a, b) => b.yearNum - a.yearNum);
+  }
+
+  // LIMIT TO MAXIMUM 4 CARS ON HOME PAGE
+  if (isHomePage) {
+    filtered = filtered.slice(0, 4);
   }
 
   if (filtered.length === 0) {
@@ -258,8 +253,10 @@ function scrollToFinancing(price) {
   if (priceInput) {
     priceInput.value = price;
     updateFinancingCalculation();
+    document.getElementById('financiamento')?.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.location.href = `index.html#financiamento`;
   }
-  document.getElementById('financiamento')?.scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateFinancingCalculation() {

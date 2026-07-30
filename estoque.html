@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estoque Completo de Veículos | Alemãozinho Veículos - Pedregulho - SP</title>
+  <meta name="description" content="Confira o estoque completo de veículos novos, seminovos e usados da Alemãozinho Veículos em Pedregulho - SP. SUVs, Sedans, Hatchs e Pickups com garantia de procedência.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=3.1">
+</head>
+<body id="estoquePage">
+
+  <!-- Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-info">
+        <span><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 - Centro, Pedregulho - SP</span>
+        <span><i class="fas fa-clock" style="color:var(--primary)"></i> Seg a Sex: 08:30 às 18:00 | Sáb: 08:30 às 12:00</span>
+      </div>
+      <div class="top-bar-social">
+        <a href="https://wa.me/5516992150212" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i> (16) 99215-0212</a>
+        <a href="https://www.instagram.com/alemazinhoenegocios/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/alexandre.manciniaguilarjunior" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+        <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo Oficial" class="brand-img-logo">
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="estoque.html" class="active">Estoque Completo</a>
+        <a href="index.html#financiamento">Financiamento</a>
+        <a href="index.html#vender">Vender / Trocar</a>
+        <a href="index.html#sobre">Nossa Loja</a>
+        <a href="index.html#contato">Contato</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="index.html#financiamento" class="btn-outline"><i class="fas fa-calculator"></i> Simular Parcela</a>
+        <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Estou%20vendo%20o%20estoque%20no%20site%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos" target="_blank" class="btn-whatsapp">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="mobile-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner Section -->
+  <section class="hero" style="min-height: 45vh; padding: 4rem 0 5rem 0;">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-car-side"></i> Catálogo Completo de Ofertas
+      </div>
+      <h1>Estoque de <span class="gradient-text-red">Seminovos Exclusivos</span></h1>
+      <p>Veículos selecionados a dedo com laudo cautelar aprovado, procedência garantida e as melhores condições de financiamento de Pedregulho - SP.</p>
+    </div>
+  </section>
+
+  <!-- Interactive Search Bar Floating Box -->
+  <div class="search-box-container">
+    <div class="container">
+      <div class="search-card">
+        <div class="search-grid">
+          <div class="form-group">
+            <label><i class="fas fa-search"></i> Buscar por nome</label>
+            <input type="text" id="heroSearchInput" placeholder="Ex: Tracker, Corolla, Polo..." class="input-custom">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-tag"></i> Marca</label>
+            <select id="heroMakeSelect" class="select-custom">
+              <option value="all">Todas as Marcas</option>
+              <option value="Chevrolet">Chevrolet</option>
+              <option value="Toyota">Toyota</option>
+              <option value="Jeep">Jeep</option>
+              <option value="Fiat">Fiat</option>
+              <option value="Volkswagen">Volkswagen</option>
+              <option value="Honda">Honda</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-cog"></i> Câmbio</label>
+            <select id="heroTransSelect" class="select-custom">
+              <option value="all">Todos os Câmbios</option>
+              <option value="Automático">Automático</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-dollar-sign"></i> Preço Máximo</label>
+            <select id="heroPriceSelect" class="select-custom">
+              <option value="all">Qualquer Valor</option>
+              <option value="at90">Até R$ 90.000</option>
+              <option value="90a120">R$ 90.000 a R$ 120.000</option>
+              <option value="acima120">Acima de R$ 120.000</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button onclick="renderInventory()" class="btn-primary" style="height: 48px; border-radius: var(--radius-md); justify-content: center; width:100%;">
+              <i class="fas fa-filter"></i> Filtrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dedicated Inventory Section -->
+  <section class="inventory-section">
+    <div class="container">
+      <div class="inventory-controls">
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-category="all">Todos os Veículos</button>
+          <button class="tab-btn" data-category="destaque">⭐ Destaques</button>
+          <button class="tab-btn" data-category="SUV">SUVs</button>
+          <button class="tab-btn" data-category="Sedan">Sedans</button>
+          <button class="tab-btn" data-category="Hatch">Hatchs</button>
+          <button class="tab-btn" data-category="Pickup">Pickups</button>
+        </div>
+
+        <select id="inventorySortSelect" class="select-custom sort-select">
+          <option value="default">Ordenar por: Relevância</option>
+          <option value="price-asc">Menor Preço</option>
+          <option value="price-desc">Maior Preço</option>
+          <option value="year-desc">Ano mais Novo</option>
+          <option value="km-asc">Menor KM</option>
+        </select>
+      </div>
+
+      <!-- Vehicle Grid JS Render Target -->
+      <div id="carsContainer" class="cars-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner to Financing -->
+  <section style="padding: 4rem 0; background: var(--bg-surface); border-top: 1px solid var(--border-light);">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Encontrou o Carro dos <span class="gradient-text-red">Seus Sonhos?</span></h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Simule o financiamento com ou sem entrada ou envie os dados do seu usado para avaliação imediata.</p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="index.html#financiamento" class="btn-primary" style="padding: 0.9rem 2rem; font-size: 1.05rem;">
+          <i class="fas fa-calculator"></i> Simular Parcela
+        </a>
+        <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Gostaria%20de%20consultar%20um%20ve%C3%ADculo%20do%20estoque" target="_blank" class="btn-whatsapp" style="padding: 0.9rem 2rem; font-size: 1.05rem;">
+          <i class="fab fa-whatsapp"></i> Falar com Consultor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp CTA -->
+  <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Estou%20navegando%20no%20estoque%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos%20e%20gostaria%20de%20atendimento!" target="_blank" class="floating-whatsapp" title="Falar no WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Public Vehicle Details Modal Structure -->
+  <div id="carModalOverlay" class="modal-overlay">
+    <div class="modal-container">
+      <button onclick="closeModal()" class="modal-close"><i class="fas fa-times"></i></button>
+      <div id="modalBody">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+            <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
+          </div>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+            Sua loja de confiança para compra, venda, troca e financiamento de veículos novos e seminovos em Pedregulho - SP.
+          </p>
+          <div class="top-bar-social">
+            <a href="https://wa.me/5516992150212" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/alemazinhoenegocios/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/alexandre.manciniaguilarjunior" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="estoque.html">Estoque Completo</a></li>
+            <li><a href="index.html#financiamento">Financiamento</a></li>
+            <li><a href="index.html#vender">Vender meu Carro</a></li>
+            <li><a href="index.html#sobre">Nossa Loja</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Categorias</h4>
+          <ul>
+            <li><a href="estoque.html">SUVs Seminovos</a></li>
+            <li><a href="estoque.html">Sedans de Luxo</a></li>
+            <li><a href="estoque.html">Hatchs Econômicos</a></li>
+            <li><a href="estoque.html">Pickups 4x4</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atendimento</h4>
+          <p><i class="fas fa-phone" style="color:var(--primary)"></i> (16) 99215-0212</p>
+          <p style="margin-top: 0.5rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Pedregulho - SP</p>
+          <a href="https://wa.me/5516992150212" target="_blank" class="btn-whatsapp" style="margin-top: 1rem; width: 100%; justify-content: center; font-size: 0.85rem;">
+            <i class="fab fa-whatsapp"></i> Falar com Alexandre
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Alemãozinho Veículos. Todos os direitos reservados. Pedregulho - SP.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="admin.html" target="_blank" style="color:var(--text-dim); font-size:0.8rem;"><i class="fas fa-lock"></i> Acesso Lojista</a>
+          <a href="#">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cloud DB Manager Script -->
+  <script src="db.js?v=3.1"></script>
+  <!-- App Script -->
+  <script src="app.js?v=3.1"></script>
+</body>
+</html>

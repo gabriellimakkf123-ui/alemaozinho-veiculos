@@ -13,9 +13,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3.0">
+  <link rel="stylesheet" href="styles.css?v=3.1">
 </head>
-<body>
+<body id="homePage">
 
   <!-- Announcement Bar -->
   <div class="top-bar">
@@ -35,14 +35,14 @@
   <!-- Header / Navbar -->
   <header class="navbar">
     <div class="container nav-container">
-      <a href="#" class="brand-logo">
+      <a href="index.html" class="brand-logo">
         <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
         <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo Oficial" class="brand-img-logo">
       </a>
 
       <nav class="nav-links">
-        <a href="#" class="active">Home</a>
-        <a href="#estoque">Estoque</a>
+        <a href="index.html" class="active">Home</a>
+        <a href="estoque.html">Estoque</a>
         <a href="#financiamento">Financiamento</a>
         <a href="#vender">Vender / Trocar</a>
         <a href="#sobre">Nossa Loja</a>
@@ -70,7 +70,7 @@
       <p>Trabalhamos com os melhores veículos novos, seminovos e usados nacionais e importados. Garantia de procedência, laudo cautelar aprovado e aprovação rápida de crédito.</p>
       
       <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-        <a href="#estoque" class="btn-primary" style="font-size: 1.05rem; padding: 0.9rem 2rem;">
+        <a href="estoque.html" class="btn-primary" style="font-size: 1.05rem; padding: 0.9rem 2rem;">
           <i class="fas fa-car"></i> Ver Estoque Completo
         </a>
         <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos" target="_blank" class="btn-outline" style="font-size: 1.05rem; padding: 0.9rem 2rem;">
@@ -119,8 +119,8 @@
             </select>
           </div>
           <div class="form-group">
-            <a href="#estoque" class="btn-primary" style="height: 48px; border-radius: var(--radius-md); justify-content: center;">
-              <i class="fas fa-search"></i> Filtrar Veículos
+            <a href="estoque.html" class="btn-primary" style="height: 48px; border-radius: var(--radius-md); justify-content: center;">
+              <i class="fas fa-search"></i> Filtrar no Estoque
             </a>
           </div>
         </div>
@@ -167,37 +167,25 @@
     </div>
   </section>
 
-  <!-- Inventory Section (Public Showroom) -->
+  <!-- Inventory Preview Section (Max 4 Cars on Home Page) -->
   <section id="estoque" class="inventory-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Showroom Alemãozinho</span>
-        <h2 class="section-title">Nosso Estoque de <span class="gradient-text-red">Seminovos</span></h2>
-        <p class="section-subtitle">Confira nossas ofertas exclusivas com fotos em alta resolução, ficha técnica e simulação de parcelas.</p>
+        <span class="section-tag">Destaques Alemãozinho</span>
+        <h2 class="section-title">Confira Nossas <span class="gradient-text-red">Principais Ofertas</span></h2>
+        <p class="section-subtitle">Abaixo algumas de nossas melhores opções em estoque. Clique em 'Ver Estoque Completo' para navegar pelo catálogo inteiro.</p>
       </div>
 
-      <div class="inventory-controls">
-        <div class="filter-tabs">
-          <button class="tab-btn active" data-category="all">Todos os Veículos</button>
-          <button class="tab-btn" data-category="destaque">⭐ Destaques</button>
-          <button class="tab-btn" data-category="SUV">SUVs</button>
-          <button class="tab-btn" data-category="Sedan">Sedans</button>
-          <button class="tab-btn" data-category="Hatch">Hatchs</button>
-          <button class="tab-btn" data-category="Pickup">Pickups</button>
-        </div>
-
-        <select id="inventorySortSelect" class="select-custom sort-select">
-          <option value="default">Ordenar por: Relevância</option>
-          <option value="price-asc">Menor Preço</option>
-          <option value="price-desc">Maior Preço</option>
-          <option value="year-desc">Ano mais Novo</option>
-          <option value="km-asc">Menor KM</option>
-        </select>
-      </div>
-
-      <!-- Vehicle Grid JS Render Target -->
+      <!-- Vehicle Grid JS Render Target (Limited to 4 on Home) -->
       <div id="carsContainer" class="cars-grid">
         <!-- Rendered by app.js -->
+      </div>
+
+      <!-- SEE MORE CTA BUTTON WITH ARROW TO ESTOQUE.HTML -->
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="estoque.html" class="btn-primary" style="padding: 1.1rem 3rem; font-size: 1.15rem; border-radius: var(--radius-full); box-shadow: 0 8px 25px var(--primary-glow);">
+          Ver Estoque Completo <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+        </a>
       </div>
     </div>
   </section>
@@ -419,8 +407,8 @@
         <div class="footer-col">
           <h4>Navegação</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#estoque">Estoque</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="estoque.html">Estoque Completo</a></li>
             <li><a href="#financiamento">Financiamento</a></li>
             <li><a href="#vender">Vender meu Carro</a></li>
             <li><a href="#sobre">Nossa Loja</a></li>
@@ -430,10 +418,10 @@
         <div class="footer-col">
           <h4>Categorias</h4>
           <ul>
-            <li><a href="#estoque">SUVs Seminovos</a></li>
-            <li><a href="#estoque">Sedans de Luxo</a></li>
-            <li><a href="#estoque">Hatchs Econômicos</a></li>
-            <li><a href="#estoque">Pickups 4x4</a></li>
+            <li><a href="estoque.html">SUVs Seminovos</a></li>
+            <li><a href="estoque.html">Sedans de Luxo</a></li>
+            <li><a href="estoque.html">Hatchs Econômicos</a></li>
+            <li><a href="estoque.html">Pickups 4x4</a></li>
           </ul>
         </div>
 
@@ -458,8 +446,8 @@
   </footer>
 
   <!-- Cloud DB Manager Script -->
-  <script src="db.js?v=3.0"></script>
+  <script src="db.js?v=3.1"></script>
   <!-- App Script -->
-  <script src="app.js?v=3.0"></script>
+  <script src="app.js?v=3.1"></script>
 </body>
 </html>
