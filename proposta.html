@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação de Financiamento | Alemãozinho Veículos - Pedregulho - SP</title>
+  <meta name="description" content="Solicite a aprovação de crédito e simulação de parcelas para seu novo veículo na Alemãozinho Veículos em Pedregulho - SP.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=9.0">
+</head>
+<body id="propostaPage">
+
+  <!-- Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-info">
+        <span><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 - Centro, Pedregulho - SP</span>
+        <span><i class="fas fa-clock" style="color:var(--primary)"></i> Seg a Sex: 08:30 às 18:00 | Sáb: 08:30 às 12:00</span>
+      </div>
+      <div class="top-bar-social">
+        <a href="https://wa.me/5516992150212" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i> (16) 99215-0212</a>
+        <a href="https://www.instagram.com/alemazinhoenegocios/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/alexandre.manciniaguilarjunior" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="brand-logo">
+        <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+        <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo Oficial" class="brand-img-logo">
+      </a>
+
+      <nav class="nav-links">
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">Home</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html">Estoque Completo</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#financiamento">Financiamento</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#vender">Vender / Trocar</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#sobre">Nossa Loja</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#contato">Contato</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/5516992150212" target="_blank" class="btn-whatsapp">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Proposal Container Section -->
+  <section style="padding: 3rem 0 5rem 0; min-height: 80vh;">
+    <div class="container" style="max-width: 950px;">
+      
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <span class="section-tag"><i class="fas fa-file-contract"></i> Análise de Crédito Direta</span>
+        <h1 class="section-title" style="font-size: 2.3rem;">Simulação de Financiamento <span class="gradient-text-red">do Seu Veículo</span></h1>
+        <p class="section-subtitle">Preencha os dados abaixo para consultar a aprovação de crédito e calcular as melhores parcelas do veículo pré-selecionado.</p>
+      </div>
+
+      <!-- Pre-Selected Vehicle Preview Card -->
+      <div id="selectedCarPreviewCard" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+        <img id="previewCarImg" src="assets/tracker_original.webp" alt="Carro Selecionado" style="width: 140px; height: 95px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+        <div style="flex: 1; min-width: 240px;">
+          <div style="font-size: 0.8rem; color: var(--primary); font-weight: 700; text-transform: uppercase;" id="previewCarCategory">Veículo Selecionado</div>
+          <h3 id="previewCarTitle" style="font-size: 1.4rem; margin: 0.25rem 0;">Chevrolet Tracker 1.0 Turbo Flex LTZ Automático</h3>
+          <div style="display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+            <span id="previewCarYear"><i class="fas fa-calendar-alt"></i> 2022/2022</span>
+            <span id="previewCarKm"><i class="fas fa-tachometer-alt"></i> 66.200 km</span>
+            <span id="previewCarTrans"><i class="fas fa-cog"></i> Automático</span>
+          </div>
+        </div>
+        <div style="text-align: right; min-width: 180px;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Valor do Veículo:</div>
+          <div id="previewCarPrice" style="font-size: 1.8rem; font-family: var(--font-heading); font-weight: 800; color: #FFF;">R$ 98.000</div>
+        </div>
+      </div>
+
+      <!-- Bank Credit Approval Form Card -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-glow);">
+        <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+          <i class="fas fa-user-check" style="color:var(--primary)"></i> Dados Pessoais para Aprovação Bancária
+        </h3>
+
+        <form id="financingForm" onsubmit="handleFinancingSubmit(event)">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Nome Completo *</label>
+              <input type="text" id="propostaNome" placeholder="Ex: Alexandre Mancini" class="input-custom" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fab fa-whatsapp"></i> Seu WhatsApp *</label>
+              <input type="tel" id="propostaPhone" placeholder="(16) 99999-9999" class="input-custom" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-id-card"></i> CPF (Para Análise de Crédito) *</label>
+              <input type="text" id="propostaCpf" placeholder="000.000.000-00" class="input-custom" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-map-marker-alt"></i> Cidade / Estado *</label>
+              <input type="text" id="propostaCidade" placeholder="Ex: Pedregulho - SP" class="input-custom" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-wallet"></i> Renda Mensal Aproximada (R$) *</label>
+              <input type="text" id="propostaRenda" placeholder="Ex: R$ 4.500" class="input-custom" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-hand-holding-usd"></i> Valor Pretendido de Entrada (R$) *</label>
+              <input type="text" id="propostaEntrada" placeholder="Ex: R$ 20.000 ou Sem Entrada" class="input-custom" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 2rem;">
+            <label><i class="fas fa-sync-alt"></i> Possui veículo usado para dar na troca?</label>
+            <select id="propostaTroca" class="select-custom">
+              <option value="Não">Não, apenas financiamento simples</option>
+              <option value="Sim">Sim, quero dar meu usado na troca</option>
+            </select>
+          </div>
+
+          <div style="background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.3); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+            <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">
+              Ao clicar no botão abaixo, seus dados preenchidos serão formatados e enviados diretamente para o WhatsApp do nosso consultor na loja física da Alemãozinho Veículos.
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; justify-content: space-between; flex-wrap: wrap;">
+            <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html" class="btn-outline" style="padding: 1rem 2rem;">
+              <i class="fas fa-arrow-left"></i> Voltar ao Estoque
+            </a>
+            <button type="submit" class="btn-whatsapp" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+              <i class="fab fa-whatsapp"></i> Enviar Proposta de Financiamento via WhatsApp 🚀
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+            <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
+          </div>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+            Sua loja de confiança para compra, venda, troca e financiamento de veículos novos e seminovos em Pedregulho - SP.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">Home</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html">Estoque Completo</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#financiamento">Financiamento</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atendimento</h4>
+          <p><i class="fas fa-phone" style="color:var(--primary)"></i> (16) 99215-0212</p>
+          <p style="margin-top: 0.5rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Pedregulho - SP</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Alemãozinho Veículos. Todos os direitos reservados. Pedregulho - SP.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cloud DB Script -->
+  <script src="db.js?v=9.0"></script>
+  <!-- Proposta Form Script -->
+  <script>
+    const STORE_WHATSAPP = '5516992150212';
+    let selectedCar = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Check if carId is passed in URL or sessionStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      const carId = urlParams.get('carId') || sessionStorage.getItem('selectedCarForFinancingId');
+
+      const cloudVehicles = await getCloudVehicles();
+
+      if (carId && cloudVehicles) {
+        selectedCar = cloudVehicles.find(c => c.id == carId);
+      }
+
+      // Default fallback to Chevrolet Tracker (ID 1) if no car selected
+      if (!selectedCar && cloudVehicles && cloudVehicles.length > 0) {
+        selectedCar = cloudVehicles[0];
+      }
+
+      if (selectedCar) {
+        document.getElementById('previewCarImg').src = selectedCar.img;
+        document.getElementById('previewCarTitle').innerText = `${selectedCar.make} ${selectedCar.model}`;
+        document.getElementById('previewCarYear').innerHTML = `<i class="fas fa-calendar-alt"></i> ${selectedCar.year}`;
+        document.getElementById('previewCarKm').innerHTML = `<i class="fas fa-tachometer-alt"></i> ${selectedCar.km}`;
+        document.getElementById('previewCarTrans').innerHTML = `<i class="fas fa-cog"></i> ${selectedCar.transmission}`;
+        document.getElementById('previewCarPrice').innerText = `R$ ${selectedCar.price.toLocaleString('pt-BR')}`;
+      }
+    });
+
+    function handleFinancingSubmit(event) {
+      event.preventDefault();
+      
+      const nome = document.getElementById('propostaNome').value;
+      const phone = document.getElementById('propostaPhone').value;
+      const cpf = document.getElementById('propostaCpf').value;
+      const cidade = document.getElementById('propostaCidade').value;
+      const renda = document.getElementById('propostaRenda').value;
+      const entrada = document.getElementById('propostaEntrada').value;
+      const troca = document.getElementById('propostaTroca').value;
+
+      const carInfo = selectedCar 
+        ? `${selectedCar.make} ${selectedCar.model} (${selectedCar.year}) - R$ ${selectedCar.price.toLocaleString('pt-BR')}`
+        : 'Veículo Seminovo do Estoque';
+
+      const message = `🚗 *SOLICITAÇÃO DE FINANCIAMENTO - ALEMÃOZINHO VEÍCULOS*\n\n` +
+        `🚘 *Veículo Desejado*: ${carInfo}\n\n` +
+        `👤 *Nome Completo*: ${nome}\n` +
+        `📱 *WhatsApp*: ${phone}\n` +
+        `🪪 *CPF*: ${cpf}\n` +
+        `📍 *Cidade/UF*: ${cidade}\n` +
+        `💵 *Renda Mensal*: ${renda}\n` +
+        `💰 *Valor de Entrada*: ${entrada}\n` +
+        `🔄 *Veículo na Troca*: ${troca}\n\n` +
+        `Gostaria de consultar a aprovação de crédito para este veículo!`;
+
+      const encodedUrl = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(message)}`;
+      window.open(encodedUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

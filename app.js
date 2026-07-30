@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupEventListeners();
   updateFinancingCalculation();
 
-  // Periodic polling for cloud updates every 15 seconds
   setInterval(async () => {
     await syncVehiclesFromCloud(true);
   }, 15000);
@@ -86,7 +85,6 @@ function renderInventory() {
     filtered.sort((a, b) => b.yearNum - a.yearNum);
   }
 
-  // LIMIT TO MAXIMUM 4 CARS ON HOME PAGE
   if (isHomePage) {
     filtered = filtered.slice(0, 4);
   }
@@ -144,11 +142,16 @@ function renderInventory() {
             <div class="price-main">R$ ${car.price.toLocaleString('pt-BR')}</div>
           </div>
 
-          <div class="car-actions">
-            <button onclick="openCarModal(${car.id})" class="btn-outline" style="width:100%; justify-content:center;">
-              <i class="fas fa-eye"></i> Detalhes
-            </button>
-            <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content:center;">
+          <div class="car-actions" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="openCarModal(${car.id})" class="btn-outline" style="flex:1; justify-content:center; padding: 0.6rem;">
+                <i class="fas fa-eye"></i> Detalhes
+              </button>
+              <button onclick="openFinancingForm(${car.id})" class="btn-primary" style="flex:1.2; justify-content:center; padding: 0.6rem; font-size: 0.82rem; background: linear-gradient(135deg, #10B981, #059669); border-color: #10B981;">
+                <i class="fas fa-calculator"></i> Simular
+              </button>
+            </div>
+            <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content:center; padding: 0.6rem; font-size: 0.85rem;">
               <i class="fab fa-whatsapp"></i> Tenho Interesse
             </a>
           </div>
@@ -156,6 +159,11 @@ function renderInventory() {
       </div>
     `;
   }).join('');
+}
+
+function openFinancingForm(carId) {
+  sessionStorage.setItem('selectedCarForFinancingId', carId);
+  window.location.href = `https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/proposta.html?carId=${carId}`;
 }
 
 function resetFilters() {
@@ -190,7 +198,7 @@ function openCarModal(id) {
   const modalBody = document.getElementById('modalBody');
 
   const parcel48 = Math.round((car.price * 0.7) / 48 * 1.18);
-  const waText = encodeURIComponent(`Olá! Gostaria de agendar um test drive ou simular financiamento para o ${car.make} ${car.model} (${car.year}) de R$ ${car.price.toLocaleString('pt-BR')}.`);
+  const waText = encodeURIComponent(`Olá! Gostaria de tirar dúvidas para o ${car.make} ${car.model} (${car.year}) de R$ ${car.price.toLocaleString('pt-BR')}.`);
   const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
 
   const optionalsList = car.optionals || ['Ar Condicionado', 'Direção Hidráulica/Elétrica', 'Freios ABS', 'Airbags', 'Alarme Central'];
@@ -226,12 +234,12 @@ function openCarModal(id) {
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content: center; width: 100%;">
-            <i class="fab fa-whatsapp"></i> Negociar este Veículo no WhatsApp
-          </a>
-          <button onclick="scrollToFinancing(${car.price})" class="btn-primary" style="justify-content: center; width: 100%;">
-            <i class="fas fa-calculator"></i> Simular Outros Valores de Entrada
+          <button onclick="openFinancingForm(${car.id})" class="btn-primary" style="justify-content: center; width: 100%; background: linear-gradient(135deg, #10B981, #059669); border-color: #10B981; font-size: 1.05rem;">
+            <i class="fas fa-calculator"></i> Simular Financiamento Deste Veículo
           </button>
+          <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content: center; width: 100%; font-size: 1.05rem;">
+            <i class="fab fa-whatsapp"></i> Falar com Atendente no WhatsApp
+          </a>
         </div>
       </div>
     </div>
@@ -245,18 +253,6 @@ function closeModal() {
   const modalOverlay = document.getElementById('carModalOverlay');
   if (modalOverlay) modalOverlay.classList.remove('active');
   document.body.style.overflow = 'auto';
-}
-
-function scrollToFinancing(price) {
-  closeModal();
-  const priceInput = document.getElementById('simPriceRange');
-  if (priceInput) {
-    priceInput.value = price;
-    updateFinancingCalculation();
-    document.getElementById('financiamento')?.scrollIntoView({ behavior: 'smooth' });
-  } else {
-    window.location.href = `index.html#financiamento`;
-  }
 }
 
 function updateFinancingCalculation() {
@@ -286,9 +282,13 @@ function updateFinancingCalculation() {
     monthlyParcel = (financedAmount * monthlyRate * Math.pow(1 + monthlyRate, termMonths)) / (Math.pow(1 + monthlyRate, termMonths) - 1);
   }
 
-  document.getElementById('simPriceVal').innerText = `R$ ${vehiclePrice.toLocaleString('pt-BR')}`;
-  document.getElementById('simDownVal').innerText = `R$ ${downPayment.toLocaleString('pt-BR')}`;
-  document.getElementById('simParcelResult').innerText = `R$ ${Math.round(monthlyParcel).toLocaleString('pt-BR')}/mês`;
+  const simPriceVal = document.getElementById('simPriceVal');
+  const simDownVal = document.getElementById('simDownVal');
+  const simParcelResult = document.getElementById('simParcelResult');
+
+  if (simPriceVal) simPriceVal.innerText = `R$ ${vehiclePrice.toLocaleString('pt-BR')}`;
+  if (simDownVal) simDownVal.innerText = `R$ ${downPayment.toLocaleString('pt-BR')}`;
+  if (simParcelResult) simParcelResult.innerText = `R$ ${Math.round(monthlyParcel).toLocaleString('pt-BR')}/mês`;
 }
 
 function sendFinancingWhatsApp() {
