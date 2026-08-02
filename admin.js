@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ALEMÃOZINHO VEÍCULOS - JAVASCRIPT DEALER ADMIN LOGIC WITH CLOUD DB
+   ALEMÃOZINHO VEÍCULOS - JAVASCRIPT DEALER ADMIN LOGIC WITH FILE UPLOAD (PNG, JPG, PDF)
    ========================================================================== */
 
 const CORRECT_PIN = 'alemao2026';
@@ -92,9 +92,15 @@ function renderAdminTable() {
 
   tbody.innerHTML = vehicles.map(car => {
     const isSold = car.status === 'sold';
+    const isPdf = car.img && car.img.startsWith('data:application/pdf');
+    const displayImg = isPdf ? 'assets/logo.png' : car.img;
+
     return `
       <tr style="${isSold ? 'opacity: 0.6;' : ''}">
-        <td><img src="${car.img}" alt="${car.make} ${car.model}" class="thumb-small"></td>
+        <td>
+          <img src="${displayImg}" alt="${car.make} ${car.model}" class="thumb-small">
+          ${isPdf ? '<div style="font-size:0.65rem; color:var(--primary); font-weight:700;">PDF</div>' : ''}
+        </td>
         <td>
           <strong>${car.make} ${car.model}</strong>
           <div style="font-size:0.75rem; color:var(--text-muted);">${car.badge || 'Seminovo'}</div>
@@ -142,6 +148,11 @@ function openAddModal() {
   document.getElementById('modalFormTitle').innerText = 'Adicionar Novo Veículo ao Estoque';
   document.getElementById('vehicleForm').reset();
   
+  document.getElementById('formImg').value = '';
+  document.getElementById('fileUploadPreview').style.display = 'none';
+  document.getElementById('filePreviewImg').style.display = 'none';
+  document.getElementById('filePdfBadge').style.display = 'none';
+
   const modal = document.getElementById('vehicleFormModal');
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -167,6 +178,24 @@ function openEditModal(id) {
   document.getElementById('formImg').value = car.img;
   document.getElementById('formOptionals').value = (car.optionals || []).join(', ');
 
+  const previewBox = document.getElementById('fileUploadPreview');
+  const previewImg = document.getElementById('filePreviewImg');
+  const pdfBadge = document.getElementById('filePdfBadge');
+
+  if (car.img) {
+    previewBox.style.display = 'block';
+    if (car.img.startsWith('data:application/pdf')) {
+      previewImg.style.display = 'none';
+      pdfBadge.style.display = 'block';
+    } else {
+      pdfBadge.style.display = 'none';
+      previewImg.style.display = 'block';
+      previewImg.src = car.img;
+    }
+  } else {
+    previewBox.style.display = 'none';
+  }
+
   const modal = document.getElementById('vehicleFormModal');
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -176,6 +205,61 @@ function closeVehicleModal() {
   const modal = document.getElementById('vehicleFormModal');
   modal.classList.remove('active');
   document.body.style.overflow = 'auto';
+}
+
+/* HANDLE PNG, JPG, WEBP AND PDF FILE UPLOADS */
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const previewBox = document.getElementById('fileUploadPreview');
+  const previewImg = document.getElementById('filePreviewImg');
+  const pdfBadge = document.getElementById('filePdfBadge');
+
+  previewBox.style.display = 'block';
+
+  if (file.type === 'application/pdf') {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById('formImg').value = e.target.result;
+      previewImg.style.display = 'none';
+      pdfBadge.style.display = 'block';
+      pdfBadge.innerHTML = `<i class="fas fa-file-pdf" style="color:var(--primary)"></i> Arquivo PDF Selecionado: <strong>${file.name}</strong>`;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // PNG, JPG, WEBP image file compression
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 1000;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        document.getElementById('formImg').value = compressedDataUrl;
+        
+        pdfBadge.style.display = 'none';
+        previewImg.style.display = 'block';
+        previewImg.src = compressedDataUrl;
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 async function handleVehicleSubmit(event) {
@@ -191,7 +275,13 @@ async function handleVehicleSubmit(event) {
   const bodyType = document.getElementById('formBody').value;
   const color = document.getElementById('formColor').value;
   const badge = document.getElementById('formBadge').value;
-  const img = document.getElementById('formImg').value || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
+  let img = document.getElementById('formImg').value;
+
+  if (!img) {
+    alert('Por favor, selecione uma foto (PNG/JPG) ou documento PDF para o veículo!');
+    return;
+  }
+
   const optionalsRaw = document.getElementById('formOptionals').value;
   const optionals = optionalsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
@@ -224,5 +314,5 @@ async function handleVehicleSubmit(event) {
   closeVehicleModal();
   
   await saveCloudVehicles(vehicles);
-  alert('Estoque atualizado no Banco de Dados Nuvem com sucesso!');
+  alert('Veículo e foto/arquivo salvos no Banco de Dados Nuvem com sucesso!');
 }

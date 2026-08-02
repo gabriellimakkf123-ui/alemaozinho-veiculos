@@ -6,7 +6,7 @@
   <title>Painel do Dealer | Gestão de Estoque - Alemãozinho Veículos</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=8.0">
+  <link rel="stylesheet" href="styles.css?v=23.0">
 </head>
 <body>
 
@@ -124,7 +124,7 @@
         <table class="admin-table">
           <thead>
             <tr>
-              <th>Foto</th>
+              <th>Foto / Arquivo</th>
               <th>Veículo (Marca / Modelo)</th>
               <th>Ano</th>
               <th>KM</th>
@@ -141,7 +141,7 @@
     </div>
   </section>
 
-  <!-- Add / Edit Vehicle Modal -->
+  <!-- Add / Edit Vehicle Modal with File Picker (PNG, JPG, PDF) -->
   <div id="vehicleFormModal" class="modal-overlay">
     <div class="modal-container" style="max-width: 750px;">
       <button onclick="closeVehicleModal()" class="modal-close"><i class="fas fa-times"></i></button>
@@ -218,9 +218,19 @@
                 <option value="Garantia Fábrica">Garantia Fábrica</option>
               </select>
             </div>
+
+            <!-- DIRECT FILE UPLOAD SELECTOR (PNG, JPG, WEBP, PDF) -->
             <div class="form-group" style="grid-column: span 2;">
-              <label>URL da Foto do Veículo</label>
-              <input type="url" id="formImg" placeholder="https://exemplo.com/foto-carro.jpg" class="input-custom" required>
+              <label style="color:var(--primary); font-weight:700;"><i class="fas fa-file-upload"></i> Selecionar Foto / Arquivo (PNG, JPG ou PDF)</label>
+              <input type="file" id="formFileInput" accept="image/png, image/jpeg, image/webp, application/pdf" class="input-custom" style="padding: 0.5rem;" onchange="handleFileUpload(event)">
+              <input type="hidden" id="formImg" required>
+              
+              <div id="fileUploadPreview" style="margin-top: 0.75rem; display: none;">
+                <img id="filePreviewImg" src="" style="max-height: 120px; border-radius: 8px; border: 1px solid var(--border-light); display: none;">
+                <div id="filePdfBadge" style="display: none; background: rgba(229,9,20,0.15); border: 1px solid var(--primary); color: #FFF; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem;">
+                  <i class="fas fa-file-pdf" style="color:var(--primary)"></i> Arquivo PDF Selecionado!
+                </div>
+              </div>
             </div>
           </div>
 
@@ -239,8 +249,8 @@
   </div>
 
   <!-- Cloud DB Manager Script -->
-  <script src="db.js?v=8.0"></script>
+  <script src="db.js?v=23.0"></script>
   <!-- Admin Script -->
-  <script src="admin.js?v=8.0"></script>
+  <script src="admin.js?v=23.0"></script>
 </body>
 </html>
