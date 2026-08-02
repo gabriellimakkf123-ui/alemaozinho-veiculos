@@ -304,14 +304,15 @@ h1, h2, h3, h4, h5, h6 {
 /* HERO SECTION WITH ACTUAL REAL STOREFRONT PHOTO */
 .hero {
   position: relative;
-  min-height: 80vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 5rem 0 8rem 0;
-  background-image: radial-gradient(circle at 50% 35%, rgba(229, 9, 20, 0.25) 0%, transparent 70%),
+  background-color: #0A0D12;
+  background-image: radial-gradient(circle at 50% 50%, rgba(229, 9, 20, 0.15) 0%, transparent 70%),
                     url('assets/storefront.webp');
-  background-position: center 40%;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -319,8 +320,8 @@ h1, h2, h3, h4, h5, h6 {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(9, 11, 14, 0.50) 0%, rgba(9, 11, 14, 0.75) 75%, var(--bg-dark) 100%);
-  backdrop-filter: brightness(1.15);
+  background: linear-gradient(180deg, rgba(9, 11, 14, 0.45) 0%, rgba(9, 11, 14, 0.65) 75%, var(--bg-dark) 100%);
+  backdrop-filter: brightness(1.1);
 }
 
 .hero-content {
