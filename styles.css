@@ -150,18 +150,20 @@ h1, h2, h3, h4, h5, h6 {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2.25rem;
+  gap: 1.5rem;
+  white-space: nowrap;
 }
 
 .nav-links a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: #E2E8F0;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   transition: var(--transition);
   position: relative;
   padding: 0.3rem 0;
+  white-space: nowrap;
 }
 
 .nav-links a:hover,

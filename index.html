@@ -12,8 +12,8 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Custom Stylesheet (Mockup Exact Match v20.0) -->
-  <link rel="stylesheet" href="styles.css?v=20.0">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=21.0">
 </head>
 <body id="homePage">
 
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <!-- Header / Navbar Mockup Style -->
+  <!-- Header / Navbar Standardized -->
   <header class="navbar">
     <div class="container nav-container">
       <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="brand-logo">
@@ -41,23 +41,24 @@
       </a>
 
       <nav class="nav-links">
-        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="active">INÍCIO</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="active">HOME</a>
         <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html">ESTOQUE</a>
         <a href="#financiamento">FINANCIAMENTO</a>
-        <a href="#fundador">SOBRE NÓS</a>
+        <a href="#vender">VENDER / TROCAR</a>
+        <a href="#fundador">NOSSA LOJA</a>
         <a href="#contato">CONTATO</a>
       </nav>
 
       <div class="nav-actions">
-        <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos" target="_blank" class="btn-outline" style="border-radius: var(--radius-full); padding: 0.6rem 1.3rem;">
-          <i class="fab fa-whatsapp" style="color:var(--accent-green); font-size: 1.1rem;"></i> (16) 99215-0212
+        <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos" target="_blank" class="btn-whatsapp" style="border-radius: var(--radius-full); padding: 0.6rem 1.25rem; font-size: 0.85rem;">
+          <i class="fab fa-whatsapp" style="font-size: 1.1rem;"></i> (16) 99215-0212
         </a>
         <button class="mobile-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section (Exact Match to Mockup Image) -->
+  <!-- Hero Section -->
   <section id="heroSection" class="hero">
     <div class="container">
       <div class="hero-grid">
@@ -80,7 +81,7 @@
           </a>
         </div>
 
-        <!-- Right Storefront Facade Showcase (100% Complete & Visible) -->
+        <!-- Right Storefront Facade Showcase -->
         <div class="hero-right-showcase">
           <img src="assets/fachada_nova.jpg" alt="Fachada Alemãozinho Veículos">
         </div>
@@ -89,7 +90,7 @@
     </div>
   </section>
 
-  <!-- Floating Filter Bar (Exact Match to Mockup Image) -->
+  <!-- Floating Filter Bar -->
   <div class="search-box-container">
     <div class="container">
       <div class="search-card">
@@ -157,7 +158,7 @@
     </div>
   </div>
 
-  <!-- Features Strip (4 Columns - Exact Match to Mockup Image) -->
+  <!-- Features Strip -->
   <section class="features-strip">
     <div class="container">
       <div class="features-grid">
@@ -215,6 +216,59 @@
         <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html" class="btn-primary" style="padding: 1.1rem 3rem; font-size: 1.1rem; border-radius: var(--radius-full);">
           Ver Estoque Completo <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sell or Trade-In Form Section (#vender) -->
+  <section id="vender" class="sell-section">
+    <div class="container">
+      <div class="sell-wrapper">
+        <div style="max-width: 800px; margin: 0 auto;">
+          <div class="section-header">
+            <span class="section-tag">Avaliação Rápida</span>
+            <h2 class="section-title">Quer <span class="gradient-text-red">Vender ou Trocar</span> Seu Carro?</h2>
+            <p class="section-subtitle">Preencha os dados do seu veículo e receba uma proposta de compra ou avaliação para troca direto no WhatsApp.</p>
+          </div>
+
+          <form onsubmit="sendTradeInWhatsApp(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Seu Nome Completo</label>
+                <input type="text" id="tradeName" placeholder="Ex: Alexandre Mancini" class="input-custom" required>
+              </div>
+              <div class="form-group">
+                <label>Seu WhatsApp</label>
+                <input type="tel" id="tradePhone" placeholder="(16) 99999-9999" class="input-custom" required>
+              </div>
+              <div class="form-group">
+                <label>Veículo (Marca/Modelo)</label>
+                <input type="text" id="tradeCar" placeholder="Ex: Onix 1.0 2020" class="input-custom" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Ano de Fabricação</label>
+                <input type="text" id="tradeYear" placeholder="Ex: 2020" class="input-custom" required>
+              </div>
+              <div class="form-group">
+                <label>Quilometragem (KM)</label>
+                <input type="text" id="tradeKm" placeholder="Ex: 50.000 km" class="input-custom" required>
+              </div>
+              <div class="form-group">
+                <label>Observações / Opcionais</label>
+                <input type="text" id="tradeNotes" placeholder="Ex: Único dono, completo, automático" class="input-custom">
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <button type="submit" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                <i class="fab fa-whatsapp"></i> Receber Avaliação no WhatsApp
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -400,10 +454,11 @@
         <div class="footer-col">
           <h4>Navegação</h4>
           <ul>
-            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">INÍCIO</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">HOME</a></li>
             <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html">ESTOQUE</a></li>
             <li><a href="#financiamento">FINANCIAMENTO</a></li>
-            <li><a href="#fundador">SOBRE NÓS</a></li>
+            <li><a href="#vender">VENDER / TROCAR</a></li>
+            <li><a href="#fundador">NOSSA LOJA</a></li>
             <li><a href="#contato">CONTATO</a></li>
           </ul>
         </div>
@@ -433,7 +488,7 @@
   </footer>
 
   <!-- Script Files -->
-  <script src="db.js?v=20.0"></script>
-  <script src="app.js?v=20.0"></script>
+  <script src="db.js?v=21.0"></script>
+  <script src="app.js?v=21.0"></script>
 </body>
 </html>

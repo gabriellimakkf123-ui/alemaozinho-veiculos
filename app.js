@@ -415,3 +415,24 @@ function setupEventListeners() {
     });
   }
 }
+
+function sendTradeInWhatsApp(e) {
+  if (e) e.preventDefault();
+  const name = document.getElementById('tradeName')?.value || '';
+  const phone = document.getElementById('tradePhone')?.value || '';
+  const car = document.getElementById('tradeCar')?.value || '';
+  const year = document.getElementById('tradeYear')?.value || '';
+  const km = document.getElementById('tradeKm')?.value || '';
+  const notes = document.getElementById('tradeNotes')?.value || '';
+
+  const msg = `Olá Alexandre! Gostaria de solicitar uma avaliação para VENDER / TROCAR meu veículo na Alemãozinho Veículos:\n\n` +
+              `👤 *Nome:* ${name}\n` +
+              `📱 *WhatsApp:* ${phone}\n` +
+              `🚗 *Veículo:* ${car}\n` +
+              `📅 *Ano:* ${year}\n` +
+              `🛣️ *KM:* ${km}\n` +
+              `📝 *Observações:* ${notes || 'Nenhuma'}`;
+
+  const url = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
