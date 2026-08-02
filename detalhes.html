@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Veículo | Alemãozinho Veículos - Pedregulho - SP</title>
+  <meta name="description" content="Confira todos os detalhes, especificações, tabela FIPE e simulação de financiamento deste veículo na Alemãozinho Veículos.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=24.0">
+
+  <style>
+    /* WEBMOTORS DETAIL PAGE SPECIFIC STYLES */
+    .wm-detail-body {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+
+    /* Gallery Banner */
+    .wm-gallery-container {
+      background: #000;
+      padding: 1rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wm-gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.5rem;
+      max-height: 420px;
+    }
+
+    .wm-gallery-main {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .wm-gallery-sub {
+      width: 100%;
+      height: 207px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Split Detail Layout */
+    .wm-detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2rem;
+      margin-top: 2rem;
+      align-items: start;
+    }
+
+    .wm-card-box {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    /* Vehicle Title & Key Specs */
+    .wm-car-title-main {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0F172A;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .wm-car-version-sub {
+      font-size: 0.95rem;
+      color: #64748B;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .wm-specs-grid-wm {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    .wm-spec-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .wm-spec-lbl {
+      font-size: 0.75rem;
+      color: #64748B;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .wm-spec-val {
+      font-size: 0.95rem;
+      color: #0F172A;
+      font-weight: 800;
+    }
+
+    /* Price Comparison Box (Dark Webmotors Style) */
+    .wm-price-compare-card {
+      background: #1E293B;
+      color: #FFF;
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .wm-compare-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .wm-compare-lbl {
+      font-size: 0.8rem;
+      color: #94A3B8;
+    }
+
+    .wm-compare-val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #FFF;
+    }
+
+    /* Optionals Grid */
+    .wm-optionals-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .wm-optional-item {
+      font-size: 0.88rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .wm-optional-item i {
+      color: #E50914;
+      font-size: 0.75rem;
+    }
+
+    /* Sticky Sidebar Form */
+    .wm-sticky-sidebar {
+      position: sticky;
+      top: 90px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .wm-side-price {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #0F172A;
+    }
+
+    .wm-form-input {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      font-size: 0.9rem;
+      margin-bottom: 0.85rem;
+      outline: none;
+    }
+
+    .wm-form-input:focus {
+      border-color: #E50914;
+      background: #FFF;
+    }
+
+    @media (max-width: 1024px) {
+      .wm-detail-layout { grid-template-columns: 1fr; }
+      .wm-sticky-sidebar { position: static; }
+      .wm-gallery-grid { grid-template-columns: 1fr; max-height: auto; }
+      .wm-gallery-sub { display: none; }
+      .wm-specs-grid-wm, .wm-optionals-list { grid-template-columns: repeat(2, 1fr); }
+      .wm-price-compare-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="wm-detail-body">
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-info">
+        <span><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 - Centro, Pedregulho - SP</span>
+        <span><i class="fas fa-clock" style="color:var(--primary)"></i> Seg a Sex: 08:30 às 18:00 | Sáb: 08:30 às 12:00</span>
+      </div>
+      <div class="top-bar-social">
+        <a href="https://wa.me/5516992150212" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i> (16) 99215-0212</a>
+        <a href="https://www.instagram.com/alemazinhoenegocios/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/alexandre.manciniaguilarjunior" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="navbar" style="background:#FFF;">
+    <div class="container nav-container">
+      <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="brand-logo">
+        <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+        <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo Oficial" class="brand-img-logo">
+      </a>
+
+      <nav class="nav-links">
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">HOME</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html" class="active">ESTOQUE</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#financiamento">FINANCIAMENTO</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#vender">VENDER / TROCAR</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#fundador">NOSSA LOJA</a>
+        <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#contato">CONTATO</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/5516992150212?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Alem%C3%A3ozinho%20Ve%C3%ADculos" target="_blank" class="btn-whatsapp" style="border-radius: var(--radius-full); padding: 0.6rem 1.25rem; font-size: 0.85rem; white-space: nowrap;">
+          <i class="fab fa-whatsapp" style="font-size: 1.1rem;"></i> (16) 99215-0212
+        </a>
+        <button class="mobile-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Photo Gallery Banner (Webmotors Style) -->
+  <section class="wm-gallery-container">
+    <div class="container">
+      <div class="wm-gallery-grid">
+        <img id="detailMainImg" src="" alt="Foto Principal do Veículo" class="wm-gallery-main">
+        <img id="detailSubImg1" src="" alt="Foto Lateral do Veículo" class="wm-gallery-sub">
+        <img id="detailSubImg2" src="" alt="Foto Interior do Veículo" class="wm-gallery-sub">
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Webmotors Detail Layout Container -->
+  <main class="container" style="padding-bottom: 5rem;">
+    <div class="wm-detail-layout">
+      
+      <!-- Left Column: Specs, Price Compare, Financing Form, Optionals, Seller Info, Related -->
+      <div>
+        
+        <!-- 1. Title & Key Specs Box -->
+        <div class="wm-card-box">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <h1 id="detailTitle" class="wm-car-title-main">CARREGANDO...</h1>
+              <div id="detailVersion" class="wm-car-version-sub">Seminovo com laudo cautelar aprovado</div>
+            </div>
+            <div id="detailBadgeContainer"></div>
+          </div>
+
+          <div class="wm-specs-grid-wm">
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Cidade</span>
+              <span class="wm-spec-val">Pedregulho - SP</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Ano</span>
+              <span id="detailYear" class="wm-spec-val">2022/2022</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">KM</span>
+              <span id="detailKm" class="wm-spec-val">0 km</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Câmbio</span>
+              <span id="detailTrans" class="wm-spec-val">Automática</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Carroceria</span>
+              <span id="detailBodyType" class="wm-spec-val">SUV</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Combustível</span>
+              <span id="detailFuel" class="wm-spec-val">Flex</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Cor</span>
+              <span id="detailColor" class="wm-spec-val">Prata</span>
+            </div>
+            <div class="wm-spec-cell">
+              <span class="wm-spec-lbl">Aceita troca</span>
+              <span class="wm-spec-val" style="color:var(--accent-green)">Sim</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Price Comparison & FIPE Card (Exact Match to Webmotors Screenshot 1 & 5) -->
+        <div class="wm-price-compare-card">
+          <div class="wm-compare-item">
+            <span class="wm-compare-lbl">Valor anunciado</span>
+            <span id="detailComparePrice" class="wm-compare-val">R$ 0</span>
+          </div>
+          <div class="wm-compare-item" style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem;">
+            <span class="wm-compare-lbl" style="color:var(--primary); font-weight:700;"><i class="fas fa-check-circle"></i> webmotors</span>
+            <span id="detailCompareWm" class="wm-compare-val">R$ 0</span>
+            <span style="font-size:0.7rem; color:#94A3B8;">Valor médio em anúncios</span>
+          </div>
+          <div class="wm-compare-item" style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem;">
+            <span class="wm-compare-lbl">FIPE</span>
+            <span id="detailCompareFipe" class="wm-compare-val">R$ 0</span>
+            <span style="font-size:0.7rem; color:#94A3B8;">Valor deste carro na Tabela Fipe</span>
+          </div>
+        </div>
+
+        <!-- 3. "Veja as parcelas desse veículo" Santander Simulator Box (Exact Match to Screenshot 1 & 2) -->
+        <div class="wm-card-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <div>
+              <h3 style="font-size:1.4rem; font-weight:900;">Veja as parcelas desse veículo</h3>
+              <p style="font-size:0.85rem; color:#64748B;">Tudo sem compromisso, vamos começar com alguns dados :)</p>
+            </div>
+            <div style="font-size: 1.1rem; font-weight:900; color:#E50914; display:flex; align-items:center; gap:0.4rem;">
+              <i class="fas fa-university"></i> Santander Financiamentos
+            </div>
+          </div>
+
+          <form onsubmit="handleWmDetailSimulate(event)">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <input type="text" id="wmSimName" placeholder="Nome completo*" class="wm-form-input" required>
+              <input type="text" id="wmSimBirth" placeholder="Data de nascimento*" class="wm-form-input" required>
+              <input type="email" id="wmSimEmail" placeholder="E-mail*" class="wm-form-input" required>
+              <input type="text" id="wmSimCpf" placeholder="CPF*" class="wm-form-input" required>
+              <input type="tel" id="wmSimPhone" placeholder="Celular / WhatsApp*" class="wm-form-input" required>
+              <select class="wm-form-input">
+                <option value="SP">São Paulo - SP</option>
+                <option value="MG">Minas Gerais - MG</option>
+              </select>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.5rem;">
+              <label style="font-size:0.8rem; color:#64748B; display:flex; align-items:center; gap:0.5rem; max-width: 450px;">
+                <input type="checkbox" checked required> Quero receber propostas de financiamento e ofertas via WhatsApp.
+              </label>
+
+              <button type="submit" class="btn-primary" style="padding: 0.9rem 2.5rem; font-size:1rem; border-radius: 8px;">
+                Ver Parcelas
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 4. "Itens do veículo" Optionals Grid (Exact Match to Screenshot 3) -->
+        <div class="wm-card-box">
+          <h3 style="font-size:1.25rem; font-weight:900; margin-bottom:1.25rem;">Itens do veículo</h3>
+          <div id="detailOptionalsGrid" class="wm-optionals-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 5. "Sobre o vendedor" Card (Exact Match to Screenshot 3) -->
+        <div class="wm-card-box">
+          <h3 style="font-size:1.1rem; font-weight:900; color:#64748B; text-transform:uppercase; margin-bottom:1.5rem;">Sobre o vendedor</h3>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem;">
+            <div style="display:flex; align-items:center; gap:1.25rem;">
+              <img src="assets/logo.png" alt="Alemãozinho Logo" style="height: 60px; width:auto; object-fit:contain;">
+              <div>
+                <h4 style="font-size:1.3rem; font-weight:900;">Alemãozinho Veículos</h4>
+                <div style="font-size:0.9rem; color:#64748B;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 – Centro, Pedregulho – SP</div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.5rem;">
+              <a href="https://wa.me/5516992150212" target="_blank" class="btn-outline" style="background:#0F172A; color:#FFF; font-weight:700; border-radius:8px;">
+                <i class="fas fa-phone-alt"></i> (16) 99215-0212
+              </a>
+              <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html" style="font-size:0.85rem; color:var(--primary); font-weight:700; text-decoration:none;">
+                Ver todos os carros deste vendedor ➔
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. "Você também pode gostar" Related Vehicles Grid (Exact Match to Screenshot 4) -->
+        <div style="margin-top: 3rem;">
+          <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:1.5rem;">Você também pode gostar</h3>
+          <div id="relatedCarsContainer" class="cars-grid">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Sticky Lead Sidebar Form (Exact Match to Screenshots 1, 2, 3) -->
+      <aside class="wm-sticky-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+          <div id="detailSidePrice" class="wm-side-price">R$ 0</div>
+          <a href="#financiamento" class="btn-primary" style="font-size:0.75rem; padding:0.4rem 0.8rem; border-radius:6px; background:#E50914;">
+            Ver parcelas
+          </a>
+        </div>
+        <p style="font-size:0.85rem; color:#64748B; margin-bottom:1.5rem;">Envie uma mensagem ao vendedor</p>
+
+        <form onsubmit="handleWmSideContactSubmit(event)">
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Nome*</label>
+            <input type="text" id="sideLeadName" placeholder="Seu nome completo" class="wm-form-input" required>
+          </div>
+
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">E-mail*</label>
+            <input type="email" id="sideLeadEmail" placeholder="seuemail@exemplo.com" class="wm-form-input" required>
+          </div>
+
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Telefone / WhatsApp*</label>
+            <input type="tel" id="sideLeadPhone" placeholder="(16) 99999-9999" class="wm-form-input" required>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Mensagem*</label>
+            <textarea id="sideLeadMsg" class="wm-form-input" style="height:90px; resize:none;" required>Olá, tenho interesse neste veículo. Por favor entre em contato.</textarea>
+          </div>
+
+          <label style="font-size:0.75rem; color:#64748B; display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+            <input type="checkbox" checked required> Quero receber contatos da Alemãozinho Veículos por e-mail, WhatsApp e outros canais.
+          </label>
+
+          <button type="submit" class="btn-primary" style="width:100%; justify-content:center; padding:1rem; font-size:1.05rem; border-radius:8px;">
+            <i class="fab fa-whatsapp"></i> Enviar mensagem
+          </button>
+        </form>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
+            <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
+          </div>
+          <p style="color: #94A3B8; margin-bottom: 1.5rem; font-size: 0.9rem;">
+            Sua loja de confiança para compra, venda, troca e financiamento de veículos novos e seminovos em Pedregulho - SP.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/">HOME</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html">ESTOQUE</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#financiamento">FINANCIAMENTO</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#vender">VENDER / TROCAR</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#fundador">NOSSA LOJA</a></li>
+            <li><a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/#contato">CONTATO</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atendimento</h4>
+          <p><i class="fas fa-phone" style="color:var(--primary)"></i> (16) 99215-0212</p>
+          <p style="margin-top: 0.5rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Pedregulho - SP</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Alemãozinho Veículos. Todos os direitos reservados. Pedregulho - SP.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/painel.html" target="_blank" style="color:#64748B; font-size:0.8rem;"><i class="fas fa-lock"></i> Acesso Lojista</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="db.js?v=24.0"></script>
+  <script src="app.js?v=24.0"></script>
+
+  <script>
+    /* DEDICATED WEBMOTORS DETAIL PAGE LOGIC */
+    let currentCar = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const carId = parseInt(urlParams.get('id')) || 1;
+
+      const cloudData = await getCloudVehicles();
+      const allVehicles = cloudData && cloudData.length > 0 ? cloudData : vehicles;
+
+      currentCar = allVehicles.find(v => v.id === carId) || allVehicles[0];
+
+      if (currentCar) {
+        renderCarDetails(currentCar, allVehicles);
+      }
+    });
+
+    function renderCarDetails(car, allVehicles) {
+      document.title = `${car.make} ${car.model} (${car.year}) | Alemãozinho Veículos`;
+
+      // Images
+      const mainImg = car.img || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
+      document.getElementById('detailMainImg').src = mainImg;
+      document.getElementById('detailSubImg1').src = mainImg;
+      document.getElementById('detailSubImg2').src = mainImg;
+
+      // Title & Specs
+      document.getElementById('detailTitle').innerText = `${car.make} ${car.model}`;
+      document.getElementById('detailVersion').innerText = `${car.year} • ${car.transmission} • ${car.fuel} • Laudo Cautelar Aprovado`;
+      document.getElementById('detailYear').innerText = car.year;
+      document.getElementById('detailKm').innerText = car.km;
+      document.getElementById('detailTrans').innerText = car.transmission;
+      document.getElementById('detailBodyType').innerText = car.bodyType;
+      document.getElementById('detailFuel').innerText = car.fuel;
+      document.getElementById('detailColor').innerText = car.color || 'Prata';
+
+      // Badge
+      document.getElementById('detailBadgeContainer').innerHTML = `
+        <span class="badge ${car.badgeType || 'badge-red'}" style="font-size:0.9rem; padding:0.5rem 1rem;">
+          ${car.badge || '⭐ Destaque'}
+        </span>
+      `;
+
+      // Prices & Fipe Compare
+      const formattedPrice = `R$ ${car.price.toLocaleString('pt-BR')}`;
+      const wmAvg = Math.round(car.price * 1.08);
+      const fipeVal = Math.round(car.price * 1.07);
+
+      document.getElementById('detailComparePrice').innerText = formattedPrice;
+      document.getElementById('detailCompareWm').innerText = `R$ ${wmAvg.toLocaleString('pt-BR')}`;
+      document.getElementById('detailCompareFipe').innerText = `R$ ${fipeVal.toLocaleString('pt-BR')}`;
+      document.getElementById('detailSidePrice').innerText = formattedPrice;
+
+      // Optionals Grid
+      const defaultOptionals = [
+        'Alarme', 'Ar quente', 'Banco regulagem altura', 'Computador de bordo',
+        'Desembaçador traseiro', 'Ar condicionado', 'Freio ABS', 'Limpador traseiro',
+        'Rádio Bluetooth', 'Retrovisores elétricos', 'Rodas de liga leve', 'Travas elétricas',
+        'Vidros elétricos', 'Bancos em couro', 'Direção hidráulica/elétrica', 'Airbag duplo'
+      ];
+      const carOpts = (car.optionals && car.optionals.length > 0) ? car.optionals : defaultOptionals;
+
+      document.getElementById('detailOptionalsGrid').innerHTML = carOpts.map(opt => `
+        <div class="wm-optional-item">
+          <i class="fas fa-check-circle"></i>
+          <span>${opt}</span>
+        </div>
+      `).join('');
+
+      // Related Vehicles (4 items)
+      const related = allVehicles.filter(v => v.id !== car.id).slice(0, 4);
+      const relatedContainer = document.getElementById('relatedCarsContainer');
+      if (relatedContainer) {
+        relatedContainer.innerHTML = related.map(rel => `
+          <div class="car-card">
+            <div class="car-img-wrapper">
+              <div class="car-badges">
+                <span class="badge ${rel.badgeType}">${rel.badge || 'Seminovo'}</span>
+              </div>
+              <img src="${rel.img}" alt="${rel.make} ${rel.model}">
+            </div>
+            <div class="car-body">
+              <div class="car-year">${rel.year} • ${rel.bodyType}</div>
+              <h3 class="car-title">${rel.make} ${rel.model}</h3>
+              <div class="car-price-row" style="margin-top:auto;">
+                <div class="price-main">R$ ${rel.price.toLocaleString('pt-BR')}</div>
+              </div>
+              <a href="detalhes.html?id=${rel.id}" class="btn-primary" style="justify-content:center; border-radius:8px; margin-top:0.5rem;">
+                Ver Detalhes ➔
+              </a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function handleWmDetailSimulate(e) {
+      e.preventDefault();
+      const name = document.getElementById('wmSimName').value;
+      const phone = document.getElementById('wmSimPhone').value;
+      const cpf = document.getElementById('wmSimCpf').value;
+      
+      const msg = `Olá Alexandre! Gostaria de SIMULAR O FINANCIAMENTO no Santander para o veículo ${currentCar.make} ${currentCar.model} (${currentCar.year}) de R$ ${currentCar.price.toLocaleString('pt-BR')}:\n\n` +
+                  `👤 *Nome:* ${name}\n` +
+                  `📱 *WhatsApp:* ${phone}\n` +
+                  `🆔 *CPF:* ${cpf}`;
+
+      window.open(`https://wa.me/5516992150212?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function handleWmSideContactSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('sideLeadName').value;
+      const phone = document.getElementById('sideLeadPhone').value;
+      const email = document.getElementById('sideLeadEmail').value;
+      const text = document.getElementById('sideLeadMsg').value;
+
+      const msg = `Olá Alexandre! Tenho interesse no veículo *${currentCar.make} ${currentCar.model}* (${currentCar.year}) por R$ ${currentCar.price.toLocaleString('pt-BR')}:\n\n` +
+                  `👤 *Nome:* ${name}\n` +
+                  `📱 *WhatsApp:* ${phone}\n` +
+                  `📧 *E-mail:* ${email}\n` +
+                  `💬 *Mensagem:* ${text}`;
+
+      window.open(`https://wa.me/5516992150212?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+  </script>
+</body>
+</html>

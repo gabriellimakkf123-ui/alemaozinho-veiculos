@@ -106,6 +106,10 @@ function renderInventory() {
     return;
   }
 
+   function openCarModal(id) {
+  window.location.href = `detalhes.html?id=${id}`;
+}
+
   container.innerHTML = filtered.map(car => {
     const parcelEst = Math.round((car.price * 0.7) / 48 * 1.18);
     const waText = encodeURIComponent(`Olá! Vi o veículo ${car.make} ${car.model} (${car.year}) por R$ ${car.price.toLocaleString('pt-BR')} no modelo Webmotors do site e gostaria de mais informações!`);
@@ -196,86 +200,7 @@ function resetFilters() {
 }
 
 function openCarModal(id) {
-  const car = vehicles.find(c => c.id === id);
-  if (!car) return;
-
-  const modalOverlay = document.getElementById('carModalOverlay');
-  const modalBody = document.getElementById('modalBody');
-
-  const parcel48 = Math.round((car.price * 0.7) / 48 * 1.18);
-  const waText = encodeURIComponent(`Olá! Estou vendo a ficha técnica do ${car.make} ${car.model} (${car.year}) por R$ ${car.price.toLocaleString('pt-BR')} no padrão Webmotors e gostaria de negociar!`);
-  const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
-
-  const optionalsList = car.optionals || [
-    'Ar Condicionado Digital', 'Direção Elétrica Proporcional', 'Freios ABS com EBD',
-    'Airbags Frontais e Laterais', 'Alarme com Acionamento à Distância', 'Central Multimídia Touchscreen',
-    'Conectividade Bluetooth & Apple CarPlay', 'Câmera de Ré com Sensores', 'Vidros e Travas Elétricas nas 4 Portas'
-  ];
-
-  modalBody.innerHTML = `
-    <div class="modal-grid">
-      <div>
-        <img src="${car.img}" alt="${car.make} ${car.model}" class="modal-gallery-img" id="mainModalGalleryImg">
-        
-        <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
-          <img src="${car.img}" onclick="document.getElementById('mainModalGalleryImg').src='${car.img}'" style="width: 75px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid var(--primary);">
-          <img src="assets/storefront.webp" onclick="document.getElementById('mainModalGalleryImg').src='assets/storefront.webp'" style="width: 75px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--border-light); opacity: 0.8;">
-        </div>
-
-        <div class="webmotors-dealer-box">
-          <img src="assets/logo.png" style="height: 38px; width: auto;">
-          <div>
-            <div style="font-weight: 700; font-size: 0.95rem; color: #FFF;">Alemãozinho Veículos</div>
-            <div style="font-size: 0.8rem; color: var(--accent-green); font-weight: 600;"><i class="fas fa-check-circle"></i> Concessionária Verificada • Pedregulho - SP</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">Atendimento no Showroom Presencial ou via WhatsApp</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-          <span class="badge badge-red">${car.badge || 'Seminovo Selecionado'}</span>
-          <span class="badge badge-dark"><i class="fas fa-shield-alt"></i> Laudo Cautelar Aprovado</span>
-          <span class="badge badge-gold"><i class="fas fa-certificate"></i> Procedência Garantida</span>
-        </div>
-
-        <h2 style="font-size: 1.8rem; margin: 0.25rem 0 0.25rem 0;">${car.make} ${car.model}</h2>
-        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">${car.year} • ${car.bodyType} • Cor ${car.color || 'Prata'} • Final de Placa *</div>
-
-        <div style="font-size: 2.2rem; font-family: var(--font-heading); font-weight: 800; color: #FFF; margin-bottom: 1rem;">
-          R$ ${car.price.toLocaleString('pt-BR')}
-        </div>
-
-        <div class="car-specs" style="margin-bottom: 1.25rem; background: var(--bg-card); padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-          <div class="spec-item"><i class="fas fa-tachometer-alt" style="color:var(--primary);"></i><span>${car.km}</span></div>
-          <div class="spec-item"><i class="fas fa-cog" style="color:var(--primary);"></i><span>${car.transmission}</span></div>
-          <div class="spec-item"><i class="fas fa-gas-pump" style="color:var(--primary);"></i><span>${car.fuel}</span></div>
-        </div>
-
-        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem; color: #FFF;"><i class="fas fa-list-check" style="color:var(--primary)"></i> Ficha Técnica e Opcionais Webmotors:</h4>
-        <div class="optionals-grid">
-          ${optionalsList.map(opt => `<span><i class="fas fa-check"></i> ${opt}</span>`).join('')}
-        </div>
-
-        <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem;">
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Simulação Bancária Sugerida (30% Entrada):</div>
-          <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-green);">48x de R$ ${parcel48.toLocaleString('pt-BR')}/mês</div>
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <button onclick="openFinancingForm(${car.id})" class="btn-primary" style="justify-content: center; width: 100%; background: linear-gradient(135deg, #10B981, #059669); border-color: #10B981; font-size: 1.05rem;">
-            <i class="fas fa-calculator"></i> Simular Financiamento Deste Veículo
-          </button>
-          <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content: center; width: 100%; font-size: 1.05rem;">
-            <i class="fab fa-whatsapp"></i> Falar com o Vendedor no WhatsApp
-          </a>
-        </div>
-      </div>
-    </div>
-  `;
-
-  modalOverlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  window.location.href = `detalhes.html?id=${id}`;
 }
 
 function closeModal() {
