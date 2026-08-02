@@ -310,9 +310,9 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   padding: 5rem 0 8rem 0;
   background-color: #0A0D12;
-  background-image: radial-gradient(circle at 50% 50%, rgba(229, 9, 20, 0.15) 0%, transparent 70%),
+  background-image: radial-gradient(circle at 50% 70%, rgba(229, 9, 20, 0.15) 0%, transparent 70%),
                     url('assets/storefront.webp');
-  background-position: center center;
+  background-position: center 80%;
   background-repeat: no-repeat;
   background-size: cover;
 }
