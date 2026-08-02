@@ -12,8 +12,8 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=18.0">
+  <!-- Custom Stylesheet (White & Red Theme v19.0) -->
+  <link rel="stylesheet" href="styles.css?v=19.0">
 </head>
 <body id="homePage">
 
@@ -57,8 +57,8 @@
     </div>
   </header>
 
-  <!-- Hero Section Belloni Style (Clean Dark Gradient) -->
-  <section id="heroSection" class="hero" style="background: linear-gradient(180deg, #0A0D12 0%, #121721 100%); padding: 5rem 0 4rem 0; min-height: auto;">
+  <!-- Hero Section with Custom Logo Watermark Background -->
+  <section id="heroSection" class="hero">
     <div class="container hero-content">
       <div class="hero-badge">
         <i class="fas fa-star"></i> Referência em Pedregulho - SP & Região
@@ -78,7 +78,7 @@
   </section>
 
   <!-- Floating Search Bar -->
-  <div class="search-box-container" style="margin-top: -2rem;">
+  <div class="search-box-container">
     <div class="container">
       <div class="search-card">
         <div class="search-grid">
@@ -149,7 +149,7 @@
   </section>
 
   <!-- Diferenciais Belloni Style Section -->
-  <section id="diferenciais" class="features-strip" style="padding: 5rem 0; background: var(--bg-dark);">
+  <section id="diferenciais" class="features-strip">
     <div class="container">
       <div class="section-header" style="margin-bottom: 3.5rem;">
         <span class="section-tag">Por Que Escolher a Alemãozinho</span>
@@ -157,25 +157,25 @@
         <p class="section-subtitle">A gente vende carro do jeito que gostaria de comprar: transparente, sem letra miúda e olhando no olho.</p>
       </div>
 
-      <div class="features-grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-        <div class="feature-card" style="flex-direction: column; padding: 2rem;">
-          <div class="feature-icon" style="margin-bottom: 1rem;"><i class="fas fa-gem"></i></div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-gem"></i></div>
           <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Curadoria de Verdade</h3>
           <p style="color: var(--text-muted); font-size: 0.95rem;">
             Não enchemos o pátio por encher. Selecionamos a dedo veículos novos e seminovos que nós mesmos compraríamos.
           </p>
         </div>
 
-        <div class="feature-card" style="flex-direction: column; padding: 2rem;">
-          <div class="feature-icon" style="margin-bottom: 1rem; background: rgba(37,211,102,0.15); color: #25D366;"><i class="fas fa-shield-alt"></i></div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(16,185,129,0.1); color: var(--accent-green);"><i class="fas fa-shield-alt"></i></div>
           <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Transparência Total</h3>
           <p style="color: var(--text-muted); font-size: 0.95rem;">
             Você sabe exatamente o que está levando. Histórico, laudo cautelar aprovado, estado e documentação 100% na mesa.
           </p>
         </div>
 
-        <div class="feature-card" style="flex-direction: column; padding: 2rem;">
-          <div class="feature-icon" style="margin-bottom: 1rem; background: rgba(59,130,246,0.15); color: #3B82F6;"><i class="fas fa-handshake"></i></div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(37,99,235,0.1); color: var(--accent-blue);"><i class="fas fa-handshake"></i></div>
           <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Pós-venda que Existe</h3>
           <p style="color: var(--text-muted); font-size: 0.95rem;">
             Nosso relacionamento não acaba na entrega da chave. A gente continua sempre por perto para ajudar em tudo o que precisar.
@@ -185,13 +185,13 @@
     </div>
   </section>
 
-  <!-- O Fundador / Nossa Loja Section Belloni Style (Featuring 100% Uncropped Storefront Photo) -->
+  <!-- O Fundador / Nossa Loja Section Belloni Style -->
   <section id="fundador" style="padding: 5rem 0; background: var(--bg-surface);">
     <div class="container">
-      <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 3.5rem; box-shadow: var(--shadow-glow);">
+      <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 3.5rem; box-shadow: var(--shadow-md);">
         <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center;">
-          <!-- 100% UNCROPPED REAL STOREFRONT PHOTO -->
-          <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-light); box-shadow: 0 15px 35px rgba(0,0,0,0.6); background: #000;">
+          <!-- 100% UNCROPPED REAL STOREFRONT PHOTO SHOWCASE -->
+          <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); background: #000;">
             <img src="assets/fachada_nova.jpg" alt="Fachada Alemãozinho Veículos" style="width: 100%; height: auto; display: block; object-fit: contain;">
           </div>
           <div>
@@ -226,18 +226,18 @@
           </p>
 
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div class="info-item">
-              <div class="info-item-icon"><i class="fas fa-bolt"></i></div>
+            <div class="info-item" style="display: flex; gap: 1rem; align-items: center;">
+              <div class="feature-icon" style="margin-bottom:0;"><i class="fas fa-bolt"></i></div>
               <div>
-                <h4 style="color:#FFF;">Aprovação de Crédito Rápida</h4>
+                <h4 style="color:var(--text-main);">Aprovação de Crédito Rápida</h4>
                 <p style="font-size: 0.9rem; color: var(--text-muted);">Análise imediata pelo WhatsApp sem precisar sair de casa.</p>
               </div>
             </div>
 
-            <div class="info-item">
-              <div class="info-item-icon"><i class="fas fa-handshake"></i></div>
+            <div class="info-item" style="display: flex; gap: 1rem; align-items: center;">
+              <div class="feature-icon" style="margin-bottom:0;"><i class="fas fa-handshake"></i></div>
               <div>
-                <h4 style="color:#FFF;">Primeira Parcela para até 60 Dias</h4>
+                <h4 style="color:var(--text-main);">Primeira Parcela para até 60 Dias</h4>
                 <p style="font-size: 0.9rem; color: var(--text-muted);">Condições especiais sujeitas a análise de perfil de crédito.</p>
               </div>
             </div>
@@ -287,7 +287,7 @@
   </section>
 
   <!-- Contact & Map Section Belloni Style -->
-  <section id="contato" style="padding: 5rem 0; background: var(--bg-dark);">
+  <section id="contato" style="padding: 5rem 0; background: #FFFFFF;">
     <div class="container">
       <div class="section-header" style="margin-bottom: 3.5rem;">
         <span class="section-tag">Venha nos Visitar</span>
@@ -296,8 +296,8 @@
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-        <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2.5rem;">
-          <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem;"><i class="fas fa-map-marked-alt" style="color:var(--primary)"></i> Alemãozinho Veículos</h3>
+        <div style="background: #F8FAFC; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2.5rem;">
+          <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--text-main);"><i class="fas fa-map-marked-alt" style="color:var(--primary)"></i> Alemãozinho Veículos</h3>
           
           <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
             <i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 – Centro, Pedregulho – SP
@@ -354,7 +354,7 @@
             <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
             <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
           </div>
-          <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+          <p style="color: #94A3B8; margin-bottom: 1.5rem; font-size: 0.9rem;">
             Seminovos selecionados, procedência garantida e atendimento de quem entende de carro. O lugar certo para o seu próximo veículo.
           </p>
           <div class="top-bar-social">
@@ -379,7 +379,7 @@
           <h4>Contato</h4>
           <p><i class="fas fa-phone" style="color:var(--primary)"></i> (16) 99215-0212</p>
           <p style="margin-top: 0.5rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 - Pedregulho - SP</p>
-          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">Segunda a Sexta, 8h30 às 18h</p>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #94A3B8;">Segunda a Sexta, 8h30 às 18h</p>
         </div>
 
         <div class="footer-col">
@@ -393,14 +393,14 @@
       <div class="footer-bottom">
         <div>© 2026 Alemãozinho Veículos. Todos os direitos reservados. Pedregulho - SP.</div>
         <div style="display: flex; gap: 1.5rem;">
-          <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/painel.html" target="_blank" style="color:var(--text-dim); font-size:0.8rem;"><i class="fas fa-lock"></i> Acesso Lojista</a>
+          <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/painel.html" target="_blank" style="color:#64748B; font-size:0.8rem;"><i class="fas fa-lock"></i> Acesso Lojista</a>
         </div>
       </div>
     </div>
   </footer>
 
   <!-- Script Files -->
-  <script src="db.js?v=18.0"></script>
-  <script src="app.js?v=18.0"></script>
+  <script src="db.js?v=19.0"></script>
+  <script src="app.js?v=19.0"></script>
 </body>
 </html>
