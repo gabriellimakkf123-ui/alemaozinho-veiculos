@@ -150,8 +150,9 @@ h1, h2, h3, h4, h5, h6 {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  white-space: nowrap;
+  gap: 1.75rem;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
 }
 
 .nav-links a {
@@ -163,7 +164,9 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition);
   position: relative;
   padding: 0.3rem 0;
-  white-space: nowrap;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  line-height: 1 !important;
 }
 
 .nav-links a:hover,
