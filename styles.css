@@ -501,10 +501,49 @@ h1, h2, h3, h4, h5, h6 {
 
 /* INVENTORY SECTION */
 .inventory-section {
-  padding: 5rem 0;
+  padding: 4rem 0;
 }
 
-.inventory-controls {
+/* WEBMOTORS SIDEBAR & LAYOUT GRID */
+.webmotors-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.webmotors-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: sticky;
+  top: 90px;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.75rem;
+}
+
+.sidebar-group {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
   display: flex;
   justify-content: space-between;
   align-items: center;
