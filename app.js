@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ALEMÃOZINHO VEÍCULOS - JAVASCRIPT PUBLIC SHOWROOM LOGIC WITH CLOUD DB
+   ALEMÃOZINHO VEÍCULOS - WEBMOTORS STYLE PUBLIC SHOWROOM LOGIC & MODAL
    ========================================================================== */
 
 const STORE_WHATSAPP = '5516992150212';
@@ -75,6 +75,11 @@ function renderInventory() {
     return true;
   });
 
+  const countBadge = document.getElementById('resultsCountBadge');
+  if (countBadge) {
+    countBadge.innerText = `${filtered.length} ${filtered.length === 1 ? 'veículo encontrado' : 'veículos encontrados'}`;
+  }
+
   if (currentSort === 'price-asc') {
     filtered.sort((a, b) => a.price - b.price);
   } else if (currentSort === 'price-desc') {
@@ -103,7 +108,7 @@ function renderInventory() {
 
   container.innerHTML = filtered.map(car => {
     const parcelEst = Math.round((car.price * 0.7) / 48 * 1.18);
-    const waText = encodeURIComponent(`Olá! Vi o veículo ${car.make} ${car.model} (${car.year}) por R$ ${car.price.toLocaleString('pt-BR')} no site da Alemãozinho Veículos e gostaria de mais informações!`);
+    const waText = encodeURIComponent(`Olá! Vi o veículo ${car.make} ${car.model} (${car.year}) por R$ ${car.price.toLocaleString('pt-BR')} no modelo Webmotors do site e gostaria de mais informações!`);
     const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
 
     return `
@@ -116,7 +121,7 @@ function renderInventory() {
           <img src="${car.img}" alt="${car.make} ${car.model}" loading="lazy">
         </div>
         <div class="car-body">
-          <div class="car-year">${car.year} • ${car.bodyType}</div>
+          <div class="car-year">${car.year} • ${car.bodyType} • 📍 Pedregulho - SP</div>
           <h3 class="car-title">${car.make} ${car.model}</h3>
           
           <div class="car-specs">
@@ -137,14 +142,14 @@ function renderInventory() {
           <div class="car-price-row">
             <div>
               <div class="price-parcel">Parc. estimadas a partir de</div>
-              <div style="color: var(--accent-green); font-weight: 700;">R$ ${parcelEst.toLocaleString('pt-BR')}/mês</div>
+              <div style="color: var(--accent-green); font-weight: 700; font-size: 0.95rem;">R$ ${parcelEst.toLocaleString('pt-BR')}/mês</div>
             </div>
             <div class="price-main">R$ ${car.price.toLocaleString('pt-BR')}</div>
           </div>
 
-          <div class="car-actions" style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <div class="car-actions" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto;">
             <div style="display: flex; gap: 0.5rem;">
-              <button onclick="openCarModal(${car.id})" class="btn-outline" style="flex:1; justify-content:center; padding: 0.6rem;">
+              <button onclick="openCarModal(${car.id})" class="btn-outline" style="flex:1; justify-content:center; padding: 0.6rem; font-size:0.85rem;">
                 <i class="fas fa-eye"></i> Detalhes
               </button>
               <button onclick="openFinancingForm(${car.id})" class="btn-primary" style="flex:1.2; justify-content:center; padding: 0.6rem; font-size: 0.82rem; background: linear-gradient(135deg, #10B981, #059669); border-color: #10B981;">
@@ -198,39 +203,63 @@ function openCarModal(id) {
   const modalBody = document.getElementById('modalBody');
 
   const parcel48 = Math.round((car.price * 0.7) / 48 * 1.18);
-  const waText = encodeURIComponent(`Olá! Gostaria de tirar dúvidas para o ${car.make} ${car.model} (${car.year}) de R$ ${car.price.toLocaleString('pt-BR')}.`);
+  const waText = encodeURIComponent(`Olá! Estou vendo a ficha técnica do ${car.make} ${car.model} (${car.year}) por R$ ${car.price.toLocaleString('pt-BR')} no padrão Webmotors e gostaria de negociar!`);
   const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
 
-  const optionalsList = car.optionals || ['Ar Condicionado', 'Direção Hidráulica/Elétrica', 'Freios ABS', 'Airbags', 'Alarme Central'];
+  const optionalsList = car.optionals || [
+    'Ar Condicionado Digital', 'Direção Elétrica Proporcional', 'Freios ABS com EBD',
+    'Airbags Frontais e Laterais', 'Alarme com Acionamento à Distância', 'Central Multimídia Touchscreen',
+    'Conectividade Bluetooth & Apple CarPlay', 'Câmera de Ré com Sensores', 'Vidros e Travas Elétricas nas 4 Portas'
+  ];
 
   modalBody.innerHTML = `
     <div class="modal-grid">
       <div>
-        <img src="${car.img}" alt="${car.make} ${car.model}" class="modal-gallery-img">
-      </div>
-      <div>
-        <div style="color: var(--primary); font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">
-          ${car.year} • ${car.bodyType} • Cor ${car.color || 'Prata'}
+        <img src="${car.img}" alt="${car.make} ${car.model}" class="modal-gallery-img" id="mainModalGalleryImg">
+        
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+          <img src="${car.img}" onclick="document.getElementById('mainModalGalleryImg').src='${car.img}'" style="width: 75px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid var(--primary);">
+          <img src="assets/storefront.webp" onclick="document.getElementById('mainModalGalleryImg').src='assets/storefront.webp'" style="width: 75px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--border-light); opacity: 0.8;">
         </div>
-        <h2 style="font-size: 1.8rem; margin: 0.25rem 0 1rem 0;">${car.make} ${car.model}</h2>
+
+        <div class="webmotors-dealer-box">
+          <img src="assets/logo.png" style="height: 38px; width: auto;">
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: #FFF;">Alemãozinho Veículos</div>
+            <div style="font-size: 0.8rem; color: var(--accent-green); font-weight: 600;"><i class="fas fa-check-circle"></i> Concessionária Verificada • Pedregulho - SP</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">Atendimento no Showroom Presencial ou via WhatsApp</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+          <span class="badge badge-red">${car.badge || 'Seminovo Selecionado'}</span>
+          <span class="badge badge-dark"><i class="fas fa-shield-alt"></i> Laudo Cautelar Aprovado</span>
+          <span class="badge badge-gold"><i class="fas fa-certificate"></i> Procedência Garantida</span>
+        </div>
+
+        <h2 style="font-size: 1.8rem; margin: 0.25rem 0 0.25rem 0;">${car.make} ${car.model}</h2>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">${car.year} • ${car.bodyType} • Cor ${car.color || 'Prata'} • Final de Placa *</div>
+
         <div style="font-size: 2.2rem; font-family: var(--font-heading); font-weight: 800; color: #FFF; margin-bottom: 1rem;">
           R$ ${car.price.toLocaleString('pt-BR')}
         </div>
 
-        <div class="car-specs" style="margin-bottom: 1.5rem;">
-          <div class="spec-item"><i class="fas fa-tachometer-alt"></i><span>${car.km}</span></div>
-          <div class="spec-item"><i class="fas fa-cog"></i><span>${car.transmission}</span></div>
-          <div class="spec-item"><i class="fas fa-gas-pump"></i><span>${car.fuel}</span></div>
+        <div class="car-specs" style="margin-bottom: 1.25rem; background: var(--bg-card); padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div class="spec-item"><i class="fas fa-tachometer-alt" style="color:var(--primary);"></i><span>${car.km}</span></div>
+          <div class="spec-item"><i class="fas fa-cog" style="color:var(--primary);"></i><span>${car.transmission}</span></div>
+          <div class="spec-item"><i class="fas fa-gas-pump" style="color:var(--primary);"></i><span>${car.fuel}</span></div>
         </div>
 
-        <h4 style="margin-bottom: 0.5rem; font-size: 1rem;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Opcionais e Itens de Série:</h4>
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem; color: #FFF;"><i class="fas fa-list-check" style="color:var(--primary)"></i> Ficha Técnica e Opcionais Webmotors:</h4>
         <div class="optionals-grid">
           ${optionalsList.map(opt => `<span><i class="fas fa-check"></i> ${opt}</span>`).join('')}
         </div>
 
-        <div style="background: rgba(229,9,20,0.1); border: 1px solid rgba(229,9,20,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
-          <div style="font-size: 0.85rem; color: var(--text-muted);">Simulação de Parcela Sugerida (30% Entrada):</div>
-          <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-green);">48x de R$ ${parcel48.toLocaleString('pt-BR')}/mês</div>
+        <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Simulação Bancária Sugerida (30% Entrada):</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-green);">48x de R$ ${parcel48.toLocaleString('pt-BR')}/mês</div>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -238,7 +267,7 @@ function openCarModal(id) {
             <i class="fas fa-calculator"></i> Simular Financiamento Deste Veículo
           </button>
           <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content: center; width: 100%; font-size: 1.05rem;">
-            <i class="fab fa-whatsapp"></i> Falar com Atendente no WhatsApp
+            <i class="fab fa-whatsapp"></i> Falar com o Vendedor no WhatsApp
           </a>
         </div>
       </div>
