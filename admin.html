@@ -3,10 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Dealer | Gestão de Estoque - Alemãozinho Veículos</title>
+  <title>Painel do Dealer | Gestão de Estoque & Contratos - Alemãozinho Veículos</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=23.0">
+  <link rel="stylesheet" href="styles.css?v=28.0">
+
+  <style>
+    /* CONTRACT PRINTING SPECIFIC STYLES */
+    @media print {
+      body * { visibility: hidden; }
+      #printableContract, #printableContract * { visibility: visible; }
+      #printableContract {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000 !important;
+        background: #FFF !important;
+        padding: 2cm;
+      }
+      .no-print { display: none !important; }
+    }
+
+    .contract-paper {
+      background: #FFFFFF;
+      color: #000000;
+      padding: 2.5rem;
+      border-radius: 12px;
+      font-family: 'Times New Roman', Times, serif;
+      line-height: 1.6;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .contract-header-text {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #000;
+      padding-bottom: 0.75rem;
+    }
+
+    .contract-clause {
+      margin-bottom: 1.25rem;
+      text-align: justify;
+      font-size: 0.95rem;
+    }
+
+    .contract-signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .contract-sig-line {
+      border-top: 1px solid #000;
+      padding-top: 0.5rem;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,7 +79,7 @@
       </div>
       <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Área do Lojista</h2>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">
-        Acesso restrito para gestão de estoque da Alemãozinho Veículos. Informe a senha do dealer para continuar.
+        Acesso restrito para gestão de estoque e geração de contratos da Alemãozinho Veículos.
       </p>
 
       <form onsubmit="handleLogin(event)">
@@ -33,10 +94,6 @@
           <i class="fas fa-unlock"></i> Entrar no Painel do Dealer
         </button>
       </form>
-
-      <div style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-dim);">
-        <i class="fas fa-lock"></i> Sistema Protegido por Criptografia de Sessão
-      </div>
     </div>
   </section>
 
@@ -52,19 +109,19 @@
             <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
           </div>
           <div style="border-left: 1px solid var(--border-light); padding-left: 1rem;">
-            <h1 style="font-size: 1.5rem;">Painel do Dealer <span class="gradient-text-red">| Gestão de Estoque</span></h1>
+            <h1 style="font-size: 1.5rem;">Painel do Dealer <span class="gradient-text-red">| Gestão & Contratos</span></h1>
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.25rem;">
               <span style="font-size: 0.85rem; color: var(--accent-gold); font-weight: 600;">
                 <i class="fas fa-user-check"></i> Sessão Autorizada (Lojista)
               </span>
               <span class="cloud-sync-badge" style="padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
-                <i class="fas fa-database"></i> Conectando Cloud DB...
+                <i class="fas fa-database"></i> Cloud DB Conectado
               </span>
             </div>
           </div>
         </div>
 
-        <div style="display: flex; gap: 1rem; align-items: center;">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
           <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/estoque.html" target="_blank" class="btn-outline" style="font-size: 0.85rem;">
             <i class="fas fa-external-link-alt"></i> Ver Estoque Completo ↗
           </a>
@@ -77,7 +134,7 @@
         </div>
       </div>
 
-      <!-- Inventory Metrics / Analytics Cards -->
+      <!-- Inventory & Financial Metrics Cards -->
       <div class="admin-stats-grid">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-car-side"></i></div>
@@ -96,25 +153,25 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon" style="color:#FF4D5A; background:rgba(239,68,68,0.15);"><i class="fas fa-tag"></i></div>
+          <div class="stat-icon" style="color:var(--primary); background:rgba(229,9,20,0.15);"><i class="fas fa-chart-line"></i></div>
           <div>
-            <div id="statSoldCars" class="stat-val">0</div>
-            <div class="stat-label">Veículos Vendidos</div>
+            <div id="statStockValue" class="stat-val">R$ 0</div>
+            <div class="stat-label">Valor Total do Estoque</div>
           </div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon" style="color:var(--primary); background:rgba(229,9,20,0.15);"><i class="fas fa-dollar-sign"></i></div>
+          <div class="stat-icon" style="color:var(--accent-gold); background:rgba(245,158,11,0.15);"><i class="fas fa-hand-holding-usd"></i></div>
           <div>
-            <div id="statStockValue" class="stat-val">R$ 0</div>
-            <div class="stat-label">Valor Total do Estoque</div>
+            <div id="statTotalProfit" class="stat-val">R$ 0</div>
+            <div class="stat-label">Lucro Bruto Projetado</div>
           </div>
         </div>
       </div>
 
       <!-- Stock Table Area -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="font-size: 1.25rem;"><i class="fas fa-list" style="color:var(--primary)"></i> Lista de Veículos em Estoque</h3>
+        <h3 style="font-size: 1.25rem;"><i class="fas fa-list" style="color:var(--primary)"></i> Lista de Veículos & Gerador de Contratos</h3>
         <button onclick="syncVehiclesFromCloud()" class="btn-outline" style="font-size: 0.8rem; padding: 0.4rem 1rem;">
           <i class="fas fa-sync"></i> Sincronizar Banco de Dados
         </button>
@@ -126,11 +183,11 @@
             <tr>
               <th>Foto / Arquivo</th>
               <th>Veículo (Marca / Modelo)</th>
-              <th>Ano</th>
-              <th>KM</th>
+              <th>Ano / KM</th>
               <th>Preço de Venda</th>
-              <th>Status do Estoque</th>
-              <th>Ações</th>
+              <th>FIPE / Margem Est.</th>
+              <th>Status</th>
+              <th>Ações & Gerar Contrato</th>
             </tr>
           </thead>
           <tbody id="adminTableBody">
@@ -141,9 +198,9 @@
     </div>
   </section>
 
-  <!-- Add / Edit Vehicle Modal with File Picker (PNG, JPG, PDF) -->
+  <!-- Add / Edit Vehicle Modal (With Profit Margin Calculator) -->
   <div id="vehicleFormModal" class="modal-overlay">
-    <div class="modal-container" style="max-width: 750px;">
+    <div class="modal-container" style="max-width: 800px;">
       <button onclick="closeVehicleModal()" class="modal-close"><i class="fas fa-times"></i></button>
       <div style="padding: 2rem;">
         <h2 id="modalFormTitle" style="font-size: 1.5rem; margin-bottom: 1.5rem;"><i class="fas fa-car" style="color:var(--primary)"></i> Adicionar Novo Veículo</h2>
@@ -164,11 +221,29 @@
             </div>
           </div>
 
-          <div class="form-row">
+          <!-- FINANCIAL PROFIT CALCULATOR FIELDS -->
+          <div class="form-row" style="background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
             <div class="form-group">
-              <label>Preço de Venda (R$)</label>
-              <input type="number" id="formPrice" placeholder="Ex: 98000" class="input-custom" required>
+              <label style="color:var(--accent-gold); font-weight:700;"><i class="fas fa-shopping-cart"></i> Custo de Compra (R$)</label>
+              <input type="number" id="formBuyPrice" placeholder="Ex: 82000" class="input-custom" oninput="calculateMarginPreview()">
             </div>
+            <div class="form-group">
+              <label style="color:var(--accent-gold); font-weight:700;"><i class="fas fa-wrench"></i> Custos Preparação (R$)</label>
+              <input type="number" id="formPrepCost" placeholder="Ex: 2500" class="input-custom" oninput="calculateMarginPreview()">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--primary); font-weight:700;"><i class="fas fa-tag"></i> Preço de Venda (R$)</label>
+              <input type="number" id="formPrice" placeholder="Ex: 98000" class="input-custom" required oninput="calculateMarginPreview()">
+            </div>
+          </div>
+
+          <!-- Profit Margin Realtime Badge -->
+          <div id="marginPreviewBox" style="margin-bottom: 1.25rem; background: rgba(37,211,102,0.12); border: 1px solid rgba(37,211,102,0.3); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; color: #25D366; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fas fa-calculator"></i> Lucro Líquido Projetado: <strong id="previewProfitVal">R$ 0</strong></span>
+            <span>Margem de Lucro: <strong id="previewMarginPct">0%</strong></span>
+          </div>
+
+          <div class="form-row">
             <div class="form-group">
               <label>Valor Tabela FIPE Oficial (R$)</label>
               <input type="number" id="formFipePrice" placeholder="Ex: 96840" class="input-custom">
@@ -245,16 +320,111 @@
 
           <div style="display: flex; gap: 1rem; justify-content: flex-end;">
             <button type="button" onclick="closeVehicleModal()" class="btn-outline">Cancelar</button>
-            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Salvar Veículo no Banco Nuvem</button>
+            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Salvar no Banco Nuvem</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- VEHICLE PURCHASE & SALE CONTRACT GENERATOR MODAL -->
+  <div id="contractModalOverlay" class="modal-overlay">
+    <div class="modal-container" style="max-width: 850px;">
+      <button onclick="closeContractModal()" class="modal-close no-print"><i class="fas fa-times"></i></button>
+      <div style="padding: 2rem;">
+        
+        <!-- Controls Header (No Print) -->
+        <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; color: #FFF;"><i class="fas fa-file-contract" style="color:var(--primary)"></i> Gerador de Contrato de Compra e Venda</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Preencha os dados do comprador para gerar o documento oficial pronto para impressão ou PDF.</p>
+          </div>
+          <button onclick="window.print()" class="btn-primary" style="font-size: 0.9rem; padding: 0.75rem 1.5rem;">
+            <i class="fas fa-print"></i> Imprimir / Salvar PDF
+          </button>
+        </div>
+
+        <!-- Buyer Input Fields Form (No Print) -->
+        <div class="no-print" style="background: #161D29; padding: 1.25rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.08);">
+          <h4 style="font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 1rem;"><i class="fas fa-user-edit"></i> Dados do Comprador (Preenchimento Rápido):</h4>
+          
+          <div class="form-row" style="margin-bottom: 0.75rem;">
+            <input type="text" id="contractBuyerName" placeholder="Nome Completo do Comprador*" class="input-custom" oninput="updateContractDocument()" required>
+            <input type="text" id="contractBuyerCpf" placeholder="CPF ou CNPJ do Comprador*" class="input-custom" oninput="updateContractDocument()" required>
+            <input type="text" id="contractBuyerRg" placeholder="RG / Órgão Emissor" class="input-custom" oninput="updateContractDocument()">
+          </div>
+
+          <div class="form-row">
+            <input type="text" id="contractBuyerAddress" placeholder="Endereço Completo (Rua, Nº, Bairro, Cidade - UF)" class="input-custom" style="grid-column: span 2;" oninput="updateContractDocument()">
+            <input type="text" id="contractBuyerPhone" placeholder="Telefone de Contato" class="input-custom" oninput="updateContractDocument()">
+          </div>
+        </div>
+
+        <!-- Printable Contract Document Sheet -->
+        <div id="printableContract" class="contract-paper">
+          <div class="contract-header-text">
+            CONTRATO DE COMPRA E VENDA DE VEÍCULO AUTOMOTOR<br>
+            <span style="font-size: 0.9rem; font-weight: normal;">ALEMÃOZINHO VEÍCULOS - PEDREGULHO / SP</span>
+          </div>
+
+          <div class="contract-clause">
+            <strong>VENDEDOR:</strong> <strong>ALEMÃOZINHO VEÍCULOS / ALEXANDRE MANCINI AGUILAR JUNIOR</strong>, estabelecido na Rua Joaquim Ferreira Coelho, nº 560 – Centro, Pedregulho – SP, inscrito no CNPJ/CPF sob regramento comercial de veículos automotores.
+          </div>
+
+          <div class="contract-clause">
+            <strong>COMPRADOR:</strong> <span id="docBuyerName" style="text-decoration: underline; font-weight: bold;">________________________________________</span>, inscrito no CPF/CNPJ sob nº <span id="docBuyerCpf" style="font-weight: bold;">_______________</span>, residente e domiciliado em <span id="docBuyerAddress">__________________________________________________</span>.
+          </div>
+
+          <div class="contract-clause">
+            <strong>CLÁUSULA PRIMEIRA - DO OBJETO:</strong> O VENDEDOR vende ao COMPRADOR o veículo automotor de sua propriedade com as seguintes especificações:
+            <br>
+            • <strong>Marca / Modelo:</strong> <span id="docCarTitle" style="font-weight: bold;">-</span><br>
+            • <strong>Ano Fabricação / Modelo:</strong> <span id="docCarYear">-</span> | <strong>Cor:</strong> <span id="docCarColor">-</span> | <strong>Combustível:</strong> <span id="docCarFuel">-</span><br>
+            • <strong>Quilometragem Atual:</strong> <span id="docCarKm">-</span> | <strong>Câmbio:</strong> <span id="docCarTrans">-</span><br>
+            • <strong>Preço Acordado de Venda:</strong> <span id="docCarPrice" style="font-weight: bold; font-size: 1.1rem;">R$ 0,00</span>
+          </div>
+
+          <div class="contract-clause">
+            <strong>CLÁUSULA SEGUNDA - DA PROCEDÊNCIA E GARANTIA:</strong> O VENDEDOR declara que o veículo possui <strong>Laudo Cautelar Aprovado</strong> e procedência garantida, estando livre e desembaraçado de quaisquer ônus judiciais ou extrajudiciais até a presente data. O veículo conta com garantia legal nos termos do Código de Defesa do Consumidor.
+          </div>
+
+          <div class="contract-clause">
+            <strong>CLÁUSULA TERCEIRA - DA DADOS E DOCUMENTAÇÃO:</strong> O COMPRADOR assume total responsabilidade por infrações de trânsito ocorridas a partir da data de entrega do veículo, comprometendo-se a realizar a transferência de propriedade no prazo legal junto ao DETRAN.
+          </div>
+
+          <div class="contract-clause" style="margin-top: 2rem;">
+            Por estarem assim justos e contratados, assinam o presente instrumento em 2 (duas) vias de igual teor e forma.
+          </div>
+
+          <div style="text-align: right; margin-top: 1.5rem; font-style: italic;">
+            Pedregulho - SP, <span id="docContractDate">02 de Agosto de 2026</span>.
+          </div>
+
+          <!-- Signatures -->
+          <div class="contract-signatures">
+            <div>
+              <div class="contract-sig-line">
+                ALEMÃOZINHO VEÍCULOS<br>
+                <span style="font-size:0.8rem; font-weight:normal;">Vendedor</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="contract-sig-line">
+                <span id="docSigBuyerName">COMPRADOR</span><br>
+                <span style="font-size:0.8rem; font-weight:normal;">Comprador</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Cloud DB Manager Script -->
-  <script src="db.js?v=23.0"></script>
+  <script src="db.js?v=28.0"></script>
   <!-- Admin Script -->
-  <script src="admin.js?v=23.0"></script>
+  <script src="admin.js?v=28.0"></script>
 </body>
 </html>
