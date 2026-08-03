@@ -1092,3 +1092,301 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .admin-stats-grid { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   ALEMÃOZINHO VEÍCULOS - FLOATING AI CHAT ASSISTANT WIDGET STYLES
+   ========================================================================== */
+.ai-chat-trigger {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 1500;
+  background: #10151D;
+  border: 2px solid #E50914;
+  color: #FFF;
+  padding: 0.65rem 1.25rem 0.65rem 0.85rem;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ai-chat-trigger:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 15px 40px rgba(229, 9, 20, 0.6);
+  background: #E50914;
+}
+
+.ai-trigger-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  background: #25D366;
+  border-radius: 50%;
+  border: 2px solid #10151D;
+}
+
+.ai-pulse-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #25D366;
+  animation: aiPulse 1.8s infinite;
+}
+
+@keyframes aiPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.ai-trigger-icon {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #FFF;
+  padding: 2px;
+}
+
+.ai-trigger-text {
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* Chat Modal Window */
+.ai-chat-window {
+  position: fixed;
+  bottom: 95px;
+  right: 25px;
+  z-index: 1500;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 540px;
+  max-height: calc(100vh - 120px);
+  background: #0F141C;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s ease;
+}
+
+.ai-chat-window.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.ai-chat-header {
+  background: #161D29;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-avatar-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #FFF;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ai-online-pill {
+  background: rgba(37, 211, 102, 0.2);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  font-size: 0.65rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.ai-chat-close {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.ai-chat-close:hover {
+  color: #E50914;
+}
+
+/* Chat Messages */
+.ai-chat-messages {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #0B0E14;
+}
+
+.ai-msg {
+  max-width: 85%;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-radius: 14px;
+  padding: 0.85rem 1.1rem;
+  word-wrap: break-word;
+}
+
+.ai-msg-bot {
+  align-self: flex-start;
+  background: #18202C;
+  color: #E2E8F0;
+  border-bottom-left-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ai-msg-user {
+  align-self: flex-end;
+  background: #E50914;
+  color: #FFFFFF;
+  border-bottom-right-radius: 3px;
+  font-weight: 600;
+}
+
+.ai-typing {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  font-style: italic;
+}
+
+/* Inside Chat Buttons */
+.ai-link-btn, .ai-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.ai-link-btn {
+  background: #252F3F;
+  color: #FFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ai-link-btn:hover {
+  background: #334155;
+}
+
+.ai-wa-btn {
+  background: #25D366;
+  color: #000;
+}
+
+.ai-wa-btn:hover {
+  background: #20BA5A;
+}
+
+/* Quick Chips */
+.ai-quick-chips {
+  padding: 0.5rem 1rem;
+  background: #121720;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ai-quick-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-quick-chips button {
+  background: #1D2635;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #CBD5E1;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-quick-chips button:hover {
+  border-color: #E50914;
+  color: #FFF;
+  background: rgba(229, 9, 20, 0.2);
+}
+
+/* Input Form */
+.ai-chat-form {
+  padding: 0.85rem 1rem;
+  background: #161D29;
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ai-chat-form input {
+  flex: 1;
+  background: #0F141C;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 0.65rem 1rem;
+  color: #FFF;
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.ai-chat-form input:focus {
+  border-color: #E50914;
+}
+
+.ai-chat-send-btn {
+  background: #E50914;
+  border: none;
+  color: #FFF;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ai-chat-send-btn:hover {
+  background: #B90710;
+}
