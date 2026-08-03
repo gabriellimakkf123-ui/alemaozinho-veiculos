@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ALEMÃOZINHO VEÍCULOS - CLOUD DATABASE API MANAGER (REALTIME CLOUD SYNC)
+   ALEMÃOZINHO VEÍCULOS - CLOUD DATABASE API MANAGER (REALTIME CLOUD SYNC & FIPE DATA)
    ========================================================================== */
 
 // Primary Cloud REST DB Endpoint
@@ -80,8 +80,7 @@ async function saveCloudVehicles(vehiclesArray) {
  * Update UI indicator badge ONLY inside admin.html (Dealer Panel)
  */
 function updateCloudSyncBadge(isOnline, message) {
-  // STRICT RULE: Only render badge inside admin.html for the dealer!
-  if (!window.location.pathname.includes('admin')) {
+  if (!window.location.pathname.includes('admin') && !window.location.pathname.includes('painel')) {
     return;
   }
 
@@ -103,6 +102,8 @@ function getInitialVehicles() {
       year: '2022/2022',
       yearNum: 2022,
       price: 98000,
+      fipePrice: 96840,
+      fipeCode: '004515-2',
       km: '66.200 km',
       kmNum: 66200,
       transmission: 'Automático',
@@ -123,6 +124,8 @@ function getInitialVehicles() {
       year: '2021/2021',
       yearNum: 2021,
       price: 115900,
+      fipePrice: 114500,
+      fipeCode: '005432-1',
       km: '48.000 km',
       kmNum: 48000,
       transmission: 'Automático',
@@ -143,6 +146,8 @@ function getInitialVehicles() {
       year: '2023/2023',
       yearNum: 2023,
       price: 149900,
+      fipePrice: 142900,
+      fipeCode: '017070-9',
       km: '28.500 km',
       kmNum: 28500,
       transmission: 'Automático',
@@ -163,6 +168,8 @@ function getInitialVehicles() {
       year: '2022/2023',
       yearNum: 2022,
       price: 128500,
+      fipePrice: 124900,
+      fipeCode: '001538-5',
       km: '42.100 km',
       kmNum: 42100,
       transmission: 'Automático',
@@ -183,38 +190,20 @@ function getInitialVehicles() {
       year: '2023/2023',
       yearNum: 2023,
       price: 94900,
-      km: '19.800 km',
-      kmNum: 19800,
+      fipePrice: 93800,
+      fipeCode: '005510-7',
+      km: '19.500 km',
+      kmNum: 19500,
       transmission: 'Automático',
       fuel: 'Flex',
       bodyType: 'Hatch',
-      color: 'Preto Ninja',
+      color: 'Cinza Platinum',
       plateEnd: '4',
       badge: 'Garantia Fábrica',
       badgeType: 'badge-red',
       status: 'available',
       img: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80',
-      optionals: ['Active Info Display', 'Ar Climatronic Touch', 'Carregamento por Indução', 'Start/Stop Engine', 'Rodas Liga Leve 16"', 'Sensor de Chuva e Crepuscular']
-    },
-    {
-      id: 6,
-      make: 'Honda',
-      model: 'Civic 2.0 EXL 16V Flex Automático',
-      year: '2020/2021',
-      yearNum: 2020,
-      price: 118900,
-      km: '55.000 km',
-      kmNum: 55000,
-      transmission: 'Automático',
-      fuel: 'Flex',
-      bodyType: 'Sedan',
-      color: 'Prata Platinum',
-      plateEnd: '8',
-      badge: 'Seminovo Top',
-      badgeType: 'badge-dark',
-      status: 'available',
-      img: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=800&q=80',
-      optionals: ['Bancos de Couro', 'Faróis de Neblina LED', 'Freio de Mão Eletrônico com Brake Hold', 'Ar Dual Zone', 'Teto Solar Elétrico', 'Câmera de Ré Multivisão']
+      optionals: ['Painel Active Info Display', 'Carregador Celular sem Fio', 'Chave Kessy', 'Ar Climatronic Digital', 'Volante Multifuncional em Couro com Shift Paddles']
     }
   ];
 }

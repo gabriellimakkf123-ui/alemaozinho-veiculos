@@ -169,6 +169,8 @@ function openEditModal(id) {
   document.getElementById('formModel').value = car.model;
   document.getElementById('formYear').value = car.year;
   document.getElementById('formPrice').value = car.price;
+  const fipePriceInput = document.getElementById('formFipePrice');
+  if (fipePriceInput) fipePriceInput.value = car.fipePrice || Math.round(car.price * 0.98);
   document.getElementById('formKm').value = car.km;
   document.getElementById('formTrans').value = car.transmission;
   document.getElementById('formFuel').value = car.fuel;
@@ -282,6 +284,9 @@ async function handleVehicleSubmit(event) {
     return;
   }
 
+  const fipePriceInput = document.getElementById('formFipePrice');
+  const fipePrice = fipePriceInput && fipePriceInput.value ? parseFloat(fipePriceInput.value) : Math.round(price * 0.98);
+
   const optionalsRaw = document.getElementById('formOptionals').value;
   const optionals = optionalsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
@@ -293,20 +298,20 @@ async function handleVehicleSubmit(event) {
     if (carIndex !== -1) {
       vehicles[carIndex] = {
         ...vehicles[carIndex],
-        make, model, year, yearNum, price, km, kmNum,
+        make, model, year, yearNum, price, fipePrice, km, kmNum,
         transmission, fuel, bodyType, color, badge, img, optionals
       };
     }
   } else {
-    const newId = vehicles.length > 0 ? Math.max(...vehicles.map(v => v.id)) + 1 : 1;
-    vehicles.unshift({
-      id: newId,
-      make, model, year, yearNum, price, km, kmNum,
+    const newCar = {
+      id: Date.now(),
+      make, model, year, yearNum, price, fipePrice, km, kmNum,
       transmission, fuel, bodyType, color, badge,
-      badgeType: badge === 'Destaque' ? 'badge-red' : 'badge-dark',
+      badgeType: 'badge-red',
       status: 'available',
       img, optionals
-    });
+    };
+    vehicles.unshift(newCar);
   }
 
   renderAdminTable();

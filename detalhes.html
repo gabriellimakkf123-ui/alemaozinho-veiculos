@@ -669,12 +669,13 @@
       document.getElementById('detailFuel').innerText = car.fuel;
       document.getElementById('detailColor').innerText = car.color || 'Prata';
 
-      // 2 Columns Only: Anunciado vs FIPE (Exact FIPE calculation)
+      // 2 Columns Only: Anunciado vs FIPE Oficial Real
       const formattedPrice = `R$ ${car.price.toLocaleString('pt-BR')}`;
-      const fipeVal = Math.round(car.price * 1.07);
+      const realFipePrice = car.fipePrice ? car.fipePrice : 96840;
+      const formattedFipe = `R$ ${realFipePrice.toLocaleString('pt-BR')}`;
 
       document.getElementById('detailComparePrice').innerText = formattedPrice;
-      document.getElementById('detailCompareFipe').innerText = `R$ ${fipeVal.toLocaleString('pt-BR')}`;
+      document.getElementById('detailCompareFipe').innerText = formattedFipe;
       document.getElementById('detailSidePrice').innerText = formattedPrice;
 
       // Optionals Grid
