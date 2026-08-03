@@ -637,13 +637,17 @@
       const mainImg = car.img || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
       document.getElementById('detailMainImg').src = mainImg;
 
-      // Thumbnails (only rendered if multiple images exist)
+      // Thumbnails (ONLY rendered if multiple real car images exist!)
       const galleryThumbs = document.getElementById('galleryThumbStrip');
-      const carGallery = (car.gallery && car.gallery.length > 1) ? car.gallery : [mainImg, 'assets/storefront.webp'];
-      
-      galleryThumbs.innerHTML = carGallery.map((imgUrl, idx) => `
-        <img src="${imgUrl}" class="wm-thumb-item ${idx === 0 ? 'active' : ''}" onclick="switchMainImage('${imgUrl}', this)" alt="Foto ${idx + 1}">
-      `).join('');
+      if (car.gallery && car.gallery.length > 1) {
+        galleryThumbs.style.display = 'flex';
+        galleryThumbs.innerHTML = car.gallery.map((imgUrl, idx) => `
+          <img src="${imgUrl}" class="wm-thumb-item ${idx === 0 ? 'active' : ''}" onclick="switchMainImage('${imgUrl}', this)" alt="Foto ${idx + 1}">
+        `).join('');
+      } else {
+        galleryThumbs.style.display = 'none';
+        galleryThumbs.innerHTML = '';
+      }
 
       // Title & Centered Header Layout
       document.getElementById('detailTitle').innerText = `${car.make} ${car.model}`;
