@@ -1,5 +1,6 @@
 /* ==========================================================================
    ALEMÃOZINHO VEÍCULOS - INTELIGÊNCIA ARTIFICIAL DE VENDAS VIRTUAL (AI SALES BOT)
+   BANCO DE RESPOSTAS AVANÇADO E TREINAMENTO DE LINGUAGEM NATURAL
    ========================================================================== */
 
 const AI_BOT_CONFIG = {
@@ -23,7 +24,7 @@ class AlemaozinhoAIChat {
     this.injectWidgetHTML();
     this.bindEvents();
     
-    // Load live inventory
+    // Load live inventory from Cloud DB or local storage
     if (typeof getCloudVehicles === 'function') {
       this.vehiclesData = await getCloudVehicles();
     } else if (typeof vehicles !== 'undefined') {
@@ -33,8 +34,8 @@ class AlemaozinhoAIChat {
     // Initial Welcome Message
     this.addBotMessage(
       `Olá! 👋 Sou o **Assistente Virtual da Alemãozinho Veículos**!\n\n` +
-      `Estou aqui para te ajudar a encontrar o carro ideal, simular financiamentos ou agendar uma visita na nossa loja em Pedregulho - SP.\n\n` +
-      `Como posso te ajudar hoje? (Ex: *"Quais SUVs vocês têm?"*, *"Aceitam troca?"*, *"Ver carros até R$ 100 mil"*`
+      `Estou aqui para tirar qualquer dúvida, te ajudar a escolher o carro ideal, simular financiamentos ou agendar seu Test Drive em Pedregulho - SP.\n\n` +
+      `Como posso te ajudar hoje? (Ex: *"Quais SUVs vocês têm?"*, *"Aceitam consórcio?"*, *"Entregam em Franca?"*)`
     );
   }
 
@@ -42,7 +43,7 @@ class AlemaozinhoAIChat {
     const chatContainer = document.createElement('div');
     chatContainer.id = 'alemaozinhoAiChatContainer';
     chatContainer.innerHTML = `
-      <!-- Floating Trigger Button -->
+      <!-- Floating Trigger Button (Positioned on the Left - No Overlap) -->
       <button id="aiChatTrigger" class="ai-chat-trigger" title="Falar com Assistente Virtual IA">
         <div class="ai-trigger-badge">
           <span class="ai-pulse-dot"></span>
@@ -78,13 +79,14 @@ class AlemaozinhoAIChat {
         <div class="ai-quick-chips">
           <button onclick="window.alemaozinhoAi.sendQuickPrompt('Ver todos os SUVs disponíveis')">🚙 SUVs em Estoque</button>
           <button onclick="window.alemaozinhoAi.sendQuickPrompt('Carros automáticos')">⚙️ Automáticos</button>
-          <button onclick="window.alemaozinhoAi.sendQuickPrompt('Como funciona a troca?')">🔄 Avaliar Troca</button>
+          <button onclick="window.alemaozinhoAi.sendQuickPrompt('Aceitam consórcio ou troca?')">🔄 Troca & Consórcio</button>
+          <button onclick="window.alemaozinhoAi.sendQuickPrompt('Entregam em Franca e região?')">🚚 Entregas na Região</button>
           <button onclick="window.alemaozinhoAi.sendQuickPrompt('Horário e endereço da loja')">📍 Onde Fica a Loja?</button>
         </div>
 
-        <!-- Input Row -->
+        <!-- Input Form -->
         <form id="aiChatForm" class="ai-chat-form" onsubmit="window.alemaozinhoAi.handleSubmit(event)">
-          <input type="text" id="aiChatInput" placeholder="Digite sua dúvida ou o carro que procura..." autocomplete="off">
+          <input type="text" id="aiChatInput" placeholder="Pergunte qualquer coisa sobre nossos carros..." autocomplete="off">
           <button type="submit" class="ai-chat-send-btn"><i class="fas fa-paper-plane"></i></button>
         </form>
       </div>
@@ -133,7 +135,7 @@ class AlemaozinhoAIChat {
       this.hideTypingIndicator();
       const botResponse = this.generateSmartResponse(userText);
       this.addBotMessage(botResponse);
-    }, 700);
+    }, 600);
   }
 
   addUserMessage(text) {
@@ -159,7 +161,7 @@ class AlemaozinhoAIChat {
     const typingDiv = document.createElement('div');
     typingDiv.id = 'aiTypingIndicator';
     typingDiv.className = 'ai-msg ai-msg-bot ai-typing';
-    typingDiv.innerHTML = `<span>.</span><span>.</span><span>.</span> Alemãozinho IA está digitando...`;
+    typingDiv.innerHTML = `<span>.</span><span>.</span><span>.</span> Alemãozinho IA está analisando...`;
     msgBox.appendChild(typingDiv);
     this.scrollToBottom();
   }
@@ -174,57 +176,82 @@ class AlemaozinhoAIChat {
     msgBox.scrollTop = msgBox.scrollHeight;
   }
 
-  /* AI INTEL SALES ENGINE LOGIC */
+  /* ADVANCED NATURAL LANGUAGE AI KNOWLEDGE BASE & RESPONSE ENGINE */
   generateSmartResponse(query) {
-    const lower = query.toLowerCase();
+    const q = query.toLowerCase();
 
-    // 1. Specific Vehicle Inquiry (Tracker, Corolla, Compass, Toro, Polo, etc.)
-    if (lower.includes('tracker')) {
+    // 1. SPECIFIC VEHICLE LOOKUPS (Tracker, Corolla, Compass, Toro, Polo)
+    if (q.includes('tracker')) {
       const tracker = this.vehiclesData.find(v => v.model.toLowerCase().includes('tracker')) || this.vehiclesData[0];
-      return `Temos o incrível **${tracker.make} ${tracker.model}** (${tracker.year}) no estoque!\n\n` +
+      return `Temos o excelente **${tracker.make} ${tracker.model}** (${tracker.year}) no estoque!\n\n` +
              `💰 **Preço:** R$ ${tracker.price.toLocaleString('pt-BR')}\n` +
+             `📊 **Tabela FIPE Oficial:** R$ ${(tracker.fipePrice || 96840).toLocaleString('pt-BR')}\n` +
              `🛣️ **KM:** ${tracker.km}\n` +
              `⚙️ **Câmbio:** ${tracker.transmission}\n` +
-             `🛡️ **Garantia:** Laudo Cautelar Aprovado & Procedência\n\n` +
+             `🛡️ **Garantia:** Laudo Cautelar Aprovado\n\n` +
              `<a href="detalhes.html?id=${tracker.id}" class="ai-link-btn"><i class="fas fa-eye"></i> Ver Ficha Técnica Webmotors</a>` +
-             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Vim%20pelo%20Chat%20IA%20e%20quero%20saber%20mais%20do%20Tracker" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Falar com Alexandre no WhatsApp</a>`;
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Vim%20pelo%20Chat%20IA%20e%20tenho%20interesse%20no%20Chevrolet%20Tracker" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Falar com Alexandre no WhatsApp</a>`;
     }
 
-    if (lower.includes('corolla')) {
+    if (q.includes('corolla')) {
       const corolla = this.vehiclesData.find(v => v.model.toLowerCase().includes('corolla'));
       if (corolla) {
-        return `Temos o sensacional **${corolla.make} ${corolla.model}** (${corolla.year}) em estoque!\n\n` +
+        return `Temos o impecável **${corolla.make} ${corolla.model}** (${corolla.year}) disponível!\n\n` +
                `💰 **Preço:** R$ ${corolla.price.toLocaleString('pt-BR')}\n` +
+               `📊 **Tabela FIPE:** R$ ${(corolla.fipePrice || 114500).toLocaleString('pt-BR')}\n` +
                `🛣️ **KM:** ${corolla.km}\n\n` +
                `<a href="detalhes.html?id=${corolla.id}" class="ai-link-btn"><i class="fas fa-eye"></i> Ver Ficha Técnica</a>` +
                `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Corolla" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Negociar no WhatsApp</a>`;
       }
     }
 
-    if (lower.includes('suv') || lower.includes('suvs')) {
+    if (q.includes('compass')) {
+      const compass = this.vehiclesData.find(v => v.model.toLowerCase().includes('compass'));
+      if (compass) {
+        return `Temos o sofisticado **${compass.make} ${compass.model}** (${compass.year})!\n\n` +
+               `💰 **Preço:** R$ ${compass.price.toLocaleString('pt-BR')}\n` +
+               `🛣️ **KM:** ${compass.km}\n\n` +
+               `<a href="detalhes.html?id=${compass.id}" class="ai-link-btn"><i class="fas fa-eye"></i> Ver Ficha Técnica</a>` +
+               `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Jeep%20Compass" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</a>`;
+      }
+    }
+
+    if (q.includes('toro') || q.includes('picape') || q.includes('pickup')) {
+      const toro = this.vehiclesData.find(v => v.model.toLowerCase().includes('toro'));
+      if (toro) {
+        return `Temos a robusta **${toro.make} ${toro.model}** (${toro.year})!\n\n` +
+               `💰 **Preço:** R$ ${toro.price.toLocaleString('pt-BR')}\n` +
+               `🛣️ **KM:** ${toro.km}\n\n` +
+               `<a href="detalhes.html?id=${toro.id}" class="ai-link-btn"><i class="fas fa-eye"></i> Ver Ficha Técnica</a>` +
+               `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Tenho%20interesse%20na%20Fiat%20Toro" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Negociar no WhatsApp</a>`;
+      }
+    }
+
+    // 2. CATEGORY / BODY TYPE LOOKUPS (SUVs, Automáticos, Hatchs, Sedans)
+    if (q.includes('suv') || q.includes('suvs') || q.includes('utilitario')) {
       const suvs = this.vehiclesData.filter(v => v.bodyType === 'SUV');
-      let reply = `Temos **${suvs.length} excelentes SUVs** prontos para entrega imediata:\n\n`;
+      let reply = `Temos **${suvs.length} excelentes SUVs** revisados com procedência no estoque:\n\n`;
       suvs.forEach(s => {
         reply += `🚘 **${s.make} ${s.model}** (${s.year}) - R$ ${s.price.toLocaleString('pt-BR')}\n`;
       });
-      reply += `\n<a href="estoque.html" class="ai-link-btn"><i class="fas fa-car"></i> Ver Todos os SUVs no Estoque</a>`;
+      reply += `\n<a href="estoque.html" class="ai-link-btn"><i class="fas fa-car"></i> Ver Todos os SUVs em Estoque</a>`;
       return reply;
     }
 
-    if (lower.includes('automático') || lower.includes('automatico') || lower.includes('automatica')) {
+    if (q.includes('automático') || q.includes('automatico') || q.includes('automatica')) {
       const autos = this.vehiclesData.filter(v => v.transmission === 'Automático');
-      let reply = `Temos **${autos.length} veículos com câmbio automático** no estoque:\n\n`;
-      autos.slice(0, 3).forEach(a => {
+      let reply = `Temos **${autos.length} veículos com câmbio automático** prontos para rodar:\n\n`;
+      autos.slice(0, 4).forEach(a => {
         reply += `🚗 **${a.make} ${a.model}** (${a.year}) - R$ ${a.price.toLocaleString('pt-BR')}\n`;
       });
       reply += `\n<a href="estoque.html" class="ai-link-btn"><i class="fas fa-filter"></i> Filtrar Estoque Completo</a>`;
       return reply;
     }
 
-    if (lower.includes('100 mil') || lower.includes('100k') || lower.includes('barato') || lower.includes('ate 100')) {
+    if (q.includes('100 mil') || q.includes('100k') || q.includes('ate 100') || q.includes('barato') || q.includes('mais barato')) {
       const under100 = this.vehiclesData.filter(v => v.price <= 100000);
       if (under100.length > 0) {
-        let reply = `Encontrei veículos incríveis até R$ 100.000:\n\n`;
+        let reply = `Encontrei ótimas opções até R$ 100.000 no estoque:\n\n`;
         under100.forEach(u => {
           reply += `✨ **${u.make} ${u.model}** (${u.year}) - R$ ${u.price.toLocaleString('pt-BR')}\n`;
         });
@@ -232,34 +259,90 @@ class AlemaozinhoAIChat {
       }
     }
 
-    // 2. Financing & Installment Inquiry
-    if (lower.includes('financiamento') || lower.includes('parcela') || lower.includes('simular') || lower.includes('entrada')) {
-      return `Trabalhamos com os melhores bancos de financiamento do mercado, incluindo **Santander Financiamentos**, com taxas exclusivas!\n\n` +
-             `💡 **Exemplo de Simulação (30% Entrada):**\n` +
-             `• **Entrada:** R$ 29.400\n` +
-             `• **Saldo:** 48x de R$ 1.950/mês*\n\n` +
-             `Deseja simular o seu CPF sem compromisso direto com o **Alexandre Mancini**?\n\n` +
-             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Vim%20pelo%20Chat%20IA%20e%20gostaria%20de%20SIMULAR%20UM%20FINANCIAMENTO" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Simular Agora no WhatsApp</a>`;
+    // 3. REGIONAL DELIVERIES & CITIES (Franca, Rifaina, Cristais Paulista, Batatais, Ribeirão Preto, Região)
+    if (q.includes('entrega') || q.includes('entregam') || q.includes('frete') || q.includes('franca') || q.includes('rifaina') || q.includes('regiao') || q.includes('região') || q.includes('cidade') || q.includes('buscar')) {
+      return `🚚 **Sim! Entregamos em toda a região de Pedregulho, Franca, Rifaina, Cristais Paulista e arredores!**\n\n` +
+             `Você pode fazer a negociação 100% online ou vir até a nossa loja em Pedregulho. Se preferir, levamos o carro até você ou te buscamos na nossa concessionária com toda a segurança!\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Gostaria%20de%20saber%20sobre%20a%20ENTREGA%20do%20ve%C3%ADculo%20na%20minha%20cidade" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Combinar Entrega no WhatsApp</a>`;
     }
 
-    // 3. Trade-in / Sell Inquiry
-    if (lower.includes('troca') || lower.includes('trocar') || lower.includes('vender') || lower.includes('avaliar')) {
-      return `Sim! **Aceitamos o seu veículo seminovo na troca** com a melhor avaliação da região de Pedregulho - SP!\n\n` +
-             `Para avaliarmos o seu carro hoje mesmo, envie o modelo, ano e quilometragem para a nossa equipe:\n\n` +
-             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Gostaria%20de%20AVALIAR%20MEU%20CARRO%20NA%20TROCA" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Enviar Dados do Meu Carro</a>`;
+    // 4. CONSÓRCIO & CARTA DE CRÉDITO
+    if (q.includes('consórcio') || q.includes('consorcio') || q.includes('carta') || q.includes('contemplada') || q.includes('credito') || q.includes('crédito')) {
+      return `📜 **Sim! Aceitamos cartas de crédito contempladas de qualquer consórcio!**\n\n` +
+             `Trabalhamos com Bradesco, Itaú, Porto Seguro, Santander, Caixa, Banco do Brasil e administradoras independentes. Cuidamos de todo o processo de faturamento e transferência para você acelerar de carro novo!\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Tenho%20uma%20CARTA%20DE%20CR%C3%89DITO%20de%20Cons%C3%B3rcio%20e%20quero%20comprar%20um%20carro" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Faturar Carta de Crédito</a>`;
     }
 
-    // 4. Store Address & Working Hours Inquiry
-    if (lower.includes('onde') || lower.includes('endereço') || lower.includes('endereco') || lower.includes('horario') || lower.includes('loja') || lower.includes('localização')) {
-      return `📍 **Endereço da Loja:**\n${AI_BOT_CONFIG.address}\n\n` +
-             `⏰ **Horário de Atendimento:**\n${AI_BOT_CONFIG.hours}\n\n` +
-             `📱 **WhatsApp Principal:** ${AI_BOT_CONFIG.phone}\n\n` +
-             `<a href="https://maps.google.com/?q=${encodeURIComponent(AI_BOT_CONFIG.address)}" target="_blank" class="ai-link-btn"><i class="fas fa-map-marked-alt"></i> Ver no Google Maps</a>`;
+    // 5. GARANTIA, LAUDO CAUTELAR & PROCEDÊNCIA
+    if (q.includes('garantia') || q.includes('laudo') || q.includes('cautelar') || q.includes('revisado') || q.includes('revisão') || q.includes('revisao') || q.includes('procedencia') || q.includes('procedência') || q.includes('seguro') || q.includes('confiavel') || q.includes('confiável')) {
+      return `🛡️ **Tranquilidade Absoluta e Transparência:**\n\n` +
+             `• **Laudo Cautelar Aprovado:** 100% dos nossos veículos passam por perícia técnica rigorosa;\n` +
+             `• **Garantia de Procedência:** Checagem de histórico de sinistro, leilão e documentação;\n` +
+             `• **Revisados:** Carros prontos para viagem com revisão mecânica em dia.\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Gostaria%20de%20ver%20o%20laudo%20cautelar%20de%20um%20ve%C3%ADculo" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Solicitar Laudo no WhatsApp</a>`;
     }
 
-    // Default Helpful Sales Response
-    return `Tenho acesso em tempo real a todo o nosso estoque de veículos revisados e com garantia!\n\n` +
-           `Você pode me perguntar sobre modelos específicos, valores de financiamento ou agendar uma visita com o **Alexandre** na nossa loja.\n\n` +
+    // 6. CARTÃO DE CRÉDITO & PARCELAMENTO DE ENTRADA
+    if (q.includes('cartão') || q.includes('cartao') || q.includes('maquininha') || q.includes('maquina') || q.includes('parcelar entrada')) {
+      return `💳 **Facilitamos sua compra no Cartão de Crédito!**\n\n` +
+             `Você pode parcelar a entrada do seu veículo (ou o valor total) em **até 18x no cartão de crédito** com as melhores condições da região!\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Quero%20saber%20as%20condi%C3%A7%C3%B5es%20de%20parcelamento%20no%20CART%C3%83O%20DE%20CR%C3%89DITO" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Consultar Parcelamento no Cartão</a>`;
+    }
+
+    // 7. TEST DRIVE & VISITAS NA LOJA
+    if (q.includes('test') || q.includes('drive') || q.includes('ver') || q.includes('visita') || q.includes('agendar') || q.includes('andar') || q.includes('experimentar') || q.includes('olhar')) {
+      return `☕ **Venha tomar um café conosco e fazer um Test Drive!**\n\n` +
+             `📍 **Endereço:** ${AI_BOT_CONFIG.address}\n` +
+             `⏰ **Horário:** ${AI_BOT_CONFIG.hours}\n\n` +
+             `Gostaria de agendar um horário com o **Alexandre Mancini** para deixar o carro pronto para seu Test Drive?\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Gostaria%20de%20AGENDAR%20UM%20TEST%20DRIVE" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Agendar Test Drive no WhatsApp</a>`;
+    }
+
+    // 8. FINANCIAMENTO, APURAÇÃO DE CPF & SANTANDER
+    if (q.includes('financiamento') || q.includes('parcela') || q.includes('simular') || q.includes('entrada') || q.includes('juros') || q.includes('santander') || q.includes('banco') || q.includes('sem entrada') || q.includes('autonomo') || q.includes('autônomo') || q.includes('cpf')) {
+      return `🏦 **Financiamento Rápido com Aprovação Descomplicada!**\n\n` +
+             `Trabalhamos com o **Santander Financiamentos** e os maiores bancos do Brasil. Aprovamos para autônomos, aposentados e sem comprovação de renda formal!\n\n` +
+             `💡 **Exemplo de Parcela (30% Entrada):**\n` +
+             `• Saldo em até 48x ou 60x fixas no carnê/débito.\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Quero%20SIMULAR%20MEU%20FINANCIAMENTO%20no%20Santander" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Simular Agora no WhatsApp</a>`;
+    }
+
+    // 9. AVALIAÇÃO DE TROCA & VENDA DO CARRO À VISTA
+    if (q.includes('troca') || q.includes('trocar') || q.includes('vender') || q.includes('avaliar') || q.includes('compram') || q.includes('dinheiro')) {
+      return `🔄 **Aceitamos seu Seminovo na Troca com Avaliação Justa!**\n\n` +
+             `Também **compramos seu veículo à vista** com pagamento no Pix na hora, ou vendemos em consignação no nosso showroom.\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Gostaria%20de%20AVALIAR%20MEU%20VE%C3%8DCULO%20para%20troca%2Fvenda" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Enviar Fotos do Meu Carro no WhatsApp</a>`;
+    }
+
+    // 10. DESCONTO / NEGOCIAÇÃO À VISTA
+    if (q.includes('desconto') || q.includes('à vista') || q.includes('a vista') || q.includes('menor preço') || q.includes('menor preco') || q.includes('proposta') || q.includes('oferta') || q.includes('choro')) {
+      return `🤝 **Temos margem para ótimas negociações no pagamento à vista ou com boa entrada!**\n\n` +
+             `Fale diretamente com o proprietário **Alexandre Mancini** para alinhar sua proposta:\n\n` +
+             `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Tenho%20uma%20PROPOSTA%20%C0%20VISTA%20para%20um%20ve%C3%ADculo" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Enviar Proposta para Alexandre</a>`;
+    }
+
+    // 11. ENDEREÇO & CONTATO
+    if (q.includes('onde') || q.includes('endereço') || q.includes('endereco') || q.includes('horario') || q.includes('horário') || q.includes('loja') || q.includes('localização') || q.includes('localizacao') || q.includes('telefone') || q.includes('contato')) {
+      return `📍 **Alemãozinho Veículos / Alemãozinho Negócios**\n\n` +
+             `🏢 **Endereço:** ${AI_BOT_CONFIG.address}\n` +
+             `⏰ **Horário:** ${AI_BOT_CONFIG.hours}\n` +
+             `📱 **WhatsApp:** ${AI_BOT_CONFIG.phone}\n\n` +
+             `<a href="https://maps.google.com/?q=${encodeURIComponent(AI_BOT_CONFIG.address)}" target="_blank" class="ai-link-btn"><i class="fas fa-map-marked-alt"></i> Abrir no Google Maps</a>`;
+    }
+
+    // 12. SAUDAÇÕES & AGRADECIMENTOS (Obrigado, Valeu, Bom dia, Boa tarde, Olá, Oi)
+    if (q.includes('obrigad') || q.includes('valeu') || q.includes('show') || q.includes('top') || q.includes('ótimo') || q.includes('otimo')) {
+      return `Por nada! 😊 Estou sempre à disposição para te ajudar. Fique à vontade para perguntar sobre qualquer veículo do estoque!\n\n` +
+             `<a href="estoque.html" class="ai-link-btn"><i class="fas fa-car"></i> Explorar Estoque Completo</a>`;
+    }
+
+    if (q.includes('bom dia') || q.includes('boa tarde') || q.includes('boa noite') || q.includes('ola') || q.includes('olá') || q.includes('oi')) {
+      return `Olá! Seja muito bem-vindo à **Alemãozinho Veículos**! 👋\n\nComo posso te ajudar hoje? Você pode me perguntar sobre carros em estoque, financiamento, trocas ou agendamento de visitas!`;
+    }
+
+    // DEFAULT HELPFUL SALES FALLBACK
+    return `Estou conectado em tempo real a todo o nosso estoque em Pedregulho - SP!\n\n` +
+           `Você pode me perguntar sobre **modelos específicos (Tracker, Corolla, SUVs)**, **condições de financiamento**, **aceitação de trocas** ou pedir o endereço da loja.\n\n` +
            `<a href="https://wa.me/${AI_BOT_CONFIG.whatsappNum}?text=Ol%C3%A1!%20Estou%20no%20site%20e%20gostaria%20de%20atendimento" target="_blank" class="ai-wa-btn"><i class="fab fa-whatsapp"></i> Falar com Alexandre no WhatsApp</a>`;
   }
 }
