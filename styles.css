@@ -1099,7 +1099,8 @@ footer {
 .ai-chat-trigger {
   position: fixed;
   bottom: 25px;
-  right: 25px;
+  left: 25px;
+  right: auto;
   z-index: 1500;
   background: #10151D;
   border: 2px solid #E50914;
@@ -1162,11 +1163,12 @@ footer {
   white-space: nowrap;
 }
 
-/* Chat Modal Window */
+/* Chat Modal Window (Positioned on the Left) */
 .ai-chat-window {
   position: fixed;
   bottom: 95px;
-  right: 25px;
+  left: 25px;
+  right: auto;
   z-index: 1500;
   width: 380px;
   max-width: calc(100vw - 40px);
