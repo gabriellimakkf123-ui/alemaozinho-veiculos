@@ -3,10 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM & Gestão Financeira | Alemãozinho Veículos</title>
+  <title>CRM, Follow-up & Gestão Financeira | Alemãozinho Veículos</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=10.0">
+  <link rel="stylesheet" href="styles.css?v=27.0">
+
+  <style>
+    /* CRM FOLLOW-UP & LEAD RECOVERY SPECIFIC STYLES */
+    .crm-status-pill {
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .crm-status-new { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .crm-status-follow { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .crm-status-cold { background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .crm-status-sold { background: rgba(37, 211, 102, 0.15); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.4); }
+
+    .crm-action-btn-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .crm-btn-sm {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s ease;
+    }
+
+    .crm-btn-wa { background: #25D366; color: #000; font-weight: 700; }
+    .crm-btn-wa:hover { background: #20BA5A; }
+    
+    .crm-btn-edit { background: #1E293B; color: #FFF; border-color: rgba(255,255,255,0.15); }
+    .crm-btn-edit:hover { background: #334155; }
+
+    .crm-btn-recover { background: #E50914; color: #FFF; }
+    .crm-btn-recover:hover { background: #B90710; }
+
+    .crm-notes-box {
+      font-size: 0.75rem;
+      color: #94A3B8;
+      background: #0F141C;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      margin-top: 0.35rem;
+      border-left: 2px solid var(--primary);
+    }
+  </style>
 </head>
 <body id="crmPage">
 
@@ -16,7 +73,7 @@
       <div class="login-icon-box" style="background: rgba(229,9,20,0.15); border-color: rgba(229,9,20,0.4);">
         <i class="fas fa-user-tie" style="color:var(--primary);"></i>
       </div>
-      <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">CRM & Financeiro <span class="gradient-text-red">do Proprietário</span></h2>
+      <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">CRM & Gestão Financeira <span class="gradient-text-red">do Proprietário</span></h2>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">
         Acesso restrito para diretoria, gerência e setor financeiro da Alemãozinho Veículos.
       </p>
@@ -48,7 +105,7 @@
             <img src="assets/logomarca.png" alt="Alemãozinho Veículos Logo" class="brand-img-logo">
           </div>
           <div style="border-left: 1px solid var(--border-light); padding-left: 1rem;">
-            <h1 style="font-size: 1.5rem;">CRM & Gestão Financeira <span class="gradient-text-red">| Diretoria</span></h1>
+            <h1 style="font-size: 1.5rem;">CRM & Follow-up de Vendas <span class="gradient-text-red">| Diretoria</span></h1>
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.25rem;">
               <span style="font-size: 0.85rem; color: var(--accent-gold); font-weight: 600;">
                 <i class="fas fa-crown"></i> Painel Executivo do Proprietário
@@ -60,9 +117,12 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 1rem; align-items: center;">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <button onclick="openNewLeadModal()" class="btn-primary" style="font-size: 0.85rem;">
+            <i class="fas fa-user-plus"></i> + Novo Lead / Cliente
+          </button>
           <a href="admin.html" target="_blank" class="btn-outline" style="font-size: 0.85rem;">
-            <i class="fas fa-car"></i> Painel do Dealer (Estoque) ↗
+            <i class="fas fa-car"></i> Painel do Dealer ↗
           </a>
           <button onclick="handleCrmLogout()" class="btn-outline" style="font-size: 0.85rem; border-color: #DC2626; color: #DC2626;">
             <i class="fas fa-sign-out-alt"></i> Sair
@@ -70,51 +130,60 @@
         </div>
       </div>
 
-      <!-- Financial Metrics Cards -->
+      <!-- Financial & Lead Recovery Metrics Cards -->
       <div class="admin-stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon" style="color:var(--accent-green); background:rgba(37,211,102,0.15);"><i class="fas fa-dollar-sign"></i></div>
-          <div>
-            <div id="statReceitaBruta" class="stat-val">R$ 589.600</div>
-            <div class="stat-label">Valor Total de Vendas em Estoque</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon" style="color:var(--accent-gold); background:rgba(245,158,11,0.15);"><i class="fas fa-chart-line"></i></div>
-          <div>
-            <div id="statLucroEstimado" class="stat-val">R$ 72.400</div>
-            <div class="stat-label">Lucro Bruto Projetado</div>
-          </div>
-        </div>
-
         <div class="stat-card">
           <div class="stat-icon" style="color:#3B82F6; background:rgba(59,130,246,0.15);"><i class="fas fa-users-cog"></i></div>
           <div>
-            <div id="statTotalLeads" class="stat-val">8 Leads</div>
-            <div class="stat-label">Propostas de Financiamento</div>
+            <div id="statTotalLeads" class="stat-val">0</div>
+            <div class="stat-label">Total de Leads Cadastrados</div>
           </div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon" style="color:var(--primary); background:rgba(229,9,20,0.15);"><i class="fas fa-percentage"></i></div>
+          <div class="stat-icon" style="color:var(--accent-gold); background:rgba(245,158,11,0.15);"><i class="fas fa-clock"></i></div>
           <div>
-            <div id="statTaxaConversao" class="stat-val">62.5%</div>
-            <div class="stat-label">Taxa de Conversão da Loja</div>
+            <div id="statPendingFollowups" class="stat-val">0</div>
+            <div class="stat-label">Follow-ups Pendentes</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="color:var(--primary); background:rgba(229,9,20,0.15);"><i class="fas fa-fire"></i></div>
+          <div>
+            <div id="statColdLeads" class="stat-val">0</div>
+            <div class="stat-label">Leads Frios para Resgate</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="color:var(--accent-green); background:rgba(37,211,102,0.15);"><i class="fas fa-check-double"></i></div>
+          <div>
+            <div id="statConcludedSales" class="stat-val">0</div>
+            <div class="stat-label">Vendas Concluídas</div>
           </div>
         </div>
       </div>
 
-      <!-- CRM Leads Pipeline Table -->
+      <!-- CRM Leads Pipeline & Recovery Table -->
       <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
-            <h3 style="font-size: 1.25rem;"><i class="fas fa-funnel-dollar" style="color:var(--primary)"></i> Funil de Propostas & Financiamentos (CRM)</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Acompanhe o status das simulações bancárias enviadas pelos clientes no site.</p>
+            <h3 style="font-size: 1.25rem;"><i class="fas fa-funnel-dollar" style="color:var(--primary)"></i> Funil de Vendas, Follow-up & Resgate de Leads (CRM)</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Gerencie todos os clientes interessados, agende datas de retorno e envie mensagens automáticas de resgate no WhatsApp.</p>
           </div>
-          <button onclick="renderCrmLeads()" class="btn-outline" style="font-size: 0.8rem;">
-            <i class="fas fa-sync"></i> Atualizar Leads
-          </button>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <select id="crmStatusFilter" class="select-custom" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onchange="renderCrmLeads()">
+              <option value="all">Todos os Status</option>
+              <option value="new">🔴 Novo Lead</option>
+              <option value="follow">🟡 Follow-up Agendado</option>
+              <option value="cold">🟣 Lead Frio (Resgatar)</option>
+              <option value="sold">🟢 Venda Fechada</option>
+            </select>
+            <button onclick="renderCrmLeads()" class="btn-outline" style="font-size: 0.8rem; padding: 0.4rem 0.9rem;">
+              <i class="fas fa-sync"></i> Atualizar
+            </button>
+          </div>
         </div>
 
         <div class="table-responsive">
@@ -122,44 +191,16 @@
             <thead>
               <tr>
                 <th>Data / Hora</th>
-                <th>Cliente</th>
+                <th>Cliente / Contato</th>
                 <th>Veículo Desejado</th>
-                <th>CPF</th>
-                <th>Entrada / Renda</th>
                 <th>Status do Lead</th>
-                <th>Ações</th>
+                <th>Data de Retorno (Follow-up)</th>
+                <th>Notas & Histórico</th>
+                <th>Ações de Venda & Resgate</th>
               </tr>
             </thead>
             <tbody id="crmLeadsTableBody">
-              <!-- Rendered by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Financial DRE / Expense Control Table -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <div>
-            <h3 style="font-size: 1.25rem;"><i class="fas fa-calculator" style="color:var(--primary)"></i> DRE & Margem de Lucro Real por Carro</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Controle os custos de preparação (funilaria, mecânica, laudo) e veja o lucro líquido exato de cada carro.</p>
-          </div>
-        </div>
-
-        <div class="table-responsive">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Veículo</th>
-                <th>Custo de Compra</th>
-                <th>Custos de Preparação</th>
-                <th>Preço de Venda</th>
-                <th>Lucro Líquido Real</th>
-                <th>Margem (%)</th>
-              </tr>
-            </thead>
-            <tbody id="crmFinancialTableBody">
-              <!-- Rendered by JS -->
+              <!-- Rendered dynamically -->
             </tbody>
           </table>
         </div>
@@ -168,16 +209,110 @@
     </div>
   </section>
 
+  <!-- Add / Edit Lead Modal -->
+  <div id="crmLeadModal" class="modal-overlay">
+    <div class="modal-container" style="max-width: 600px;">
+      <button onclick="closeCrmLeadModal()" class="modal-close"><i class="fas fa-times"></i></button>
+      <div style="padding: 2rem;">
+        <h2 id="leadModalTitle" style="font-size: 1.5rem; margin-bottom: 1.5rem;"><i class="fas fa-user-plus" style="color:var(--primary)"></i> Cadastrar Novo Lead / Cliente</h2>
+        
+        <form id="crmLeadForm" onsubmit="handleSaveLead(event)">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Nome do Cliente</label>
+            <input type="text" id="leadFormName" placeholder="Ex: João da Silva" class="input-custom" required>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Telefone / WhatsApp</label>
+              <input type="tel" id="leadFormPhone" placeholder="(16) 99999-9999" class="input-custom" required>
+            </div>
+            <div class="form-group">
+              <label>Veículo Desejado</label>
+              <input type="text" id="leadFormCar" placeholder="Ex: Chevrolet Tracker" class="input-custom" required>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Status do Lead</label>
+              <select id="leadFormStatus" class="select-custom" required>
+                <option value="new">🔴 Novo Lead (Aguardando Retorno)</option>
+                <option value="follow">🟡 Em Negociação (Follow-up)</option>
+                <option value="cold">🟣 Lead Frio (Necessita Resgate)</option>
+                <option value="sold">🟢 Venda Concluída!</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Data para Próximo Retorno</label>
+              <input type="date" id="leadFormFollowDate" class="input-custom">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label>Histórico do Atendimento / Observações</label>
+            <textarea id="leadFormNotes" placeholder="Ex: Cliente prefere cor branca, entrada de R$ 30k e 48x. Retornar na quinta-feira à tarde." class="input-custom" style="height: 90px; resize: vertical;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button type="button" onclick="closeCrmLeadModal()" class="btn-outline">Cancelar</button>
+            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Salvar Lead no CRM</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Recovery Template Selection Modal -->
+  <div id="crmRecoveryModal" class="modal-overlay">
+    <div class="modal-container" style="max-width: 550px;">
+      <button onclick="closeCrmRecoveryModal()" class="modal-close"><i class="fas fa-times"></i></button>
+      <div style="padding: 2rem;">
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.5rem;"><i class="fab fa-whatsapp" style="color:#25D366"></i> Resgate de Lead em 1-Clique</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Escolha o modelo de mensagem de venda ideal para resgatar este cliente:</p>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <button onclick="sendRecoveryTemplate(1)" class="btn-outline" style="text-align: left; justify-content: flex-start; padding: 1rem; border-color: rgba(37,211,102,0.4);">
+            <div>
+              <div style="font-weight: 800; color: #25D366; font-size: 0.95rem; margin-bottom: 0.25rem;">📩 Opção 1: Oferta Especial & Taxa Reduzida</div>
+              <div style="font-size: 0.8rem; color: #94A3B8;">"Olá [Nome]! Baixamos as taxas de financiamento para o [Carro] esta semana! Vamos aproveitar?"</div>
+            </div>
+          </button>
+
+          <button onclick="sendRecoveryTemplate(2)" class="btn-outline" style="text-align: left; justify-content: flex-start; padding: 1rem; border-color: rgba(229,9,20,0.4);">
+            <div>
+              <div style="font-weight: 800; color: var(--primary); font-size: 0.95rem; margin-bottom: 0.25rem;">🚀 Opção 2: Convite para Test Drive Presencial</div>
+              <div style="font-size: 0.8rem; color: #94A3B8;">"Olá [Nome]! O [Carro] está higienizado no nosso showroom em Pedregulho. Que tal vir tomar um café e testar hoje?"</div>
+            </div>
+          </button>
+
+          <button onclick="sendRecoveryTemplate(3)" class="btn-outline" style="text-align: left; justify-content: flex-start; padding: 1rem; border-color: rgba(245,158,11,0.4);">
+            <div>
+              <div style="font-weight: 800; color: var(--accent-gold); font-size: 0.95rem; margin-bottom: 0.25rem;">🔄 Opção 3: Super Avaliação no Seminovo na Troca</div>
+              <div style="font-size: 0.8rem; color: #94A3B8;">"Olá [Nome]! Estamos com alta procura e garantimos a melhor avaliação do seu seminovo na troca hoje!"</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Script DB and CRM Logic -->
-  <script src="db.js?v=10.0"></script>
+  <script src="db.js?v=27.0"></script>
+
   <script>
     const CRM_PIN = 'alemao-master-2026';
+    const CRM_STORAGE_KEY = 'alemaozinho_crm_leads_v2';
+    
+    let crmLeads = [];
+    let editingLeadId = null;
+    let selectedRecoveryLead = null;
 
-    const SAMPLE_LEADS = [
-      { id: 101, date: '30/07/2026 10:15', name: 'Alexandre Mancini', phone: '(16) 99215-0212', car: 'Chevrolet Tracker 1.0 Turbo LTZ', cpf: '***.458.912-**', renda: 'R$ 5.500', entrada: 'R$ 25.000', status: 'Aprovado Banco' },
-      { id: 102, date: '30/07/2026 09:40', name: 'Lucas Ferreira', phone: '(16) 99841-2010', car: 'Toyota Corolla 2.0 XEi', cpf: '***.129.840-**', renda: 'R$ 8.200', entrada: 'R$ 40.000', status: 'Em Análise' },
-      { id: 103, date: '29/07/2026 17:20', name: 'Mariana Souza', phone: '(16) 99123-5544', car: 'Jeep Compass 1.3 Turbo', cpf: '***.908.112-**', renda: 'R$ 11.000', entrada: 'R$ 50.000', status: 'Vendido / Entregue' },
-      { id: 104, date: '29/07/2026 14:05', name: 'Roberto Carlos', phone: '(16) 99777-1234', car: 'Fiat Toro 1.3 Turbo Volcano', cpf: '***.331.098-**', renda: 'R$ 6.800', entrada: 'R$ 30.000', status: 'Novo Lead' }
+    const INITIAL_LEADS = [
+      { id: 101, date: '02/08/2026 10:15', name: 'Alexandre Mancini', phone: '(16) 99215-0212', car: 'Chevrolet Tracker 1.0 Turbo LTZ', status: 'follow', followDate: '2026-08-05', notes: 'Interessado em entrada de 30% no Santander. Retornar quarta-feira.' },
+      { id: 102, date: '01/08/2026 14:40', name: 'Lucas Ferreira', phone: '(16) 99841-2010', car: 'Toyota Corolla 2.0 XEi', status: 'cold', followDate: '2026-08-03', notes: 'Procurava parcelas abaixo de R$ 2.000. Mandar opção de taxa reduzida.' },
+      { id: 103, date: '31/07/2026 17:20', name: 'Mariana Souza', phone: '(16) 99123-5544', car: 'Jeep Compass 1.3 Turbo', status: 'sold', followDate: '', notes: 'Venda concluída com sucesso! Carro entregue.' },
+      { id: 104, date: '30/07/2026 11:05', name: 'Roberto Carlos', phone: '(16) 99777-1234', car: 'Fiat Toro 1.3 Turbo Volcano', status: 'new', followDate: '2026-08-04', notes: 'Lead enviado via simulador do site.' }
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -185,8 +320,7 @@
       if (isAuth) {
         document.getElementById('crmLoginScreen').style.display = 'none';
         document.getElementById('crmDashboardScreen').style.display = 'block';
-        renderCrmLeads();
-        renderCrmFinancials();
+        loadCrmLeads();
       }
     });
 
@@ -199,8 +333,7 @@
         sessionStorage.setItem('crm_auth', 'true');
         document.getElementById('crmLoginScreen').style.display = 'none';
         document.getElementById('crmDashboardScreen').style.display = 'block';
-        renderCrmLeads();
-        renderCrmFinancials();
+        loadCrmLeads();
       } else {
         errorMsg.innerText = 'Senha Master incorreta. Tente novamente.';
         errorMsg.style.display = 'block';
@@ -212,64 +345,188 @@
       window.location.reload();
     }
 
+    function loadCrmLeads() {
+      const saved = localStorage.getItem(CRM_STORAGE_KEY);
+      if (saved) {
+        try { crmLeads = JSON.parse(saved); } catch(e) { crmLeads = INITIAL_LEADS; }
+      } else {
+        crmLeads = INITIAL_LEADS;
+      }
+      saveCrmLeads();
+      renderCrmLeads();
+      updateCrmStats();
+    }
+
+    function saveCrmLeads() {
+      localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(crmLeads));
+    }
+
+    function updateCrmStats() {
+      document.getElementById('statTotalLeads').innerText = crmLeads.length;
+      document.getElementById('statPendingFollowups').innerText = crmLeads.filter(l => l.status === 'follow' || l.status === 'new').length;
+      document.getElementById('statColdLeads').innerText = crmLeads.filter(l => l.status === 'cold').length;
+      document.getElementById('statConcludedSales').innerText = crmLeads.filter(l => l.status === 'sold').length;
+    }
+
     function renderCrmLeads() {
       const tbody = document.getElementById('crmLeadsTableBody');
+      const filter = document.getElementById('crmStatusFilter').value;
       if (!tbody) return;
 
-      tbody.innerHTML = SAMPLE_LEADS.map(lead => {
-        let badgeColor = '#3B82F6';
-        if (lead.status.includes('Aprovado') || lead.status.includes('Vendido')) badgeColor = '#25D366';
-        if (lead.status.includes('Novo')) badgeColor = '#EF4444';
+      let filtered = crmLeads;
+      if (filter !== 'all') {
+        filtered = crmLeads.filter(l => l.status === filter);
+      }
 
-        const waText = encodeURIComponent(`Olá ${lead.name}! Sou da diretoria da Alemãozinho Veículos sobre sua simulação do ${lead.car}.`);
-        const waUrl = `https://wa.me/55${lead.phone.replace(/\D/g,'')}?text=${waText}`;
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#94A3B8;">Nenhum lead encontrado neste filtro.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(lead => {
+        let statusBadge = '<span class="crm-status-pill crm-status-new">🔴 Novo Lead</span>';
+        if (lead.status === 'follow') statusBadge = '<span class="crm-status-pill crm-status-follow">🟡 Em Negociação</span>';
+        if (lead.status === 'cold') statusBadge = '<span class="crm-status-pill crm-status-cold">🟣 Lead Frio (Resgatar)</span>';
+        if (lead.status === 'sold') statusBadge = '<span class="crm-status-pill crm-status-sold">🟢 Venda Fechada!</span>';
+
+        const formattedFollowDate = lead.followDate ? new Date(lead.followDate + 'T00:00:00').toLocaleDateString('pt-BR') : 'Não agendado';
 
         return `
           <tr>
             <td style="font-size:0.8rem; color:var(--text-muted);">${lead.date}</td>
-            <td><strong>${lead.name}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${lead.phone}</span></td>
-            <td style="color:var(--primary); font-weight:600;">${lead.car}</td>
-            <td style="font-size:0.85rem;">${lead.cpf}</td>
-            <td style="font-size:0.85rem;">Entrada: ${lead.entrada}<br><span style="color:var(--text-muted);">Renda: ${lead.renda}</span></td>
             <td>
-              <span style="background:${badgeColor}22; color:${badgeColor}; border:1px solid ${badgeColor}55; padding:0.25rem 0.6rem; border-radius:20px; font-size:0.75rem; font-weight:600;">
-                ${lead.status}
-              </span>
+              <strong>${lead.name}</strong><br>
+              <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fab fa-whatsapp" style="color:#25D366"></i> ${lead.phone}</span>
+            </td>
+            <td style="color:var(--primary); font-weight:700;">${lead.car}</td>
+            <td>${statusBadge}</td>
+            <td style="font-size:0.85rem; font-weight:600; color:var(--accent-gold);">
+              <i class="fas fa-calendar-alt"></i> ${formattedFollowDate}
             </td>
             <td>
-              <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="font-size:0.75rem; padding:0.4rem 0.8rem;">
-                <i class="fab fa-whatsapp"></i> Atender
-              </a>
+              <div class="crm-notes-box">
+                ${lead.notes || 'Sem observações'}
+              </div>
+            </td>
+            <td>
+              <div class="crm-action-btn-group">
+                <button onclick="openCrmRecoveryModal(${lead.id})" class="crm-btn-sm crm-btn-wa" title="Enviar Mensagem de Venda / Resgate">
+                  <i class="fab fa-whatsapp"></i> Resgatar Lead
+                </button>
+                <button onclick="openEditLeadModal(${lead.id})" class="crm-btn-sm crm-btn-edit" title="Editar Status / Data">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deleteLead(${lead.id})" class="crm-btn-sm crm-btn-recover" title="Excluir Lead">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
         `;
       }).join('');
     }
 
-    async function renderCrmFinancials() {
-      const tbody = document.getElementById('crmFinancialTableBody');
-      if (!tbody) return;
+    function openNewLeadModal() {
+      editingLeadId = null;
+      document.getElementById('leadModalTitle').innerText = 'Cadastrar Novo Lead / Cliente';
+      document.getElementById('crmLeadForm').reset();
+      document.getElementById('crmLeadModal').classList.add('active');
+    }
 
-      const cloudVehicles = await getCloudVehicles();
-      if (!cloudVehicles) return;
+    function openEditLeadModal(id) {
+      const lead = crmLeads.find(l => l.id === id);
+      if (!lead) return;
 
-      tbody.innerHTML = cloudVehicles.map(car => {
-        const custoCompra = car.price * 0.85;
-        const preparacao = 2500;
-        const lucroLiquido = car.price - (custoCompra + preparacao);
-        const margem = ((lucroLiquido / car.price) * 100).toFixed(1);
+      editingLeadId = id;
+      document.getElementById('leadModalTitle').innerText = 'Editar Dados do Lead';
+      document.getElementById('leadFormName').value = lead.name;
+      document.getElementById('leadFormPhone').value = lead.phone;
+      document.getElementById('leadFormCar').value = lead.car;
+      document.getElementById('leadFormStatus').value = lead.status;
+      document.getElementById('leadFormFollowDate').value = lead.followDate || '';
+      document.getElementById('leadFormNotes').value = lead.notes || '';
 
-        return `
-          <tr>
-            <td><strong>${car.make} ${car.model}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${car.year}</span></td>
-            <td>R$ ${Math.round(custoCompra).toLocaleString('pt-BR')}</td>
-            <td style="color:var(--accent-gold);">R$ ${preparacao.toLocaleString('pt-BR')}</td>
-            <td style="font-weight:700;">R$ ${car.price.toLocaleString('pt-BR')}</td>
-            <td style="color:var(--accent-green); font-weight:800;">R$ ${Math.round(lucroLiquido).toLocaleString('pt-BR')}</td>
-            <td><span style="background:rgba(37,211,102,0.15); color:#25D366; padding:0.2rem 0.5rem; border-radius:12px; font-weight:700; font-size:0.8rem;">+${margem}%</span></td>
-          </tr>
-        `;
-      }).join('');
+      document.getElementById('crmLeadModal').classList.add('active');
+    }
+
+    function closeCrmLeadModal() {
+      document.getElementById('crmLeadModal').classList.remove('active');
+    }
+
+    function handleSaveLead(e) {
+      e.preventDefault();
+      const name = document.getElementById('leadFormName').value;
+      const phone = document.getElementById('leadFormPhone').value;
+      const car = document.getElementById('leadFormCar').value;
+      const status = document.getElementById('leadFormStatus').value;
+      const followDate = document.getElementById('leadFormFollowDate').value;
+      const notes = document.getElementById('leadFormNotes').value;
+
+      if (editingLeadId) {
+        const idx = crmLeads.findIndex(l => l.id === editingLeadId);
+        if (idx !== -1) {
+          crmLeads[idx] = { ...crmLeads[idx], name, phone, car, status, followDate, notes };
+        }
+      } else {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        crmLeads.unshift({
+          id: Date.now(),
+          date: dateStr,
+          name, phone, car, status, followDate, notes
+        });
+      }
+
+      saveCrmLeads();
+      renderCrmLeads();
+      updateCrmStats();
+      closeCrmLeadModal();
+    }
+
+    function deleteLead(id) {
+      if (confirm('Tem certeza que deseja remover este lead do CRM?')) {
+        crmLeads = crmLeads.filter(l => l.id !== id);
+        saveCrmLeads();
+        renderCrmLeads();
+        updateCrmStats();
+      }
+    }
+
+    /* LEAD RECOVERY WHATSAPP TEMPLATE ENGINE */
+    function openCrmRecoveryModal(id) {
+      selectedRecoveryLead = crmLeads.find(l => l.id === id);
+      if (selectedRecoveryLead) {
+        document.getElementById('crmRecoveryModal').classList.add('active');
+      }
+    }
+
+    function closeCrmRecoveryModal() {
+      document.getElementById('crmRecoveryModal').classList.remove('active');
+    }
+
+    function sendRecoveryTemplate(optionNumber) {
+      if (!selectedRecoveryLead) return;
+
+      const lead = selectedRecoveryLead;
+      const cleanPhone = '55' + lead.phone.replace(/\D/g, '');
+      let msg = '';
+
+      if (optionNumber === 1) {
+        msg = `Olá ${lead.name}, tudo bem? Sou o Alexandre da Alemãozinho Veículos!\n\n` +
+              `Passando para te avisar que conseguimos uma *condição especial com taxa reduzida* para o *${lead.car}* esta semana!\n\n` +
+              `Consegue dar uma olhada nas parcelas hoje?`;
+      } else if (optionNumber === 2) {
+        msg = `Olá ${lead.name}, tudo bem? Sou o Alexandre da Alemãozinho Veículos!\n\n` +
+              `O *${lead.car}* que você gostou está higienizado e pronto no nosso showroom na R. Joaquim Ferreira Coelho, 560 em Pedregulho - SP!\n\n` +
+              `Que tal passar aqui hoje para tomar um café e fazer um Test Drive?`;
+      } else if (optionNumber === 3) {
+        msg = `Olá ${lead.name}! Tudo bem?\n\n` +
+              `Estamos com alta procura no nosso estoque e cobrimos a avaliação do seu seminovo na troca pelo *${lead.car}*!\n\n` +
+              `Podemos avaliar o seu carro hoje sem compromisso?`;
+      }
+
+      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+      closeCrmRecoveryModal();
     }
   </script>
 </body>
