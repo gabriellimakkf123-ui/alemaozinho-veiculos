@@ -13,42 +13,69 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=24.0">
+  <link rel="stylesheet" href="styles.css?v=25.0">
 
   <style>
-    /* WEBMOTORS DETAIL PAGE SPECIFIC STYLES */
-    .wm-detail-body {
-      background: #F1F5F9;
-      color: #0F172A;
+    /* WEBMOTORS DETAIL PAGE SPECIFIC REFINEMENTS */
+    body {
+      background: #0B0E14;
+      color: #FFF;
     }
 
-    /* Gallery Banner */
-    .wm-gallery-container {
+    /* Single Photo Showcase Banner */
+    .wm-single-gallery-container {
+      background: #07090C;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .wm-main-photo-frame {
+      max-width: 900px;
+      margin: 0 auto;
       background: #000;
-      padding: 1rem 0;
-      position: relative;
+      border-radius: 16px;
       overflow: hidden;
-    }
-
-    .wm-gallery-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 0.5rem;
-      max-height: 420px;
-    }
-
-    .wm-gallery-main {
-      width: 100%;
-      height: 420px;
-      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      position: relative;
       cursor: pointer;
     }
 
-    .wm-gallery-sub {
+    .wm-main-photo-frame img {
       width: 100%;
-      height: 207px;
+      max-height: 480px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .wm-main-photo-frame:hover img {
+      transform: scale(1.02);
+    }
+
+    .wm-gallery-thumbs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .wm-thumb-item {
+      width: 80px;
+      height: 55px;
+      border-radius: 8px;
       object-fit: cover;
       cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.7;
+      transition: all 0.2s ease;
+    }
+
+    .wm-thumb-item.active, .wm-thumb-item:hover {
+      border-color: var(--primary);
+      opacity: 1;
     }
 
     /* Split Detail Layout */
@@ -61,28 +88,41 @@
     }
 
     .wm-card-box {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
+      background: #121720;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
       padding: 2rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    /* Vehicle Title & Key Specs */
+    /* Vehicle Title & Centered Alignment */
+    .wm-car-header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
     .wm-car-title-main {
       font-size: 2.2rem;
       font-weight: 900;
-      color: #0F172A;
+      color: #FFFFFF;
       text-transform: uppercase;
-      margin-bottom: 0.25rem;
+      line-height: 1.2;
     }
 
     .wm-car-version-sub {
       font-size: 0.95rem;
-      color: #64748B;
-      margin-bottom: 1.5rem;
+      color: #94A3B8;
       font-weight: 600;
+    }
+
+    .wm-badge-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
 
     .wm-specs-grid-wm {
@@ -90,7 +130,7 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem 1rem;
       padding-top: 1.25rem;
-      border-top: 1px solid #E2E8F0;
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
 
     .wm-spec-cell {
@@ -101,27 +141,29 @@
 
     .wm-spec-lbl {
       font-size: 0.75rem;
-      color: #64748B;
+      color: #94A3B8;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .wm-spec-val {
       font-size: 0.95rem;
-      color: #0F172A;
+      color: #FFFFFF;
       font-weight: 800;
     }
 
-    /* Price Comparison Box (Dark Webmotors Style) */
+    /* Price & FIPE Comparison Card (2 Columns Only: Anunciado vs FIPE) */
     .wm-price-compare-card {
-      background: #1E293B;
+      background: #18202C;
       color: #FFF;
-      border-radius: 12px;
-      padding: 1.75rem 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.75rem 2.5rem;
       margin-bottom: 1.5rem;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
     }
 
     .wm-compare-item {
@@ -131,14 +173,17 @@
     }
 
     .wm-compare-lbl {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #94A3B8;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     .wm-compare-val {
-      font-size: 1.6rem;
+      font-size: 2rem;
       font-weight: 900;
-      color: #FFF;
+      color: #FFFFFF;
     }
 
     /* Optionals Grid */
@@ -151,7 +196,7 @@
 
     .wm-optional-item {
       font-size: 0.88rem;
-      color: #334155;
+      color: #E2E8F0;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -160,53 +205,113 @@
 
     .wm-optional-item i {
       color: #E50914;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
     }
 
     /* Sticky Sidebar Form */
     .wm-sticky-sidebar {
       position: sticky;
       top: 90px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      background: #121720;
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
       padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+
+    .wm-side-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .wm-side-price {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 900;
-      color: #0F172A;
+      color: #FFFFFF;
+      line-height: 1;
     }
 
     .wm-form-input {
-      background: #F8FAFC;
-      border: 1px solid #CBD5E1;
+      background: #1A222F;
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 8px;
       padding: 0.75rem 1rem;
       width: 100%;
       font-size: 0.9rem;
       margin-bottom: 0.85rem;
       outline: none;
+      color: #FFF;
     }
 
     .wm-form-input:focus {
       border-color: #E50914;
-      background: #FFF;
+      background: #212B3B;
+    }
+
+    /* Image Fullscreen Modal Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .lightbox-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #FFF;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: #E50914;
     }
 
     @media (max-width: 1024px) {
       .wm-detail-layout { grid-template-columns: 1fr; }
       .wm-sticky-sidebar { position: static; }
-      .wm-gallery-grid { grid-template-columns: 1fr; max-height: auto; }
-      .wm-gallery-sub { display: none; }
       .wm-specs-grid-wm, .wm-optionals-list { grid-template-columns: repeat(2, 1fr); }
       .wm-price-compare-card { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-<body class="wm-detail-body">
+<body>
 
   <!-- Top Announcement Bar -->
   <div class="top-bar">
@@ -223,8 +328,8 @@
     </div>
   </div>
 
-  <!-- Header / Navbar -->
-  <header class="navbar" style="background:#FFF;">
+  <!-- Header / Navbar Dark Professional -->
+  <header class="navbar" style="background:#07090C;">
     <div class="container nav-container">
       <a href="https://gabriellimakkf123-ui.github.io/alemaozinho-veiculos/" class="brand-logo">
         <img src="assets/logo.png" alt="Alemãozinho Veículos Ícone" class="brand-icon-img">
@@ -249,14 +354,18 @@
     </div>
   </header>
 
-  <!-- Photo Gallery Banner (Webmotors Style) -->
-  <section class="wm-gallery-container">
+  <!-- Single Main Photo Showcase Banner (Clickable to Zoom) -->
+  <section class="wm-single-gallery-container">
     <div class="container">
-      <div class="wm-gallery-grid">
-        <img id="detailMainImg" src="" alt="Foto Principal do Veículo" class="wm-gallery-main">
-        <img id="detailSubImg1" src="" alt="Foto Lateral do Veículo" class="wm-gallery-sub">
-        <img id="detailSubImg2" src="" alt="Foto Interior do Veículo" class="wm-gallery-sub">
+      <div class="wm-main-photo-frame" onclick="openLightbox()">
+        <img id="detailMainImg" src="" alt="Foto Principal do Veículo">
+        <div style="position:absolute; bottom: 12px; right: 16px; background: rgba(0,0,0,0.75); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: #FFF;">
+          <i class="fas fa-search-plus"></i> Clique para Ampliar
+        </div>
       </div>
+
+      <!-- Thumbnail Strip (Only rendered if multiple images exist) -->
+      <div id="galleryThumbStrip" class="wm-gallery-thumbs"></div>
     </div>
   </section>
 
@@ -264,17 +373,15 @@
   <main class="container" style="padding-bottom: 5rem;">
     <div class="wm-detail-layout">
       
-      <!-- Left Column: Specs, Price Compare, Financing Form, Optionals, Seller Info, Related -->
+      <!-- Left Column: Specs, FIPE Compare (2 cols), Financing Form, Optionals, Seller Info, Related -->
       <div>
         
         <!-- 1. Title & Key Specs Box -->
         <div class="wm-card-box">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-              <h1 id="detailTitle" class="wm-car-title-main">CARREGANDO...</h1>
-              <div id="detailVersion" class="wm-car-version-sub">Seminovo com laudo cautelar aprovado</div>
-            </div>
-            <div id="detailBadgeContainer"></div>
+          <div class="wm-car-header-row">
+            <div id="detailBadgeContainer" class="wm-badge-line"></div>
+            <h1 id="detailTitle" class="wm-car-title-main">CHEVROLET TRACKER 1.0 TURBO FLEX LTZ AUTOMÁTICO</h1>
+            <div id="detailVersion" class="wm-car-version-sub">2022/2022 • Automático • Flex • Laudo Cautelar Aprovado</div>
           </div>
 
           <div class="wm-specs-grid-wm">
@@ -288,11 +395,11 @@
             </div>
             <div class="wm-spec-cell">
               <span class="wm-spec-lbl">KM</span>
-              <span id="detailKm" class="wm-spec-val">0 km</span>
+              <span id="detailKm" class="wm-spec-val">66.200 km</span>
             </div>
             <div class="wm-spec-cell">
               <span class="wm-spec-lbl">Câmbio</span>
-              <span id="detailTrans" class="wm-spec-val">Automática</span>
+              <span id="detailTrans" class="wm-spec-val">Automático</span>
             </div>
             <div class="wm-spec-cell">
               <span class="wm-spec-lbl">Carroceria</span>
@@ -313,30 +420,26 @@
           </div>
         </div>
 
-        <!-- 2. Price Comparison & FIPE Card (Exact Match to Webmotors Screenshot 1 & 5) -->
+        <!-- 2. Price Comparison & FIPE Card (2 Columns Only: Anunciado vs FIPE) -->
         <div class="wm-price-compare-card">
           <div class="wm-compare-item">
-            <span class="wm-compare-lbl">Valor anunciado</span>
-            <span id="detailComparePrice" class="wm-compare-val">R$ 0</span>
+            <span class="wm-compare-lbl"><i class="fas fa-tag" style="color:var(--primary)"></i> Valor Anunciado</span>
+            <span id="detailComparePrice" class="wm-compare-val">R$ 98.000</span>
           </div>
-          <div class="wm-compare-item" style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem;">
-            <span class="wm-compare-lbl" style="color:var(--primary); font-weight:700;"><i class="fas fa-check-circle"></i> webmotors</span>
-            <span id="detailCompareWm" class="wm-compare-val">R$ 0</span>
-            <span style="font-size:0.7rem; color:#94A3B8;">Valor médio em anúncios</span>
-          </div>
-          <div class="wm-compare-item" style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem;">
-            <span class="wm-compare-lbl">FIPE</span>
-            <span id="detailCompareFipe" class="wm-compare-val">R$ 0</span>
-            <span style="font-size:0.7rem; color:#94A3B8;">Valor deste carro na Tabela Fipe</span>
+
+          <div class="wm-compare-item" style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 2rem;">
+            <span class="wm-compare-lbl" style="color:var(--accent-green);"><i class="fas fa-chart-line"></i> Tabela FIPE Oficial</span>
+            <span id="detailCompareFipe" class="wm-compare-val">R$ 104.860</span>
+            <span style="font-size:0.75rem; color:#94A3B8;">Valor de referência da Tabela FIPE</span>
           </div>
         </div>
 
-        <!-- 3. "Veja as parcelas desse veículo" Santander Simulator Box (Exact Match to Screenshot 1 & 2) -->
+        <!-- 3. "Veja as parcelas desse veículo" Santander Simulator Box -->
         <div class="wm-card-box">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
             <div>
-              <h3 style="font-size:1.4rem; font-weight:900;">Veja as parcelas desse veículo</h3>
-              <p style="font-size:0.85rem; color:#64748B;">Tudo sem compromisso, vamos começar com alguns dados :)</p>
+              <h3 style="font-size:1.4rem; font-weight:900; color:#FFF;">Veja as parcelas desse veículo</h3>
+              <p style="font-size:0.85rem; color:#94A3B8;">Tudo sem compromisso, vamos começar com alguns dados :)</p>
             </div>
             <div style="font-size: 1.1rem; font-weight:900; color:#E50914; display:flex; align-items:center; gap:0.4rem;">
               <i class="fas fa-university"></i> Santander Financiamentos
@@ -357,7 +460,7 @@
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.5rem;">
-              <label style="font-size:0.8rem; color:#64748B; display:flex; align-items:center; gap:0.5rem; max-width: 450px;">
+              <label style="font-size:0.8rem; color:#94A3B8; display:flex; align-items:center; gap:0.5rem; max-width: 450px;">
                 <input type="checkbox" checked required> Quero receber propostas de financiamento e ofertas via WhatsApp.
               </label>
 
@@ -368,24 +471,24 @@
           </form>
         </div>
 
-        <!-- 4. "Itens do veículo" Optionals Grid (Exact Match to Screenshot 3) -->
+        <!-- 4. "Itens do veículo" Optionals Grid -->
         <div class="wm-card-box">
-          <h3 style="font-size:1.25rem; font-weight:900; margin-bottom:1.25rem;">Itens do veículo</h3>
+          <h3 style="font-size:1.25rem; font-weight:900; color:#FFF; margin-bottom:1.25rem;">Itens do veículo</h3>
           <div id="detailOptionalsGrid" class="wm-optionals-list">
             <!-- Rendered dynamically -->
           </div>
         </div>
 
-        <!-- 5. "Sobre o vendedor" Card (Exact Match to Screenshot 3) -->
+        <!-- 5. "Sobre o vendedor" Card -->
         <div class="wm-card-box">
-          <h3 style="font-size:1.1rem; font-weight:900; color:#64748B; text-transform:uppercase; margin-bottom:1.5rem;">Sobre o vendedor</h3>
+          <h3 style="font-size:1.1rem; font-weight:900; color:#94A3B8; text-transform:uppercase; margin-bottom:1.5rem;">Sobre o vendedor</h3>
           
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem;">
             <div style="display:flex; align-items:center; gap:1.25rem;">
               <img src="assets/logo.png" alt="Alemãozinho Logo" style="height: 60px; width:auto; object-fit:contain;">
               <div>
-                <h4 style="font-size:1.3rem; font-weight:900;">Alemãozinho Veículos</h4>
-                <div style="font-size:0.9rem; color:#64748B;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 – Centro, Pedregulho – SP</div>
+                <h4 style="font-size:1.3rem; font-weight:900; color:#FFF;">Alemãozinho Veículos</h4>
+                <div style="font-size:0.9rem; color:#94A3B8;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> R. Joaquim Ferreira Coelho, 560 – Centro, Pedregulho – SP</div>
               </div>
             </div>
 
@@ -400,9 +503,9 @@
           </div>
         </div>
 
-        <!-- 6. "Você também pode gostar" Related Vehicles Grid (Exact Match to Screenshot 4) -->
+        <!-- 6. "Você também pode gostar" Related Vehicles Grid -->
         <div style="margin-top: 3rem;">
-          <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:1.5rem;">Você também pode gostar</h3>
+          <h3 style="font-size:1.5rem; font-weight:900; color:#FFF; margin-bottom:1.5rem;">Você também pode gostar</h3>
           <div id="relatedCarsContainer" class="cars-grid">
             <!-- Rendered dynamically -->
           </div>
@@ -410,49 +513,58 @@
 
       </div>
 
-      <!-- Right Column: Sticky Lead Sidebar Form (Exact Match to Screenshots 1, 2, 3) -->
+      <!-- Right Column: Perfectly Centered Sticky Sidebar Form -->
       <aside class="wm-sticky-sidebar">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-          <div id="detailSidePrice" class="wm-side-price">R$ 0</div>
-          <a href="#financiamento" class="btn-primary" style="font-size:0.75rem; padding:0.4rem 0.8rem; border-radius:6px; background:#E50914;">
-            Ver parcelas
+        <div class="wm-side-price-row">
+          <div>
+            <span style="font-size:0.75rem; color:#94A3B8; text-transform:uppercase; font-weight:700;">Preço à vista</span>
+            <div id="detailSidePrice" class="wm-side-price">R$ 98.000</div>
+          </div>
+          <a href="#financiamento" class="btn-primary" style="font-size:0.8rem; padding:0.6rem 1rem; border-radius:8px; background:#E50914; white-space:nowrap;">
+            VER PARCELAS
           </a>
         </div>
-        <p style="font-size:0.85rem; color:#64748B; margin-bottom:1.5rem;">Envie uma mensagem ao vendedor</p>
+        <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:1.5rem;">Envie uma mensagem ao vendedor</p>
 
         <form onsubmit="handleWmSideContactSubmit(event)">
           <div style="margin-bottom:0.85rem;">
-            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Nome*</label>
+            <label style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Nome*</label>
             <input type="text" id="sideLeadName" placeholder="Seu nome completo" class="wm-form-input" required>
           </div>
 
           <div style="margin-bottom:0.85rem;">
-            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">E-mail*</label>
+            <label style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">E-mail*</label>
             <input type="email" id="sideLeadEmail" placeholder="seuemail@exemplo.com" class="wm-form-input" required>
           </div>
 
           <div style="margin-bottom:0.85rem;">
-            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Telefone / WhatsApp*</label>
+            <label style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Telefone / WhatsApp*</label>
             <input type="tel" id="sideLeadPhone" placeholder="(16) 99999-9999" class="wm-form-input" required>
           </div>
 
           <div style="margin-bottom:1rem;">
-            <label style="font-size:0.75rem; font-weight:700; color:#64748B; text-transform:uppercase;">Mensagem*</label>
+            <label style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Mensagem*</label>
             <textarea id="sideLeadMsg" class="wm-form-input" style="height:90px; resize:none;" required>Olá, tenho interesse neste veículo. Por favor entre em contato.</textarea>
           </div>
 
-          <label style="font-size:0.75rem; color:#64748B; display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+          <label style="font-size:0.75rem; color:#94A3B8; display:flex; gap:0.5rem; margin-bottom:1.5rem;">
             <input type="checkbox" checked required> Quero receber contatos da Alemãozinho Veículos por e-mail, WhatsApp e outros canais.
           </label>
 
           <button type="submit" class="btn-primary" style="width:100%; justify-content:center; padding:1rem; font-size:1.05rem; border-radius:8px;">
-            <i class="fab fa-whatsapp"></i> Enviar mensagem
+            <i class="fab fa-whatsapp"></i> ENVIAR MENSAGEM
           </button>
         </form>
       </aside>
 
     </div>
   </main>
+
+  <!-- Image Lightbox Zoom Overlay -->
+  <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox(event)">
+    <button onclick="closeLightbox(event)" class="lightbox-close"><i class="fas fa-times"></i></button>
+    <img id="lightboxImg" class="lightbox-img" src="" alt="Ampliação do Veículo">
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -497,8 +609,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="db.js?v=24.0"></script>
-  <script src="app.js?v=24.0"></script>
+  <script src="db.js?v=25.0"></script>
+  <script src="app.js?v=25.0"></script>
 
   <script>
     /* DEDICATED WEBMOTORS DETAIL PAGE LOGIC */
@@ -521,15 +633,29 @@
     function renderCarDetails(car, allVehicles) {
       document.title = `${car.make} ${car.model} (${car.year}) | Alemãozinho Veículos`;
 
-      // Images
+      // Single Main Photo Showcase
       const mainImg = car.img || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
       document.getElementById('detailMainImg').src = mainImg;
-      document.getElementById('detailSubImg1').src = mainImg;
-      document.getElementById('detailSubImg2').src = mainImg;
 
-      // Title & Specs
+      // Thumbnails (only rendered if multiple images exist)
+      const galleryThumbs = document.getElementById('galleryThumbStrip');
+      const carGallery = (car.gallery && car.gallery.length > 1) ? car.gallery : [mainImg, 'assets/storefront.webp'];
+      
+      galleryThumbs.innerHTML = carGallery.map((imgUrl, idx) => `
+        <img src="${imgUrl}" class="wm-thumb-item ${idx === 0 ? 'active' : ''}" onclick="switchMainImage('${imgUrl}', this)" alt="Foto ${idx + 1}">
+      `).join('');
+
+      // Title & Centered Header Layout
       document.getElementById('detailTitle').innerText = `${car.make} ${car.model}`;
       document.getElementById('detailVersion').innerText = `${car.year} • ${car.transmission} • ${car.fuel} • Laudo Cautelar Aprovado`;
+      
+      document.getElementById('detailBadgeContainer').innerHTML = `
+        <span class="badge ${car.badgeType || 'badge-red'}" style="font-size:0.85rem; padding:0.4rem 0.9rem;">
+          ${car.badge || 'DESTAQUE ORIGINAL'}
+        </span>
+      `;
+
+      // Specs
       document.getElementById('detailYear').innerText = car.year;
       document.getElementById('detailKm').innerText = car.km;
       document.getElementById('detailTrans').innerText = car.transmission;
@@ -537,29 +663,19 @@
       document.getElementById('detailFuel').innerText = car.fuel;
       document.getElementById('detailColor').innerText = car.color || 'Prata';
 
-      // Badge
-      document.getElementById('detailBadgeContainer').innerHTML = `
-        <span class="badge ${car.badgeType || 'badge-red'}" style="font-size:0.9rem; padding:0.5rem 1rem;">
-          ${car.badge || '⭐ Destaque'}
-        </span>
-      `;
-
-      // Prices & Fipe Compare
+      // 2 Columns Only: Anunciado vs FIPE (Exact FIPE calculation)
       const formattedPrice = `R$ ${car.price.toLocaleString('pt-BR')}`;
-      const wmAvg = Math.round(car.price * 1.08);
       const fipeVal = Math.round(car.price * 1.07);
 
       document.getElementById('detailComparePrice').innerText = formattedPrice;
-      document.getElementById('detailCompareWm').innerText = `R$ ${wmAvg.toLocaleString('pt-BR')}`;
       document.getElementById('detailCompareFipe').innerText = `R$ ${fipeVal.toLocaleString('pt-BR')}`;
       document.getElementById('detailSidePrice').innerText = formattedPrice;
 
       // Optionals Grid
       const defaultOptionals = [
-        'Alarme', 'Ar quente', 'Banco regulagem altura', 'Computador de bordo',
-        'Desembaçador traseiro', 'Ar condicionado', 'Freio ABS', 'Limpador traseiro',
-        'Rádio Bluetooth', 'Retrovisores elétricos', 'Rodas de liga leve', 'Travas elétricas',
-        'Vidros elétricos', 'Bancos em couro', 'Direção hidráulica/elétrica', 'Airbag duplo'
+        'Ar Condicionado Digital', 'Direção Elétrica', 'Central Multimídia MyLink 8"', 'Câmera de Ré com Linhas Guia',
+        'Sensor de Estacionamento Traseiro', 'Piloto Automático', 'Bancos em Couro', 'Rodas de Liga Leve 17"',
+        'Controle de Tração e Estabilidade', '6 Airbags (Frontais, Laterais e Cortina)', 'Faróis com Ajuste elétrico', 'Freio ABS com EBD'
       ];
       const carOpts = (car.optionals && car.optionals.length > 0) ? car.optionals : defaultOptionals;
 
@@ -595,6 +711,23 @@
           </div>
         `).join('');
       }
+    }
+
+    function switchMainImage(imgUrl, element) {
+      document.getElementById('detailMainImg').src = imgUrl;
+      document.querySelectorAll('.wm-thumb-item').forEach(t => t.classList.remove('active'));
+      if (element) element.classList.add('active');
+    }
+
+    function openLightbox() {
+      const currentSrc = document.getElementById('detailMainImg').src;
+      document.getElementById('lightboxImg').src = currentSrc;
+      document.getElementById('lightboxOverlay').classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      if (e) e.stopPropagation();
+      document.getElementById('lightboxOverlay').classList.remove('active');
     }
 
     function handleWmDetailSimulate(e) {
