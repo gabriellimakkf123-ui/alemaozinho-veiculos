@@ -93,6 +93,39 @@ function updateCloudSyncBadge(isOnline, message) {
   });
 }
 
+/**
+ * AUTOMATIC CRM LEAD CAPTURE ENGINE
+ * Automatically saves customer data to CRM whenever any button is clicked!
+ */
+function recordLeadToCRM(lead) {
+  try {
+    const crmKey = 'alemaozinho_crm_leads_v2';
+    const saved = localStorage.getItem(crmKey);
+    let leads = saved ? JSON.parse(saved) : [];
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const newLead = {
+      id: Date.now(),
+      date: dateStr,
+      name: lead.name || 'Cliente WhatsApp (Site)',
+      phone: lead.phone || '(16) 99215-0212',
+      car: lead.car || 'Veículo do Estoque',
+      status: 'new',
+      followDate: now.toISOString().split('T')[0],
+      notes: lead.notes || 'Lead capturado automaticamente via clique em botão no site.'
+    };
+
+    leads.unshift(newLead);
+    localStorage.setItem(crmKey, JSON.stringify(leads));
+    console.log('🟢 Lead capturado no CRM:', newLead);
+    return newLead;
+  } catch (e) {
+    console.error('Erro ao capturar lead no CRM:', e);
+  }
+}
+
 function getInitialVehicles() {
   return [
     {

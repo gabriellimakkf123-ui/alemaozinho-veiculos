@@ -160,7 +160,7 @@ function renderInventory() {
                 <i class="fas fa-calculator"></i> Simular
               </button>
             </div>
-            <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="justify-content:center; padding: 0.6rem; font-size: 0.85rem;">
+            <a href="${waUrl}" target="_blank" onclick="handleWhatsAppInterestClick(${car.id})" class="btn-whatsapp" style="justify-content:center; padding: 0.6rem; font-size: 0.85rem;">
               <i class="fab fa-whatsapp"></i> Tenho Interesse
             </a>
           </div>
@@ -341,6 +341,18 @@ function setupEventListeners() {
   }
 }
 
+function handleWhatsAppInterestClick(carId) {
+  const car = allVehicles.find(v => v.id === carId);
+  if (car && typeof recordLeadToCRM === 'function') {
+    recordLeadToCRM({
+      name: 'Cliente WhatsApp (Vitrine)',
+      phone: '(16) 99215-0212',
+      car: `${car.make} ${car.model} (${car.year})`,
+      notes: `Clique no botão "Tenho Interesse" na vitrine. Valor: R$ ${car.price.toLocaleString('pt-BR')}`
+    });
+  }
+}
+
 function sendTradeInWhatsApp(e) {
   if (e) e.preventDefault();
   const name = document.getElementById('tradeName')?.value || '';
@@ -349,6 +361,15 @@ function sendTradeInWhatsApp(e) {
   const year = document.getElementById('tradeYear')?.value || '';
   const km = document.getElementById('tradeKm')?.value || '';
   const notes = document.getElementById('tradeNotes')?.value || '';
+
+  if (typeof recordLeadToCRM === 'function') {
+    recordLeadToCRM({
+      name: name || 'Cliente Avaliação Troca',
+      phone: phone || '(16) 99215-0212',
+      car: car ? `${car} (${year})` : 'Veículo Usado para Troca',
+      notes: `Solicitação de Avaliação / Venda de Usado no site. KM: ${km} | Obs: ${notes}`
+    });
+  }
 
   const msg = `Olá Alexandre! Gostaria de solicitar uma avaliação para VENDER / TROCAR meu veículo na Alemãozinho Veículos:\n\n` +
               `👤 *Nome:* ${name}\n` +

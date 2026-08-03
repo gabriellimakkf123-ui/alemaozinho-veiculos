@@ -350,4 +350,22 @@ class AlemaozinhoAIChat {
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   window.alemaozinhoAi = new AlemaozinhoAIChat();
+
+  // GLOBAL AUTOMATIC CRM LEAD CAPTURE ON ANY WHATSAPP BUTTON CLICK
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"], .btn-whatsapp, .ai-wa-btn');
+    if (target && typeof recordLeadToCRM === 'function') {
+      let carName = 'Veículo do Estoque (Site)';
+      
+      const detailTitle = document.getElementById('wmDetailTitle');
+      if (detailTitle) carName = detailTitle.innerText.trim();
+
+      recordLeadToCRM({
+        name: 'Cliente WhatsApp (Captura Automática)',
+        phone: '(16) 99215-0212',
+        car: carName,
+        notes: `Clique automático no botão do WhatsApp: "${target.innerText.trim() || 'WhatsApp'}". Origem: ${window.location.pathname}`
+      });
+    }
+  });
 });

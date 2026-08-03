@@ -744,6 +744,15 @@
       const phone = document.getElementById('wmSimPhone').value;
       const cpf = document.getElementById('wmSimCpf').value;
       
+      if (typeof recordLeadToCRM === 'function') {
+        recordLeadToCRM({
+          name: name,
+          phone: phone,
+          car: `${currentCar.make} ${currentCar.model} (${currentCar.year})`,
+          notes: `Simulação de Financiamento Santander no site. CPF: ${cpf}`
+        });
+      }
+
       const msg = `Olá Alexandre! Gostaria de SIMULAR O FINANCIAMENTO no Santander para o veículo ${currentCar.make} ${currentCar.model} (${currentCar.year}) de R$ ${currentCar.price.toLocaleString('pt-BR')}:\n\n` +
                   `👤 *Nome:* ${name}\n` +
                   `📱 *WhatsApp:* ${phone}\n` +
@@ -758,6 +767,15 @@
       const phone = document.getElementById('sideLeadPhone').value;
       const email = document.getElementById('sideLeadEmail').value;
       const text = document.getElementById('sideLeadMsg').value;
+
+      if (typeof recordLeadToCRM === 'function') {
+        recordLeadToCRM({
+          name: name,
+          phone: phone,
+          car: `${currentCar.make} ${currentCar.model} (${currentCar.year})`,
+          notes: `Interesse no veículo (Página de Detalhes). Email: ${email} | Mensagem: ${text}`
+        });
+      }
 
       const msg = `Olá Alexandre! Tenho interesse no veículo *${currentCar.make} ${currentCar.model}* (${currentCar.year}) por R$ ${currentCar.price.toLocaleString('pt-BR')}:\n\n` +
                   `👤 *Nome:* ${name}\n` +

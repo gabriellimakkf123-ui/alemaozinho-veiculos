@@ -253,6 +253,15 @@
         `🔄 *Veículo na Troca*: ${troca}\n\n` +
         `Gostaria de consultar a aprovação de crédito para este veículo!`;
 
+      if (typeof recordLeadToCRM === 'function') {
+        recordLeadToCRM({
+          name: nome,
+          phone: phone,
+          car: carInfo,
+          notes: `Proposta de Financiamento enviada. CPF: ${cpf} | Cidade: ${cidade} | Renda: ${renda} | Entrada: ${entrada} | Troca: ${troca}`
+        });
+      }
+
       const encodedUrl = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(message)}`;
       window.open(encodedUrl, '_blank');
     }
